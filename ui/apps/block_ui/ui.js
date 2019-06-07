@@ -24,6 +24,8 @@ var eva_ui_is_compact = false;
 
 var eva_ui_slider_update_funcs = Array();
 
+var eva_ui_config_motd;
+
 function eva_ui_format_camera_src(cam_id) {}
 
 function eva_ui_after_draw() {}
@@ -457,6 +459,9 @@ function eva_ui_init() {
   if ('class' in eva_ui_config) {
     eva_ui_config_class = eva_ui_config['class'];
   }
+  if ('motd' in eva_ui_config) {
+    eva_ui_config_motd = eva_ui_config['motd'];
+  }
   if ('layout' in eva_ui_config) {
     eva_ui_config_layout = eva_ui_config['layout'];
   }
@@ -517,6 +522,10 @@ function eva_ui_init() {
       </div>'
     );
     eva_ui_login_window.appendTo('body');
+    if (eva_ui_config_motd) {
+      var motd = $('<div />').addClass('eva_ui_motd').html(eva_ui_config_motd);
+      $('#eva_ui_login_form').append(motd);
+    }
     var bg = $('<div />').addClass('eva_ui_bg');
     var main = $('<div />', {id: 'eva_ui_main'});
     var container = $('<div />').addClass('container');

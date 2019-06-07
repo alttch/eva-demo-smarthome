@@ -1,6 +1,12 @@
 url: https://eva.lab.altt.ch:38848
 class: dashboard
 
+motd: >
+  Default user name: <b>operator</b></br >
+  Default password: <b>123</b><br />
+  Demo source: <b><a href="https://github.com/alttch/eva-demo-smarthome">
+    https://github.com/alttch/eva-demo-smarthome</a></b>
+
 buttons:
   alarm:
     icon: attn

@@ -7,6 +7,10 @@ html, body {
   align-items: center;
   display: none;
 }
+.eva_ui_motd {
+  font-size: 14px;
+  font-style: italic
+}
 .eva_ui_slider_container {
   width: 270px;
   padding: 10px;
