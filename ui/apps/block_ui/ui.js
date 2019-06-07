@@ -36,6 +36,25 @@ function eva_ui_server_error(code, msg, data) {
   eva_sfa_popup('eva_ui_popup', 'error', 'ERROR', msg, {ct: 2});
 }
 
+function eva_ui_server_is_gone(code, msg, data) {
+  var ct = 10;
+  var auto_reconnect = setTimeout(eva_sfa_start, (ct + 1) * 1000);
+  eva_sfa_popup(
+    'eva_ui_popup',
+    'error',
+    'Server error',
+    'Connection to server failed',
+    {
+      ct: ct,
+      btn1: 'Retry',
+      btn1a: function() {
+        clearTimeout(auto_reconnect);
+        eva_sfa_start();
+      }
+    }
+  );
+}
+
 function eva_ui_create_control_block(block_id) {
   if (
     !eva_ui_config_control_blocks ||
@@ -513,6 +532,10 @@ function eva_ui_init() {
       eva_ui_login_window.hide();
       eva_ui_update_sysblock();
     };
+    eva_sfa_heartbeat_error = function() {
+      eva_sfa_stop();
+      eva_ui_server_is_gone();
+    };
     eva_sfa_cb_login_error = function(code, msg, data) {
       eva_ui_stop_cams();
       if (code == 2) {
@@ -530,22 +553,7 @@ function eva_ui_init() {
         $('#eva_ui_password').val('');
         eva_ui_focus_login_form();
       } else {
-          var ct = 10;
-          var auto_reconnect = setTimeout(eva_sfa_start, ct * 1000);
-          eva_sfa_popup(
-            'eva_ui_popup',
-            'error',
-            'Server error',
-            'Connection failed',
-            {
-              ct: ct,
-              btn1: 'Retry',
-              btn1a: function() {
-                clearTimeout(auto_reconnect);
-                eva_sfa_start();
-              }
-            }
-          );
+        eva_ui_server_is_gone(code, msg, data);
       }
     };
   } else if (eva_ui_config_class == 'sensors') {
