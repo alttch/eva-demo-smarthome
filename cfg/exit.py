@@ -1,0 +1,8 @@
+run('control/lights_off')
+stop('unit:light/hall')
+run('control/close_windows')
+start('unit:equipment/cctv')
+reset('lvar:security/alarm')
+start('unit:thermo/room1', 15)
+start('unit:thermo/room2', 15)
+start('unit:equipment/vent')

@@ -1,0 +1,184 @@
+controller:
+  uc/smarthomesrv:
+    phi:
+      # lights and equipment relay
+      vr1:
+        module: vrtrelay
+    # windows relay
+      vr2:
+        module: vrtrelay
+    # thermostats
+      vrt:
+        module: vrtrelay
+        config:
+          state_full: true
+    # windows driver
+    driver:
+      vr2.opener:
+        module: multistep
+    after-deploy:
+      - { api: update, i: env/temp1_int, s: 1, v: 20 }
+      - { api: update, i: env/hum1_int, s: 1, v: 45 }
+      - { api: update, i: env/temp2_int, s: 1, v: 23 }
+      - { api: update, i: env/hum2_int, s: 1, v: 46 }
+      - { api: update, i: env/temp_ext, s: 1, v: 5 }
+      - { api: update, i: env/hum_ext, s: 1, v: 60 }
+      - { api: update, i: env/air_pressure, s: 1, v: 1010 }
+      - { api: action, i: thermo/room1, s: 1, v: 20 }
+      - { api: action, i: thermo/room2, s: 1, v: 24 }
+  lm/smarthomesrv:
+    after-deploy:
+      - { api: clear, i: security/alarm }
+      - { api: reload_controller, i: uc/smarthomesrv }
+
+unit:
+  light/room1:
+    controller: uc/smarthomesrv
+    action_enabled: true
+    action_always_exec: true
+    update_interval: 0
+    driver:
+      id: vr1.default
+      config:
+        port: 1
+  light/room2:
+    controller: uc/smarthomesrv
+    action_enabled: true
+    action_always_exec: true
+    update_interval: 0
+    driver:
+      id: vr1.default
+      config:
+        port: 2
+  light/hall:
+    controller: uc/smarthomesrv
+    action_enabled: true
+    action_always_exec: true
+    update_interval: 0
+    driver:
+      id: vr1.default
+      config:
+        port: 6
+  windows/room1:
+    controller: uc/smarthomesrv
+    action_enabled: true
+    action_always_exec: true
+    action_timeout: 20
+    update_interval: 0
+    driver:
+      id: vr2.opener
+      config:
+        port: 1
+        dport: 9
+        steps:
+          - 1.5
+          - 6.5
+        ts: 1
+        tuning: 0.5
+        warmup: 0.5
+  windows/room2:
+    controller: uc/smarthomesrv
+    action_enabled: true
+    action_always_exec: true
+    action_timeout: 20
+    update_interval: 0
+    driver:
+      id: vr2.opener
+      config:
+        port: 2
+        dport: 10
+        steps:
+          - 1.5
+          - 6.5
+        ts: 1
+        tuning: 0.5
+        warmup: 0.5
+  thermo/room1:
+    controller: uc/smarthomesrv
+    action_enabled: true
+    action_always_exec: true
+    update_interval: 0
+    driver:
+      id: vrt.default
+      config:
+        port: 1
+  thermo/room2:
+    controller: uc/smarthomesrv
+    action_enabled: true
+    action_always_exec: true
+    update_interval: 0
+    driver:
+      id: vrt.default
+      config:
+        port: 2
+  equipment/cctv:
+    controller: uc/smarthomesrv
+    action_enabled: true
+    action_always_exec: true
+    update_interval: 0
+    driver:
+      id: vr1.default
+      config:
+        port: 11
+  equipment/vent:
+    controller: uc/smarthomesrv
+    action_enabled: true
+    action_always_exec: true
+    update_interval: 0
+    driver:
+      id: vr1.default
+      config:
+        port: 12
+
+sensor:
+  env/temp1_int:
+    controller: uc/smarthomesrv
+  env/hum1_int:
+    controller: uc/smarthomesrv
+  env/temp2_int:
+    controller: uc/smarthomesrv
+  env/hum2_int:
+    controller: uc/smarthomesrv
+  env/temp_ext:
+    controller: uc/smarthomesrv
+  env/hum_ext:
+    controller: uc/smarthomesrv
+  env/air_pressure:
+    controller: uc/smarthomesrv
+  security/motion1:
+    controller: uc/smarthomesrv
+
+lvar:
+  security/alarm:
+    controller: lm/smarthomesrv
+
+lmacro:
+  control/lights_off:
+    controller: lm/smarthomesrv
+    action_exec: ^lights_off.py
+  control/lights_on:
+    controller: lm/smarthomesrv
+    action_exec: ^lights_on.py
+  control/open_windows:
+    controller: lm/smarthomesrv
+    action_exec: ^open_windows.py
+  control/close_windows:
+    controller: lm/smarthomesrv
+    action_exec: ^close_windows.py
+
+  control/enter:
+    controller: lm/smarthomesrv
+    action_exec: ^enter.py
+  control/exit:
+    controller: lm/smarthomesrv
+    action_exec: ^exit.py
+
+  profiles/day_mode:
+    controller: lm/smarthomesrv
+    action_exec: ^day_mode.py
+  profiles/winterday_mode:
+    controller: lm/smarthomesrv
+    action_exec: ^winterday_mode.py
+  profiles/night_mode:
+    controller: lm/smarthomesrv
+    action_exec: ^night_mode.py
