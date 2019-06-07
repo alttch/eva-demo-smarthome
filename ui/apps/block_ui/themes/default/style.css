@@ -7,7 +7,7 @@ html, body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 30px;
+  height: 40px;
   background-color: white;
   border-bottom: 2px solid #ccc;
   z-index: 999;
@@ -56,7 +56,7 @@ html, body {
   position: absolute;
   right: 0px;
   top: 0px;
-  padding: 7px 10px;
+  padding: 10px 10px;
   color: #808080;
   font-size: 12px;
 }
@@ -119,19 +119,19 @@ html, body {
 }
 
 #eva_ui_hamb span:nth-child(1) {
-  top: 4px;
+  top: 7px;
 }
 
 #eva_ui_hamb span:nth-child(2) {
-  top: 12px;
+  top: 15px;
 }
 
 #eva_ui_hamb span:nth-child(3) {
-  top: 20px;
+  top: 23px;
 }
 
 #eva_ui_hamb.open span:nth-child(1) {
-  top: 12px;
+  top: 14px;
   -webkit-transform: rotate(135deg);
   -moz-transform: rotate(135deg);
   -o-transform: rotate(135deg);
@@ -144,7 +144,7 @@ html, body {
 }
 
 #eva_ui_hamb.open span:nth-child(3) {
-  top: 12px;
+  top: 14px;
   -webkit-transform: rotate(-135deg);
   -moz-transform: rotate(-135deg);
   -o-transform: rotate(-135deg);
