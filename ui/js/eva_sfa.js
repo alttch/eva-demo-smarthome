@@ -181,7 +181,7 @@ function eva_sfa_start() {
   var q = {};
   if (eva_sfa_apikey) {
     q = {k: eva_sfa_apikey};
-  } else if (eva_sfa_login) {
+  } else if (eva_sfa_password) {
     q = {u: eva_sfa_login, p: eva_sfa_password};
   } else if (eva_sfa_set_auth_cookies) {
     var token = eva_sfa_read_cookie('auth');
