@@ -1,6 +1,8 @@
 url: https://eva.lab.altt.ch:38848
 class: dashboard
 
+default-login: operator
+
 motd: >
   Default user name: <b>operator</b></br >
   Default password: <b>123</b><br />

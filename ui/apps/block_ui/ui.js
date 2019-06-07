@@ -462,6 +462,9 @@ function eva_ui_init() {
   if ('motd' in eva_ui_config) {
     eva_ui_config_motd = eva_ui_config['motd'];
   }
+  if ('default-login' in eva_ui_config) {
+    eva_sfa_login = eva_ui_config['default-login'];
+  }
   if ('layout' in eva_ui_config) {
     eva_ui_config_layout = eva_ui_config['layout'];
   }
