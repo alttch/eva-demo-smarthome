@@ -17,7 +17,7 @@ I=0
 echo "Waiting for node auto configuration..."
 while [ 1 ]; do
   sleep 1
-  docker exec eva_smarthome_server eva sfa key list 2>&1|grep "operator" > /dev/null
+  docker exec -it eva_smarthome_server ls /opt/eva/etc/easy_setup > /dev/null 2>&1
   [ $? -eq 0 ] && break
   I=`expr $I + 1`
   if [ $I -gt 60 ]; then
