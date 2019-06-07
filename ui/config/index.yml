@@ -15,9 +15,11 @@ buttons:
     item: lvar:security/alarm
     title: Alarm
   cctv:
+    title: CCTV
     icon: cam
     item: unit:equipment/cctv
   vent:
+    title: Vent.
     icon: vent
     item: unit:equipment/vent
 
@@ -104,19 +106,24 @@ buttons:
     item: lmacro:control/close_windows
 
   day_mode:
+    title: Day
     icon: sun.s_1
     item: lmacro:profiles/day_mode
   winterday_mode:
+    title: Cold day
     icon: snow.s_1
     item: lmacro:profiles/winterday_mode
   night_mode:
+    title: Night
     icon: moon.s_1
     item: lmacro:profiles/night_mode
 
   enter:
+    title: Entering
     icon: enter.s_1
     item: lmacro:control/enter
   exit:
+    title: Leaving
     icon: stop.s_1
     item: lmacro:control/exit
 
