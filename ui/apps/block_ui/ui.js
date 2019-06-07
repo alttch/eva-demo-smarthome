@@ -479,6 +479,13 @@ function eva_ui_init() {
     ) {
       $('[data-toggle="popover"]').popover('hide');
     }
+    if (
+      $(e.target).data('toggle') !== 'menu' &&
+      $(e.target).data('toggle') != 'menuicon' &&
+      $(e.target).parents().data('toggle') != 'menuicon'
+    ) {
+      $('[data-toggle="menu"]').hide();
+    }
   });
   $('<div />', {id: 'eva_ui_popup'}).appendTo('body');
   $('<div />', {id: 'eva_ui_anim'}).appendTo('body');
@@ -526,7 +533,9 @@ function eva_ui_init() {
     );
     eva_ui_login_window.appendTo('body');
     if (eva_ui_config_motd) {
-      var motd = $('<div />').addClass('eva_ui_motd').html(eva_ui_config_motd);
+      var motd = $('<div />')
+        .addClass('eva_ui_motd')
+        .html(eva_ui_config_motd);
       $('#eva_ui_login_form').append(motd);
     }
     var bg = $('<div />').addClass('eva_ui_bg');
@@ -651,9 +660,9 @@ function eva_ui_focus_login_form() {
 
 function eva_ui_update_sysblock() {
   if (eva_sfa_server_info) {
-    $('#eva_version').html(eva_sfa_server_info.version);
-    $('#eva_build').html(eva_sfa_server_info.product_build);
-    $('#eva_key_id').html(eva_sfa_server_info.acl.key_id);
+    $('.eva_version').html(eva_sfa_server_info.version);
+    $('.eva_build').html(eva_sfa_server_info.product_build);
+    $('.eva_key_id').html(eva_sfa_server_info.acl.key_id);
   }
 }
 
@@ -664,8 +673,47 @@ function eva_ui_stop_cams() {
   }
 }
 
+function eva_ui_top_bar() {
+  if (!navigator.userAgent.startsWith('evaHI ')) eva_ui_init_top_bar();
+}
+
+function eva_ui_init_top_bar() {
+  var topbar = $('<div />', {id: 'eva_ui_top_bar'});
+  var menuicon = $('<div />', {'data-toggle': 'menuicon'})
+    .css('cursor', 'pointer')
+    .css('width', '30px')
+    .css('margin-top', '5px');
+  for (var i = 0; i < 3; i++) {
+    $('<div />')
+      .css('width', '24px')
+      .css('height', '3px')
+      .css('background-color', '#555')
+      .css('margin', '4px')
+      .appendTo(menuicon);
+  }
+  menuicon.on('click', eva_ui_show_menu);
+  topbar.append(menuicon);
+  var html =
+    'EVA ICS v<span class="eva_version"></span>, \
+    build <span class="eva_build"></span>, \
+    key id: <span class="eva_key_id"></span>';
+  $('<div />')
+    .addClass('eva_ui_top_bar_sysblock')
+    .html(html)
+    .appendTo(topbar);
+  eva_ui_content_holder.addClass('with_topbar');
+  eva_ui_content_holder.append(topbar);
+  var menu = $('<div />', {id: 'eva_ui_menu', 'data-toggle': 'menu'});
+  eva_ui_content_holder.append(menu);
+}
+
+function eva_ui_show_menu() {
+  $('#eva_ui_menu').show();
+}
+
 function eva_ui_redraw_layout() {
   eva_ui_content_holder.empty();
+  eva_ui_top_bar();
   eva_ui_stop_cams();
   eva_ui_chart_creators = Array();
   if ($(window).width() < 768) {
@@ -862,9 +910,9 @@ function eva_ui_draw_layout() {
 
 function eva_ui_create_sysblock(mini) {
   var html =
-    'EVA ICS v<span id="eva_version"></span>, \
-    build <span id="eva_build"></span>, \
-    key id: <span id="eva_key_id"></span>';
+    'EVA ICS v<span class="eva_version"></span>, \
+    build <span class="eva_build"></span>, \
+    key id: <span class="eva_key_id"></span>';
   if (!mini) {
     html = html + '<br />';
     if (!navigator.userAgent.startsWith('evaHI ')) {
