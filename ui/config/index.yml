@@ -1,4 +1,4 @@
-url: https://eva.lab.altt.ch:38848
+url: https://smarthome.demo.eva-ics.com:8828
 class: dashboard
 
 default-login: operator
