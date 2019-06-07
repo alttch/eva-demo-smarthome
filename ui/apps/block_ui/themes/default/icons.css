@@ -1,3 +1,14 @@
+/* menu icons */
+.eva_ui_menu_icon.i_home {
+  background-image: url('menu_icons/home.png');
+}
+.eva_ui_menu_icon.i_evahi {
+  background-image: url('menu_icons/evahi.png');
+}
+.eva_ui_menu_icon.i_logout {
+  background-image: url('menu_icons/logout.png');
+}
+
 /* data icons */
 .eva_ui_data_item.i_indoor_temp {
   background-image: url('data_icons/temp_in.svg');

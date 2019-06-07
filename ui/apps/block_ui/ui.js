@@ -9,7 +9,7 @@ var eva_ui_config_charts;
 var eva_ui_config_layout;
 var eva_ui_config_layout_compact;
 var eva_ui_config_url = document.location;
-var eva_ui_main_page = '/ui/';
+var eva_ui_main_page;
 
 var eva_ui_login_window;
 var eva_ui_content_holder;
@@ -25,6 +25,11 @@ var eva_ui_is_compact = false;
 var eva_ui_slider_update_funcs = Array();
 
 var eva_ui_config_motd;
+
+var eva_ui_logo_href = 'https:/www.eva-ics.com/';
+var eva_ui_logo_text = 'www.eva-ics.com';
+
+var eva_ui_menu_active;
 
 function eva_ui_format_camera_src(cam_id) {}
 
@@ -453,6 +458,11 @@ function eva_ui_recreate_objects() {
 }
 
 function eva_ui_init() {
+  if (evaHI && evaHI['index']) {
+    eva_ui_main_page = evaHI['index'];
+  } else {
+    eva_ui_main_page = '/ui/';
+  }
   if ('url' in eva_ui_config) {
     eva_ui_config_url = eva_ui_config['url'];
   }
@@ -482,13 +492,30 @@ function eva_ui_init() {
     if (
       $(e.target).data('toggle') !== 'menu' &&
       $(e.target).data('toggle') != 'menuicon' &&
-      $(e.target).parents().data('toggle') != 'menuicon'
+      $(e.target)
+        .parents()
+        .data('toggle') != 'menuicon'
     ) {
-      $('[data-toggle="menu"]').hide();
+      eva_ui_close_menu();
     }
   });
   $('<div />', {id: 'eva_ui_popup'}).appendTo('body');
   $('<div />', {id: 'eva_ui_anim'}).appendTo('body');
+  $('<div />').html('<div class="eva_ui_dialog_window_holder evacc_setup" \
+            onclick="eva_ui_close_cc_setup(event)"> \
+          <div class="eva_ui_dialog_window"> \
+            <div class="eva_ui_setup_form"> \
+              <div class="eva_ui_close_btn" \
+                onclick="eva_ui_close_cc_setup()"></div> \
+              <a href="https://play.google.com/store/apps/details?id=com.altertech.evacc" \
+              class="eva_ui_andr_app"></a> \
+              <span>Scan this code with </span> \
+              <a href="https://play.google.com/store/apps/details?id=com.altertech.evacc" \
+                class="eva_ui_app_link">EVA Control Center app</a> \
+              <div class="eva_ui_qr_install"><canvas id="evaccqr"></canvas></div> \
+            </div> \
+          </div> \
+        </div>').appendTo('body');
   if (eva_ui_config_class == 'dashboard') {
     if ('buttons' in eva_ui_config) {
       eva_ui_config_buttons = eva_ui_config['buttons'];
@@ -679,20 +706,13 @@ function eva_ui_top_bar() {
 
 function eva_ui_init_top_bar() {
   var topbar = $('<div />', {id: 'eva_ui_top_bar'});
-  var menuicon = $('<div />', {'data-toggle': 'menuicon'})
-    .css('cursor', 'pointer')
-    .css('width', '30px')
-    .css('margin-top', '5px');
+  var hamb = $('<div />', {'data-toggle': 'menuicon', id: 'eva_ui_hamb'})
   for (var i = 0; i < 3; i++) {
-    $('<div />')
-      .css('width', '24px')
-      .css('height', '3px')
-      .css('background-color', '#555')
-      .css('margin', '4px')
-      .appendTo(menuicon);
+    $('<span />')
+      .appendTo(hamb);
   }
-  menuicon.on('click', eva_ui_show_menu);
-  topbar.append(menuicon);
+  hamb.on('click', eva_ui_toggle_menu);
+  topbar.append(hamb);
   var html =
     'EVA ICS v<span class="eva_version"></span>, \
     build <span class="eva_build"></span>, \
@@ -703,12 +723,76 @@ function eva_ui_init_top_bar() {
     .appendTo(topbar);
   eva_ui_content_holder.addClass('with_topbar');
   eva_ui_content_holder.append(topbar);
+  var menu_container = $('<div />', {id: 'eva_ui_menu_container'});
   var menu = $('<div />', {id: 'eva_ui_menu', 'data-toggle': 'menu'});
+  if (evaHI && evaHI['home_icon']) {
+    menu.append(
+      create_menu_item('Home', '/' + evaHI['home_icon'], eva_ui_main_page)
+    );
+  } else {
+    menu.append(create_menu_item('Home', 'home', eva_ui_main_page));
+  }
+  if (evaHI && evaHI['menu']) {
+    $.each(evaHI['menu'], function(i, v) {
+      menu.append(create_menu_item(v['name'], '/' + v['icon'], v['url']));
+    });
+  }
+  menu.append(create_menu_item('EvaCC setup', 'evahi', eva_ui_open_cc_setup));
+  menu.append(create_menu_item('Logout', 'logout', eva_ui_logout));
+  menu.append($('<div />').addClass('eva_ui_logo_container').append(
+    $('<div />')
+      .addClass('eva_ui_logo')
+      .html(eva_ui_logo_text).on('click', function() {
+        document.location = eva_ui_logo_href;
+      })));
+  eva_ui_content_holder.append(menu_container);
   eva_ui_content_holder.append(menu);
 }
 
-function eva_ui_show_menu() {
-  $('#eva_ui_menu').show();
+function create_menu_item(title, icon, action) {
+  var menu_item = $('<div />');
+  menu_item.addClass('eva_ui_menu_item');
+  var menu_icon = $('<div />');
+  menu_icon.addClass('eva_ui_menu_icon');
+  if (!icon.startsWith('/')) {
+    menu_icon.addClass('i_' + icon);
+  } else {
+    menu_icon.css('background-image', 'url(/.evahi/icons' + icon + ')');
+  }
+  menu_item.append(menu_icon);
+  menu_item.append(
+    $('<div />')
+      .addClass('eva_ui_menu_title')
+      .html(title)
+  );
+  if (typeof action === 'function') {
+    menu_item.on('click', action);
+  } else {
+    menu_item.on('click', function() {
+      document.location = action;
+    });
+  }
+  return menu_item;
+}
+
+function eva_ui_toggle_menu() {
+  if (eva_ui_menu_active) {
+    eva_ui_close_menu();
+  } else {
+    eva_ui_menu_active = true;
+    $('#eva_ui_hamb').addClass('open');
+    $('#eva_ui_menu').animate({width:'toggle'},250);
+    $('#eva_ui_menu_container').fadeIn(250);
+  }
+}
+
+function eva_ui_close_menu() {
+  if (eva_ui_menu_active) {
+    eva_ui_menu_active = false;
+    $('#eva_ui_hamb').removeClass('open');
+    $('#eva_ui_menu').animate({width:'toggle'},250);
+    $('#eva_ui_menu_container').fadeOut(250);
+  }
 }
 
 function eva_ui_redraw_layout() {
@@ -917,23 +1001,7 @@ function eva_ui_create_sysblock(mini) {
     html = html + '<br />';
     if (!navigator.userAgent.startsWith('evaHI ')) {
       html =
-        html +
-        '<div class="eva_ui_dialog_window_holder evacc_setup" \
-            onclick="eva_ui_close_cc_setup(event)"> \
-          <div class="eva_ui_dialog_window"> \
-            <div class="eva_ui_setup_form"> \
-              <div class="eva_ui_close_btn" \
-                onclick="eva_ui_close_cc_setup()"></div> \
-              <a href="https://play.google.com/store/apps/details?id=com.altertech.evacc" \
-              class="eva_ui_andr_app"></a> \
-              <span>Scan this code with </span> \
-              <a href="https://play.google.com/store/apps/details?id=com.altertech.evacc" \
-                class="eva_ui_app_link">EVA Control Center app</a> \
-              <div class="eva_ui_qr_install"><canvas id="evaccqr"></canvas></div> \
-            </div> \
-          </div> \
-        </div> \
-        <span class="eva_ui_links" style="margin-right: 10px" \
+        html + '<span class="eva_ui_links" style="margin-right: 10px" \
           onclick="eva_ui_open_cc_setup(event);">EvaCC setup</span>';
     }
     html +=

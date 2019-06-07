@@ -10,17 +10,47 @@ html, body {
   height: 30px;
   background-color: white;
   border-bottom: 2px solid #ccc;
+  z-index: 999;
+  overflow: hidden;
+}
+#eva_ui_menu_container {
+  position: fixed;
+  display: none;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  z-index: 1;
 }
 #eva_ui_menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 190;
-  height: 100%;
-  background-color: white;
-  border-right: 2px solid #ccc;
-  z-index: 999;
   display: none;
+  position: fixed;
+  top: 30px;
+  left: 0;
+  width: 280;
+  height: 100%;
+  background-color: #f9f9f9;
+  border-right: 2px solid #ccc;
+  z-index: 2;
+}
+.eva_ui_menu_item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ccc;
+  color: #444;
+  font-size: 18px;
+  cursor: pointer;
+}
+.eva_ui_menu_title {
+  margin-left: 35px;
+}
+.eva_ui_menu_icon {
+  width: 35px;
+  height: 35px;
+  float: left;
+  margin-top: 1px;
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
 }
 .eva_ui_top_bar_sysblock {
   position: absolute;
@@ -29,6 +59,96 @@ html, body {
   padding: 7px 10px;
   color: #808080;
   font-size: 12px;
+}
+.eva_ui_logo_container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.eva_ui_logo {
+  background-image: url('images/eva_logo.png');
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 85px;
+  text-align: center;
+  background-position: center center;
+  width: 120px;
+  height: 100px;
+  color: #808080;
+  font-size: 14px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 250px;
+  left: 70px;
+}
+#eva_ui_hamb {
+  margin: 0;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: .5s ease-in-out;
+  -moz-transition: .5s ease-in-out;
+  -o-transition: .5s ease-in-out;
+  transition: .5s ease-in-out;
+  cursor: pointer;
+}
+
+#eva_ui_hamb span {
+  display: block;
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background: #808080;
+  border-radius: 7px;
+  opacity: 1;
+  left: 8px;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: .25s ease-in-out;
+  -moz-transition: .25s ease-in-out;
+  -o-transition: .25s ease-in-out;
+  transition: .25s ease-in-out;
+}
+
+#eva_ui_hamb span:nth-child(1) {
+  top: 4px;
+}
+
+#eva_ui_hamb span:nth-child(2) {
+  top: 12px;
+}
+
+#eva_ui_hamb span:nth-child(3) {
+  top: 20px;
+}
+
+#eva_ui_hamb.open span:nth-child(1) {
+  top: 12px;
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -o-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+#eva_ui_hamb.open span:nth-child(2) {
+  opacity: 0;
+  left: -60px;
+}
+
+#eva_ui_hamb.open span:nth-child(3) {
+  top: 12px;
+  -webkit-transform: rotate(-135deg);
+  -moz-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  transform: rotate(-135deg);
 }
 #eva_ui_anim {
   height: 100%;
@@ -540,7 +660,6 @@ html, body {
   width: 200px;
   height: 200px;
   margin: 34px auto;
-  background: url('i/12_tv_.svg') 0 0 no-repeat #000;
 }
 .eva_ui_chart_item {
   margin-top: 20px;
@@ -565,12 +684,18 @@ html, body {
     top: 15px;
     right: 25px;
   }
+  .eva_ui_content_holder {
+    margin-top: -5px;
+  }
 }
 @media (min-width: 768px) {
   .eva_ui_cbtn:not(:disabled):hover {
     outline: none;
     background-color: #ececec;
     border-color: #ccc;
+  }
+  .eva_ui_menu_item:not(:disabled):hover {
+    background-color: #ececec;
   }
   .eva_ui_content_holder {
     margin-top: -45px;
