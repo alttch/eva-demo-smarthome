@@ -26,7 +26,7 @@ html, body {
 #eva_ui_menu {
   display: none;
   position: fixed;
-  top: 30px;
+  top: 40px;
   left: 0;
   width: 280;
   height: 100%;
@@ -119,19 +119,19 @@ html, body {
 }
 
 #eva_ui_hamb span:nth-child(1) {
-  top: 7px;
+  top: 9px;
 }
 
 #eva_ui_hamb span:nth-child(2) {
-  top: 15px;
+  top: 17px;
 }
 
 #eva_ui_hamb span:nth-child(3) {
-  top: 23px;
+  top: 25px;
 }
 
 #eva_ui_hamb.open span:nth-child(1) {
-  top: 14px;
+  top: 17px;
   -webkit-transform: rotate(135deg);
   -moz-transform: rotate(135deg);
   -o-transform: rotate(135deg);
@@ -144,7 +144,7 @@ html, body {
 }
 
 #eva_ui_hamb.open span:nth-child(3) {
-  top: 14px;
+  top: 17px;
   -webkit-transform: rotate(-135deg);
   -moz-transform: rotate(-135deg);
   -o-transform: rotate(-135deg);
