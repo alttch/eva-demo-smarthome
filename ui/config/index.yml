@@ -4,7 +4,7 @@ class: dashboard
 default-login: operator
 
 motd: >
-  Default user name: <b>operator</b></br >
+  Default user name: <b>operator</b><br />
   Default password: <b>123</b><br />
   Demo source: <b><a href="https://github.com/alttch/eva-demo-smarthome">
     https://github.com/alttch/eva-demo-smarthome</a></b>
