@@ -26,7 +26,7 @@ var eva_ui_slider_update_funcs = Array();
 
 var eva_ui_config_motd;
 
-var eva_ui_logo_href = 'https:/www.eva-ics.com/';
+var eva_ui_logo_href = 'https://www.eva-ics.com/';
 var eva_ui_logo_text = 'www.eva-ics.com';
 
 var eva_ui_menu_active;
