@@ -21,7 +21,7 @@ html, body {
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.3);
-  z-index: 1;
+  z-index: 1200;
 }
 #eva_ui_menu {
   display: none;
@@ -32,7 +32,7 @@ html, body {
   height: 100%;
   background-color: #f9f9f9;
   border-right: 2px solid #ccc;
-  z-index: 2;
+  z-index: 1220;
 }
 .eva_ui_menu_item {
   padding: 10px 15px;
