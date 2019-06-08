@@ -233,11 +233,18 @@ function eva_sfa_stop(cb) {
  */
 function eva_sfa_register_update_state(oid, cb) {
   if (!oid.includes('*')) {
-    eva_sfa_update_state_functions[oid] = cb;
+    if (!(oid in eva_sfa_update_state_functions)) {
+      eva_sfa_update_state_functions[oid] = Array();
+    }
+    console.log(eva_sfa_update_state_functions[oid]);
+    eva_sfa_update_state_functions[oid].push(cb);
     var state = eva_sfa_state(oid);
     if (state !== undefined) cb(state);
   } else {
-    eva_sfa_update_state_mask_functions[oid] = cb;
+    if (!(oid in eva_sfa_update_state_mask_functions)) {
+      eva_sfa_update_state_mask_functions[oid] = Array();
+    }
+    eva_sfa_update_state_mask_functions[oid].push(cb);
     var i = eva_sfa_state(oid);
     $.each(i, function(k, v) {
       cb(v);
@@ -670,7 +677,7 @@ function eva_sfa_chart(ctx, cfg, oid, params, _do_update) {
         if (data_units) {
           work_cfg.options.tooltips.callbacks.label = function(tti) {
             return tti.yLabel + data_units;
-          }
+          };
         }
       }
     },
@@ -942,6 +949,7 @@ eva_sfa_last_ping = null;
 eva_sfa_last_pong = null;
 
 eva_sfa_popup_active = null;
+eva_sfa_popup_tick_closer = null;
 
 eva_sfa_log_level_names = {
   10: 'DEBUG',
@@ -1074,24 +1082,25 @@ function eva_sfa_process_state(state) {
     });
   }
   eva_sfa_states[oid] = state;
-
   if (!eva_sfa_cmp(state, old_state)) {
     if (oid in eva_sfa_update_state_functions) {
-      var f = eva_sfa_update_state_functions[oid];
-      if (typeof f === 'string' || f instanceof String) {
-        eval(f);
-      } else {
-        f(state);
-      }
-    }
-    $.each(Object.keys(eva_sfa_update_state_mask_functions), function(i, v) {
-      if (eva_sfa_oid_match(oid, v)) {
-        var f = eva_sfa_update_state_mask_functions[v];
+      $.each(eva_sfa_update_state_functions[oid], function(j, f) {
         if (typeof f === 'string' || f instanceof String) {
           eval(f);
         } else {
           f(state);
         }
+      });
+    }
+    $.each(Object.keys(eva_sfa_update_state_mask_functions), function(i, v) {
+      if (eva_sfa_oid_match(oid, v)) {
+        $.each(eva_sfa_update_state_mask_functions[v], function(j, f) {
+          if (typeof f === 'string' || f instanceof String) {
+            eval(f);
+          } else {
+            f(state);
+          }
+        });
       }
     });
   }
