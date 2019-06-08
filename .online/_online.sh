@@ -15,6 +15,9 @@ DEFAULTKEY=`(tr -cd '[:alnum:]' < /dev/urandom | head -c64) 2>/dev/null`
 D=`dirname $0`
 D=`realpath $D`
 
+touch docker-compose-online-demo.yml
+chmod 600 docker-compose-online-demo.yml
+
 sed "s/- MASTERKEY=.*/- MASTERKEY=${MASTERKEY}/g" docker-compose.yml | \
   sed "s/- DEFAULTKEY=.*/- DEFAULTKEY=${DEFAULTKEY}/g" | \
   sed 's/image:/restart: always\n    image:/g' | \
