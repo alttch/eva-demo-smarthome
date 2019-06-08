@@ -9,8 +9,8 @@ cd ..
 
 docker-compose -f docker-compose-online-demo.yml down -t 0
 
-MASTERKEY=`head -1024 /dev/urandom | sha256sum | awk '{ print $1 }'`
-DEFAULTKEY=`head -1024 /dev/urandom | sha256sum | awk '{ print $1 }'`
+MASTERKEY=`(tr -cd '[:alnum:]' < /dev/urandom | head -c64) 2>/dev/null`
+DEFAULTKEY=`(tr -cd '[:alnum:]' < /dev/urandom | head -c64) 2>/dev/null`
 
 D=`dirname $0`
 D=`realpath $D`
