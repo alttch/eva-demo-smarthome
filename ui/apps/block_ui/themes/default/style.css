@@ -10,7 +10,7 @@ html, body {
   height: 40px;
   background-color: white;
   border-bottom: 2px solid #ccc;
-  z-index: 999;
+  z-index: 1250;
   overflow: hidden;
 }
 #eva_ui_menu_container {
