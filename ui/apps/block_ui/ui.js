@@ -724,7 +724,9 @@ function eva_ui_init_top_bar() {
   eva_ui_content_holder.addClass('with_topbar');
   eva_ui_content_holder.append(topbar);
   var menu_container = $('<div />', {id: 'eva_ui_menu_container'});
-  var menu = $('<div />', {id: 'eva_ui_menu', 'data-toggle': 'menu'});
+  var menu_holder = $('<div />', {id: 'eva_ui_menu', 'data-toggle': 'menu'});
+  var menu = $('<div />', {class: 'eva_ui_menu_holder'});
+  menu_holder.append(menu);
   if (evaHI && evaHI['home_icon']) {
     menu.append(
       create_menu_item('Home', '/' + evaHI['home_icon'], eva_ui_main_page)
@@ -734,7 +736,7 @@ function eva_ui_init_top_bar() {
   }
   if (evaHI && evaHI['menu']) {
     $.each(evaHI['menu'], function(i, v) {
-      menu.append(create_menu_item(v['name'], '/' + v['icon'], v['url']));
+      menu.append(create_menu_item(v['name'], v['icon'], v['url']));
     });
   }
   menu.append(create_menu_item('EvaCC setup', 'evahi', eva_ui_open_cc_setup));
@@ -746,7 +748,7 @@ function eva_ui_init_top_bar() {
         document.location = eva_ui_logo_href;
       })));
   eva_ui_content_holder.append(menu_container);
-  eva_ui_content_holder.append(menu);
+  eva_ui_content_holder.append(menu_holder);
 }
 
 function create_menu_item(title, icon, action) {
@@ -754,11 +756,7 @@ function create_menu_item(title, icon, action) {
   menu_item.addClass('eva_ui_menu_item');
   var menu_icon = $('<div />');
   menu_icon.addClass('eva_ui_menu_icon');
-  if (!icon.startsWith('/')) {
-    menu_icon.addClass('i_' + icon);
-  } else {
-    menu_icon.css('background-image', 'url(/.evahi/icons' + icon + ')');
-  }
+  menu_icon.addClass('i_' + icon);
   menu_item.append(menu_icon);
   menu_item.append(
     $('<div />')
@@ -771,23 +769,44 @@ function create_menu_item(title, icon, action) {
     menu_item.on('click', function() {
       document.location = action;
     });
+    if(document.location.href.endsWith(action)) {
+      menu_item.addClass('active_menu');
+    }
   }
   return menu_item;
 }
+
+document.addEventListener('swiped-right', function(e) {
+  if (!eva_ui_menu_active) {
+    eva_ui_open_menu();
+  }
+});
+
+document.addEventListener('swiped-left', function(e) {
+  if (eva_ui_menu_active) {
+    eva_ui_close_menu();
+  }
+});
 
 function eva_ui_toggle_menu() {
   if (eva_ui_menu_active) {
     eva_ui_close_menu();
   } else {
-    eva_ui_menu_active = true;
-    $('#eva_ui_hamb').addClass('open');
-    $('#eva_ui_menu').animate({width:'toggle'},250);
-    $('#eva_ui_menu_container').fadeIn(250);
+    eva_ui_open_menu()
   }
+}
+
+function eva_ui_open_menu() {
+  $('body').css("overflow","hidden");
+  eva_ui_menu_active = true;
+  $('#eva_ui_hamb').addClass('open');
+  $('#eva_ui_menu').animate({width:'toggle'},250);
+  $('#eva_ui_menu_container').fadeIn(250);
 }
 
 function eva_ui_close_menu() {
   if (eva_ui_menu_active) {
+    $('body').css("overflow","auto");
     eva_ui_menu_active = false;
     $('#eva_ui_hamb').removeClass('open');
     $('#eva_ui_menu').animate({width:'toggle'},250);

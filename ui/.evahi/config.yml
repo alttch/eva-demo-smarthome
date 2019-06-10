@@ -2,4 +2,4 @@ serial: 15
 index: /ui/
 index_landscape: /ui/
 menu:
-    - {icon: 'sensors.png', name: 'Sensors', url: /ui/sensors.j2}
+    - {icon: 'sensors', name: 'Sensors', url: /ui/sensors.j2}
