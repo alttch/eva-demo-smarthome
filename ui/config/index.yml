@@ -166,15 +166,15 @@ data:
     decimals: 0
 
 data-blocks:
-  1:
+  room1:
     elements:
       - temp1_int
       - hum1_int
-  2:
+  room2:
     elements:
       - temp2_int
       - hum2_int
-  3:
+  ext:
     elements:
       - temp_ext
       - hum_ext
@@ -182,42 +182,42 @@ data-blocks:
 
 cameras:
   room1:
-    image: /rpvt?f=127.0.0.1:8118/cam/1?nocache=$NOCACHE
+    image: /rpvt?f=127.0.0.1:8118/cam/1?s=400x250&nocache=$NOCACHE
   room2:
-    image: /rpvt?f=127.0.0.1:8118/cam/2?nocache=$NOCACHE
-  room3:
-    image: /rpvt?f=127.0.0.1:8118/cam/3?nocache=$NOCACHE
+    image: /rpvt?f=127.0.0.1:8118/cam/2?s=400x250&nocache=$NOCACHE
+  hall:
+    image: /rpvt?f=127.0.0.1:8118/cam/3?s=400x250&nocache=$NOCACHE
 
  
 control-blocks:
-  1:
+  room1-controls:
     elements:
       - light_room1
       - window_room1
       - thermo_room1
-  2:
+  room2-controls:
     elements:
       - light_room2
       - window_room2
       - thermo_room2
-  3:
+  hall-and-svc:
     elements:
       - light_hall
       - alarm
       - cctv
       - vent
-  4:
+  macros:
     elements:
       - lights_on
       - lights_off
       - open_windows
       - close_windows
-  5:
+  profiles:
     elements:
       - day_mode
       - winterday_mode
       - night_mode
-  6:
+  enter-exit:
     elements:
       - enter
       - exit
@@ -227,34 +227,37 @@ layout:
       id: room1
       reload: 1
     control-blocks:
-      - 1
-      - 4
-    data-block: 1
+      - room1-controls
+      - macros
+    data-block: room1
   bar2:
     camera:
       id: room2
       reload: 1
     control-blocks:
-      - 2
-      - 5
-    data-block: 2
+      - room2-controls
+      - profiles
+    data-block: room2
   bar3:
     camera:
-      id: room3
+      id: hall
       reload: 1
     control-blocks:
-      - 3
-      - 6
-    data-block: 3
-    sys-block: true
+      - hall-and-svc
+      - enter-exit
+    data-block: ext
 
-#layout-compact:
-  #elements:
-    #- { type: control-block, id: 2 }
-    #- { type: control-block, id: 3 }
-    #- { type: camera, id: room1 }
-    #- { type: control-block, id: 5 }
-    #- { type: data-block, id: 1 }
-    #- { type: camera, id: room2 }
-    #- { type: control-block, id: 1 }
-    #- { type: data-block, id: 2 }
+layout-compact:
+  elements:
+    - { type: control-block, id: profiles }
+    - { type: control-block, id: macros }
+    - { type: control-block, id: enter-exit }
+    - { type: camera, id: hall, reload: 2 }
+    - { type: control-block, id: hall-and-svc }
+    - { type: data-block, id: ext }
+    - { type: camera, id: room1, reload: 2 }
+    - { type: control-block, id: room1-controls }
+    - { type: data-block, id: room1 }
+    - { type: camera, id: room2, reload: 2 }
+    - { type: control-block, id: room2-controls }
+    - { type: data-block, id: room2 }
