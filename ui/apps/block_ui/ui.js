@@ -1236,6 +1236,9 @@ function eva_ui_erase_login_cookies() {
 }
 
 function eva_ui_logout() {
-  $eva.stop().catch(err => {});
-  document.location = document.location;
+  var l = function() {
+    eva_ui_erase_login_cookies();
+    document.location = document.location;
+  }
+  $eva.stop().then(l).catch(err => l);
 }
