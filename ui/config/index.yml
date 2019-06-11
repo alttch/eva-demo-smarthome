@@ -15,7 +15,7 @@ buttons:
     item: lvar:security/alarm
     title: Alarm
   cctv:
-    title: CCTV
+    title: Rec.
     icon: cam
     item: unit:equipment/cctv
   vent:
