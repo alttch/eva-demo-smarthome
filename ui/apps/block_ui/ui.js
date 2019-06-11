@@ -39,27 +39,33 @@ function eva_ui_error(msg) {
   throw new Error(msg);
 }
 
-function eva_ui_server_error(code, msg, data) {
-  eva_sfa_popup('eva_ui_popup', 'error', 'ERROR', msg, {ct: 2});
+function eva_ui_server_error(err) {
+  $eva.toolbox
+    .popup('eva_ui_popup', 'error', 'ERROR', err.message, {ct: 2})
+    .catch(err => {});
 }
 
-function eva_ui_server_is_gone(code, msg, data) {
+function eva_ui_server_is_gone(err) {
   var ct = 10;
-  var auto_reconnect = setTimeout(eva_sfa_start, (ct + 1) * 1000);
-  eva_sfa_popup(
-    'eva_ui_popup',
-    'error',
-    'Server error',
-    'Connection to server failed',
-    {
-      ct: ct,
-      btn1: 'Retry',
-      btn1a: function() {
-        clearTimeout(auto_reconnect);
-        eva_sfa_start();
+  var auto_reconnect = setTimeout(function() {
+    $eva.start();
+  }, (ct + 1) * 1000);
+  $eva.toolbox
+    .popup(
+      'eva_ui_popup',
+      'error',
+      'Server error',
+      'Connection to server failed',
+      {
+        ct: ct,
+        btn1: 'Retry'
       }
-    }
-  );
+    )
+    .then(function() {
+      clearTimeout(auto_reconnect);
+      $eva.start();
+    })
+    .catch(err => {});
 }
 
 function eva_ui_create_control_block(block_id) {
@@ -97,15 +103,13 @@ function eva_ui_append_action(el, config, is_btn, item) {
         b.attr('eva-ui-status-to', i);
         b.on('click', function() {
           params['s'] = this.getAttribute('eva-ui-status-to');
-          eva_sfa_action(
-            action,
-            params,
-            function(result) {},
-            function(code, msg, data) {
+          $eva
+            .call('action', action, params)
+            .then(function(result) {})
+            .catch(function(err) {
               if (is_btn) el.removeClass('busy');
-              eva_ui_server_error(code, msg, data);
-            }
-          );
+              eva_ui_server_error(err);
+            });
         });
         b.appendTo(mc);
       }
@@ -172,14 +176,10 @@ function eva_ui_append_action(el, config, is_btn, item) {
           params['s'] = 1;
           params['v'] = val;
         }
-        eva_sfa_action(
-          action,
-          params,
-          function() {},
-          function(code, msg, data) {
-            eva_ui_server_error(code, msg, data);
-          }
-        );
+        $eva
+          .call('action', action, params)
+          .then(function() {})
+          .catch(eva_ui_server_error);
       } else if (action.startsWith('lvar:')) {
         var v;
         if (val < min) {
@@ -188,17 +188,15 @@ function eva_ui_append_action(el, config, is_btn, item) {
           v = val;
         }
         if (is_btn) el.addClass('busy');
-        eva_sfa_set(
-          action,
-          v,
-          function() {
+        $eva
+          .call('set', action, v)
+          .then(function() {
             if (is_btn) el.removeClass('busy');
-          },
-          function(code, msg, data) {
+          })
+          .catch(function(err) {
             if (is_btn) el.removeClass('busy');
-            eva_ui_server_error(code, msg, data);
-          }
-        );
+            eva_ui_server_error(err);
+          });
       } else if (action.startsWith('lmacro:')) {
         var params = $.extend({}, config.action_params);
         if (val < min) {
@@ -210,19 +208,16 @@ function eva_ui_append_action(el, config, is_btn, item) {
         if (!('w' in params)) {
           params['w'] = 60;
         }
-        eva_sfa_run(
-          action,
-          params,
-          function() {
+        $eva
+          .call('run', action, params)
+          .then(function() {
             if (is_btn) el.removeClass('busy');
-          },
-          function(code, msg, data) {
+          })
+          .catch(function(err) {
             if (is_btn) el.removeClass('busy');
-            eva_ui_server_error(code, msg, data);
-          }
-        );
+            eva_ui_server_error(err);
+          });
       }
-      console.log(params);
     });
     eva_ui_slider_update_funcs[item] = function(state) {
       if (state.status) {
@@ -258,56 +253,45 @@ function eva_ui_append_action(el, config, is_btn, item) {
   } else if (action.startsWith('unit:')) {
     if (config.action_params && 's' in config.action_params) {
       a = function() {
-        eva_sfa_action(
-          action,
-          config.action_params,
-          function() {},
-          function(code, msg, data) {
-            eva_ui_server_error(code, msg, data);
-          }
-        );
+        $eva
+          .call('action', action, config.action_params)
+          .then(function() {})
+          .catch(eva_ui_server_error);
       };
     } else {
       a = function() {
-        eva_sfa_action_toggle(
-          action,
-          config.action_params,
-          function(result) {},
-          function(code, msg, data) {
-            eva_ui_server_error(code, msg, data);
-          }
-        );
+        $eva
+          .call('action_toggle', action, config.action_params)
+          .then(function(result) {})
+          .catch(eva_ui_server_error);
       };
     }
   } else if (action.startsWith('lvar:')) {
     if (config.action_params && 'v' in config.action_params) {
       a = function() {
         if (is_btn) el.addClass('busy');
-        eva_sfa_set(
-          action,
-          config.action_params,
-          function() {
+        $eva
+          .call('set', action, config.action_params)
+          .then(function() {
             if (is_btn) el.removeClass('busy');
-          },
-          function(code, msg, data) {
+          })
+          .catch(function(err) {
             if (is_btn) el.removeClass('busy');
-            eva_ui_server_error(code, msg, data);
-          }
-        );
+            eva_ui_server_error(err);
+          });
       };
     } else {
       a = function() {
         if (is_btn) el.addClass('busy');
-        eva_sfa_toggle(
-          action,
-          function() {
+        $eva
+          .call('toggle', action)
+          .then(function() {
             if (is_btn) el.removeClass('busy');
-          },
-          function(code, msg, data) {
+          })
+          .catch(function(err) {
             if (is_btn) el.removeClass('busy');
-            eva_ui_server_error(code, msg, data);
-          }
-        );
+            eva_ui_server_error(err);
+          });
       };
     }
   } else if (action.startsWith('lmacro:')) {
@@ -318,17 +302,15 @@ function eva_ui_append_action(el, config, is_btn, item) {
       if (!('w' in params)) {
         params['w'] = 60;
       }
-      eva_sfa_run(
-        action,
-        params,
-        function() {
+      $eva
+        .call('run', action, params)
+        .then(function() {
           if (is_btn) el.removeClass('busy');
-        },
-        function(code, msg, data) {
+        })
+        .catch(function(err) {
           if (is_btn) el.removeClass('busy');
-          eva_ui_server_error(code, msg, data);
-        }
-      );
+          eva_ui_server_error(err);
+        });
     };
   } else if (action.startsWith('url:')) {
     a = function() {
@@ -381,7 +363,7 @@ function eva_ui_create_button(btn_name) {
   if (istatus) {
     if (istatus.startsWith('unit:')) {
       button.addClass('s_');
-      eva_sfa_register_update_state(istatus, function(state) {
+      $eva.watch(istatus, function(state) {
         if (istatus in eva_ui_slider_update_funcs) {
           eva_ui_slider_update_funcs[istatus](state);
         }
@@ -409,7 +391,7 @@ function eva_ui_create_button(btn_name) {
         eva_ui_slider_update_funcs[istatus](state);
       }
       button.addClass('s_');
-      eva_sfa_register_update_state(istatus, function(state) {
+      $eva.watch(istatus, function(state) {
         button.attr(
           'class',
           button.attr('class').replace(/\bs_.*/g, 's_' + state.value)
@@ -438,7 +420,7 @@ function eva_ui_create_data_item(data_item_id) {
   data_item.addClass('i_' + data_item_config.icon);
   eva_ui_append_action(data_item, data_item_config, false);
   var item = data_item_config['item'];
-  eva_sfa_register_update_state(item, function(state) {
+  $eva.watch(item, function(state) {
     var v = state.value;
     var dc = data_item.attr('eva-display-decimals');
     if (dc !== undefined && dc !== null && !isNaN(v)) {
@@ -457,7 +439,15 @@ function eva_ui_recreate_objects() {
   });
 }
 
+function eva_ui_run() {
+  eva_ui_redraw_layout();
+  eva_ui_stop_animation();
+  eva_ui_content_holder.show();
+  eva_ui_recreate_objects();
+}
+
 function eva_ui_init() {
+  $eva.debug = true;
   if (evaHI && evaHI['index']) {
     eva_ui_main_page = evaHI['index'];
   } else {
@@ -473,7 +463,7 @@ function eva_ui_init() {
     eva_ui_config_motd = eva_ui_config['motd'];
   }
   if ('default-login' in eva_ui_config) {
-    eva_sfa_login = eva_ui_config['default-login'];
+    $eva.login = eva_ui_config['default-login'];
   }
   if ('layout' in eva_ui_config) {
     eva_ui_config_layout = eva_ui_config['layout'];
@@ -501,7 +491,9 @@ function eva_ui_init() {
   });
   $('<div />', {id: 'eva_ui_popup'}).appendTo('body');
   $('<div />', {id: 'eva_ui_anim'}).appendTo('body');
-  $('<div />').html('<div class="eva_ui_dialog_window_holder evacc_setup" \
+  $('<div />')
+    .html(
+      '<div class="eva_ui_dialog_window_holder evacc_setup" \
             onclick="eva_ui_close_cc_setup(event)"> \
           <div class="eva_ui_dialog_window"> \
             <div class="eva_ui_setup_form"> \
@@ -515,7 +507,9 @@ function eva_ui_init() {
               <div class="eva_ui_qr_install"><canvas id="evaccqr"></canvas></div> \
             </div> \
           </div> \
-        </div>').appendTo('body');
+        </div>'
+    )
+    .appendTo('body');
   if (eva_ui_config_class == 'dashboard') {
     if ('buttons' in eva_ui_config) {
       eva_ui_config_buttons = eva_ui_config['buttons'];
@@ -576,17 +570,20 @@ function eva_ui_init() {
     eva_ui_content_holder = $('<div />').addClass('eva_ui_content_holder');
     eva_ui_content_holder.hide();
     eva_ui_content_holder.appendTo(row);
-    eva_sfa_cb_login_success = function() {
+    $eva.on('login.success', function() {
       eva_ui_login_window.hide();
       eva_ui_update_sysblock();
-    };
-    eva_sfa_heartbeat_error = function() {
-      eva_sfa_stop();
-      eva_ui_server_is_gone();
-    };
-    eva_sfa_cb_login_error = function(code, msg, data) {
+      eva_ui_run();
+    });
+    $eva.on('heartbeat.error', function() {
+      $eva
+        .stop()
+        .then(eva_ui_server_is_gone)
+        .catch(eva_ui_server_is_gone);
+    });
+    $eva.on('login.failed', function(err) {
       eva_ui_stop_cams();
-      if (code == 2) {
+      if (err.code == 2) {
         eva_ui_stop_animation();
         eva_ui_erase_login_cookies();
         eva_ui_content_holder.hide();
@@ -594,16 +591,16 @@ function eva_ui_init() {
         if (eva_ui_first_time_login) {
           eva_ui_first_time_login = false;
         } else {
-          $('#eva_ui_login_error').html(msg);
+          $('#eva_ui_login_error').html(err.message);
           $('#eva_ui_login_error').show();
         }
-        $('#eva_ui_login').val(eva_sfa_login);
+        $('#eva_ui_login').val($eva.login);
         $('#eva_ui_password').val('');
         eva_ui_focus_login_form();
       } else {
-        eva_ui_server_is_gone(code, msg, data);
+        eva_ui_server_is_gone(err);
       }
-    };
+    });
   } else if (eva_ui_config_class == 'sensors') {
     if ('main-page' in eva_ui_config) {
       eva_ui_main_page = eva_ui_config['main-page'];
@@ -611,12 +608,12 @@ function eva_ui_init() {
     if ('charts' in eva_ui_config) {
       eva_ui_config_charts = eva_ui_config['charts'];
     }
-    eva_sfa_cb_login_success = function() {
+    $eva.on('login.success', function() {
       eva_ui_update_sysblock();
-    };
-    eva_sfa_cb_login_error = function(code, msg, data) {
+    });
+    $eva.on('login.failed', function(err) {
       document.location = eva_ui_main_page;
-    };
+    });
     var bg = $('<div />')
       .addClass('eva_ui_bg')
       .addClass('bg_sensors');
@@ -632,53 +629,54 @@ function eva_ui_init() {
     );
     bg.appendTo('body');
   }
-  eva_sfa_cb_states_loaded = function() {
-    eva_ui_redraw_layout();
-    eva_ui_stop_animation();
-    eva_ui_content_holder.show();
-    eva_ui_recreate_objects();
-  };
   var reload_ui = function() {
     document.location = document.location;
   };
-  eva_sfa_reload_handler = function() {
+  $eva.on('server.reload', function() {
     var ct = 5;
-    eva_sfa_popup(
-      'eva_ui_popup',
-      'warning',
-      'UI reload',
-      'Server asked clients to reload UI',
-      {
-        ct: ct,
-        btn1: 'Reload',
-        btn1a: reload_ui
-      }
-    );
-    setTimeout(reload_ui, ct * 1000);
-  };
-  eva_sfa_server_restart_handler = function() {
-    var ct = 15;
-    eva_sfa_popup(
-      'eva_ui_popup',
-      'warning',
-      'Server restart',
-      'Server is being restarted, UI will \
-            be reconnected in ' +
-        ct +
-        ' seconds. All functions are stopped',
-      {
-        ct: ct
-      }
-    );
+    var ui_reloader = setTimeout(reload_ui, ct * 1000);
+    $eva.toolbox
+      .popup(
+        'eva_ui_popup',
+        'warning',
+        'UI reload',
+        'Server asked clients to reload UI',
+        {
+          ct: ct,
+          btn1: 'Reload'
+        }
+      )
+      .then(function() {
+        clearTimeout(ui_reloader);
+        reload_ui();
+      })
+      .catch(err=>{});
+  });
+  $eva.on('server.restart', function() {
+    var ct = 3;
+    $eva.toolbox
+      .popup(
+        'eva_ui_popup',
+        'warning',
+        'Server restart',
+        'Server is being restarted, UI will be reconnected in' +
+          ` ${ct} seconds. All functions are stopped`,
+        {
+          ct: ct
+        }
+      )
+      .catch(err=>{})
     eva_ui_stop_cams();
-    eva_sfa_stop();
-    setTimeout(eva_sfa_start, ct * 1000);
-  };
+    $eva.stop().catch(err=>{});
+    setTimeout(function() {
+      $eva.start();
+    }, ct * 1000);
+  });
 }
 
 function eva_ui_focus_login_form() {
-  if (eva_sfa_login) {
-    $('#eva_ui_login').val(eva_sfa_login);
+  if ($eva.login) {
+    $('#eva_ui_login').val($eva.login);
     $('#eva_ui_password').focus();
   } else {
     $('#eva_ui_login').focus();
@@ -686,10 +684,10 @@ function eva_ui_focus_login_form() {
 }
 
 function eva_ui_update_sysblock() {
-  if (eva_sfa_server_info) {
-    $('.eva_version').html(eva_sfa_server_info.version);
-    $('.eva_build').html(eva_sfa_server_info.product_build);
-    $('.eva_key_id').html(eva_sfa_server_info.acl.key_id);
+  if ($eva.server_info) {
+    $('.eva_version').html($eva.server_info.version);
+    $('.eva_build').html($eva.server_info.product_build);
+    $('.eva_key_id').html($eva.server_info.acl.key_id);
   }
 }
 
@@ -706,10 +704,9 @@ function eva_ui_top_bar() {
 
 function eva_ui_init_top_bar() {
   var topbar = $('<div />', {id: 'eva_ui_top_bar'});
-  var hamb = $('<div />', {'data-toggle': 'menuicon', id: 'eva_ui_hamb'})
+  var hamb = $('<div />', {'data-toggle': 'menuicon', id: 'eva_ui_hamb'});
   for (var i = 0; i < 3; i++) {
-    $('<span />')
-      .appendTo(hamb);
+    $('<span />').appendTo(hamb);
   }
   hamb.on('click', eva_ui_toggle_menu);
   topbar.append(hamb);
@@ -741,12 +738,18 @@ function eva_ui_init_top_bar() {
   }
   menu.append(create_menu_item('EvaCC setup', 'evahi', eva_ui_open_cc_setup));
   menu.append(create_menu_item('Logout', 'logout', eva_ui_logout));
-  menu.append($('<div />').addClass('eva_ui_logo_container').append(
+  menu.append(
     $('<div />')
-      .addClass('eva_ui_logo')
-      .html(eva_ui_logo_text).on('click', function() {
-        document.location = eva_ui_logo_href;
-      })));
+      .addClass('eva_ui_logo_container')
+      .append(
+        $('<div />')
+          .addClass('eva_ui_logo')
+          .html(eva_ui_logo_text)
+          .on('click', function() {
+            document.location = eva_ui_logo_href;
+          })
+      )
+  );
   eva_ui_content_holder.append(menu_container);
   eva_ui_content_holder.append(menu_holder);
 }
@@ -800,7 +803,7 @@ function eva_ui_open_menu() {
   $('body').css("overflow","hidden");
   eva_ui_menu_active = true;
   $('#eva_ui_hamb').addClass('open');
-  $('#eva_ui_menu').animate({width:'toggle'},250);
+  $('#eva_ui_menu').animate({width: 'toggle'}, 250);
   $('#eva_ui_menu_container').fadeIn(250);
 }
 
@@ -809,7 +812,7 @@ function eva_ui_close_menu() {
     $('body').css("overflow","auto");
     eva_ui_menu_active = false;
     $('#eva_ui_hamb').removeClass('open');
-    $('#eva_ui_menu').animate({width:'toggle'},250);
+    $('#eva_ui_menu').animate({width: 'toggle'}, 250);
     $('#eva_ui_menu_container').fadeOut(250);
   }
 }
@@ -855,7 +858,6 @@ function eva_ui_create_cam(cam_cfg) {
   if (!eva_ui_config_cameras || !(cam_cfg['id'] in eva_ui_config_cameras)) {
     eva_ui_error('Camera ' + cam_cfg['id'] + ' is not defined');
   }
-  console.log(cam_cfg);
   var cam_id = cam_cfg['id'];
   var reload_int = cam_cfg['reload'];
   if (!reload_int) reload_int = 1;
@@ -918,11 +920,11 @@ function eva_ui_create_chart(chart_id, reload) {
     .appendTo(chart_info);
   chart.append(chart_info);
   if ('params' in chart_config && chart_config['params']['prop'] == 'status') {
-    eva_sfa_register_update_state(chart_config['item'], function(state) {
+    $eva.watch(chart_config['item'], function(state) {
       chart_item_state.html(state.status);
     });
   } else {
-    eva_sfa_register_update_state(chart_config['item'], function(state) {
+    $eva.watch(chart_config['item'], function(state) {
       var v = state.value;
       var dc = chart_item_state.attr('eva-display-decimals');
       if (dc !== undefined && dc !== null && !isNaN(v)) {
@@ -1020,7 +1022,8 @@ function eva_ui_create_sysblock(mini) {
     html = html + '<br />';
     if (!navigator.userAgent.startsWith('evaHI ')) {
       html =
-        html + '<span class="eva_ui_links" style="margin-right: 10px" \
+        html +
+        '<span class="eva_ui_links" style="margin-right: 10px" \
           onclick="eva_ui_open_cc_setup(event);">EvaCC setup</span>';
     }
     html +=
@@ -1077,14 +1080,14 @@ function eva_ui_draw_compact_layout() {
 }
 
 function eva_ui_submit_login() {
-  eva_sfa_login = $('#eva_ui_login').val();
-  eva_sfa_password = $('#eva_ui_password').val();
+  $eva.login = $('#eva_ui_login').val();
+  $eva.password = $('#eva_ui_password').val();
   if ($('#eva_ui_remember_auth').prop('checked')) {
-    eva_sfa_create_cookie('eva_ui_login', eva_sfa_login, 365);
-    eva_sfa_create_cookie('eva_ui_password', eva_sfa_password, 365);
+    $cookies.create('eva_ui_login', $eva.login, 365);
+    $cookies.create('eva_ui_password', $eva.password, 365);
   }
   eva_ui_start_animation();
-  eva_sfa_start();
+  $eva.start();
 }
 
 function eva_ui_start() {
@@ -1096,19 +1099,20 @@ function eva_ui_start() {
       eva_ui_recreate_objects();
     }
   });
-  var l = eva_sfa_read_cookie('eva_ui_login');
-  var p = eva_sfa_read_cookie('eva_ui_password');
+  var l = $cookies.read('eva_ui_login');
+  var p = $cookies.read('eva_ui_password');
   if (l && p) {
-    eva_sfa_login = l;
-    eva_sfa_password = p;
+    $eva.login = l;
+    $eva.password = p;
   }
   eva_ui_start_animation();
-  eva_sfa_start();
+  $eva.start();
 }
 
 function eva_ui_start_animation() {
+  $('#eva_ui_login_window').hide();
   $('.eva_ui_bg').hide();
-  eva_sfa_load_animation('eva_ui_anim');
+  $eva.toolbox.animate('eva_ui_anim');
   $('#eva_ui_anim')
     .show()
     .css('display', 'flex');
@@ -1136,7 +1140,7 @@ function eva_ui_open_cc_setup(e) {
     x: e.target.offsetLeft - $(window).scrollLeft() + 30,
     y: e.target.offsetTop - $(window).scrollTop() + 5
   };
-  eva_sfa_hi_qr('evaccqr', {url: eva_ui_config_url, password: null});
+  $eva.toolbox.hiQR('evaccqr', {url: eva_ui_config_url, password: null});
   $('.eva_ui_setup_form').css({
     top: eva_ui_btn_coord.y,
     left: eva_ui_btn_coord.x
@@ -1186,12 +1190,12 @@ function eva_ui_reload_camera(cam_id) {
 }
 
 function eva_ui_erase_login_cookies() {
-  eva_sfa_erase_cookie('eva_ui_login');
-  eva_sfa_erase_cookie('eva_ui_password');
+  $cookies.erase('eva_ui_login');
+  $cookies.erase('eva_ui_password');
 }
 
 function eva_ui_logout() {
-  eva_sfa_stop();
+  $eva.stop().catch(err=>{});
   eva_ui_erase_login_cookies();
   document.location = document.location;
 }
