@@ -71,8 +71,8 @@ unit:
         port: 1
         dport: 9
         steps:
-          - 1.5
-          - 6.5
+          - 1.2
+          - 2.1
         ts: 1
         tuning: 0.5
         warmup: 0.5
@@ -88,8 +88,8 @@ unit:
         port: 2
         dport: 10
         steps:
-          - 1.5
-          - 6.5
+          - 1.2
+          - 2.15
         ts: 1
         tuning: 0.5
         warmup: 0.5
