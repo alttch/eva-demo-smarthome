@@ -762,9 +762,9 @@ function create_menu_item(title, icon, action) {
   if (!icon.startsWith('/')) {
     menu_icon.addClass('i_' + icon);
   } else {
-    let className = 'i_' + icon.substring(1, icon.lastIndexOf('.'));
+    var className = 'i_' + icon.substring(1, icon.lastIndexOf('.'));
     menu_icon.addClass(className);
-    let style = '<style>\n' +
+    var style = '<style>\n' +
       '.eva_ui_menu_icon.' + className + ' {\n\t' +
       'background-image: url("/.evahi/icons' + icon + '");\n' +
       '}\n' + 
@@ -1053,7 +1053,7 @@ function eva_ui_draw_compact_layout() {
   if (!eva_ui_config_layout_compact) return eva_ui_draw_layout();
   var cams = Array();
   if (eva_ui_config_class == 'dashboard') {
-    var row = $('<div />');
+    var row = $('<div />', {class: 'mob_layout'});
     var fcb = true;
     $.each(eva_ui_config_layout_compact['elements'], function(i, v) {
       if (v['type'] == 'control-block') {
@@ -1066,7 +1066,9 @@ function eva_ui_draw_compact_layout() {
       } else {
         fcb = true;
         if (v['type'] == 'data-block') {
-          row.append(eva_ui_create_data_block(v['id']));
+          var data_block = $('<div />', {class: 'eva_ui_data_block'});
+          data_block.append(eva_ui_create_data_block(v['id']));
+          row.append(data_block);
         } else if (v['type'] == 'sys-block') {
           $('<div />')
             .addClass('eva_ui_sysblock')

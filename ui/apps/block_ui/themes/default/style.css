@@ -51,6 +51,9 @@ html, body {
 .eva_ui_menu_item.active_menu {
   color: #1a1a1a;
 }
+.eva_ui_menu_item:not(:disabled):hover {
+  background: #eee;
+}
 .eva_ui_menu_title {
   margin-left: 35px;
 }
@@ -682,7 +685,7 @@ html, body {
   }
   .container {
     width: 100%;
-    max-width: 440px;
+    max-width: 400px;
   }
   .eva_ui_bar {
     width: 100%;
@@ -712,6 +715,10 @@ html, body {
   .eva_ui_content_holder.with_topbar {
     margin-top: 40px;
   }
+  .mob_layout {
+    width: 100%;
+    padding: 0 10px;
+  }
 }
 @media (min-width: 768px) {
   .eva_ui_cbtn:not(:disabled):hover {
@@ -722,7 +729,7 @@ html, body {
   .eva_ui_content_holder {
     margin-top: -45px;
     width: 664px;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
   }
   .eva_ui_content_holder.with_topbar {
     margin-top: -15px;
@@ -732,11 +739,16 @@ html, body {
   }
   .eva_ui_bar:nth-child(2n + 4) {
     width: 333px;
+    margin-right: 11px;
     padding-right: 11px;
     border-right: 2px dashed #ccc;
   }
+  /*.eva_ui_bar:nth-child(4) {
+    margin-left: auto;
+  }*/
   .eva_ui_bar:last-child {
     width: 320px !important;
+    margin-right: auto !important;
     padding-right: 0 !important;
     border-right: none !important;
   }
@@ -753,12 +765,14 @@ html, body {
   }
   .eva_ui_bar:nth-child(2n + 4) {
     width: 320px;
+    margin-right: 0;
     padding-right: 0;
     border-right: none;
   }
   .eva_ui_bar:nth-child(3n + 4),
   .eva_ui_bar:nth-child(3n + 5)  {
     width: 328px;
+    margin-right: 6px;
     padding-right: 6px;
     border-right: 2px dashed #ccc;
   }
@@ -773,6 +787,7 @@ html, body {
   .eva_ui_bar:nth-child(3n + 4),
   .eva_ui_bar:nth-child(3n + 5) {
     width: 333px;
+    margin-right: 11px;
     padding-right: 11px;
     border-right: 2px dashed #ccc;
   }
