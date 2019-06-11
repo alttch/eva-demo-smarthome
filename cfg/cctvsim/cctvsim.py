@@ -2,6 +2,9 @@ from flask import Flask, app, abort, Response
 
 import sys
 import os
+import datetime
+
+from PIL import Image, ImageDraw, ImageFont
 
 sys.path.append('/opt/eva/lib')
 
@@ -38,10 +41,23 @@ def cctv(cam_id):
     amb_c = 'off'
     fname = '{}/{}_{}_{}_{}.jpg'.format(dir_img, cam_id, l_c, win_c, amb_c)
     try:
-        resp = Response(open(fname, 'rb').read())
+        image = Image.open(fname)
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.truetype(dir_img + '/VeraBd.ttf', 20)
+        for y in range(30):
+            draw.line(((0, y), (image.size[0], y)), fill="black")
+        txt = '{} {}'.format(room_id.upper(),
+                             datetime.datetime.now().strftime('%Y-%m-%d %T'))
+        draw.text(
+            (image.size[0] - 10 - len(txt) * 13, 3),
+            txt,
+            font=font,
+            fill='white')
+        resp = Response(image.tobytes('jpeg', 'RGB', 85))
         resp.headers['Content-Type'] = 'image/jpeg'
         return resp
     except:
+        raise
         abort(404)
 
 
