@@ -40,8 +40,9 @@ function eva_ui_error(msg) {
 }
 
 function eva_ui_server_error(err) {
-  //eva_sfa_popup('eva_ui_popup', 'error', 'ERROR', err.message, {ct: 2});
-  jsaltt.logger.error(err.message);
+  $eva.toolbox
+    .popup('eva_ui_popup', 'error', 'ERROR', err.message, {ct: 2})
+    .catch(err => {});
 }
 
 function eva_ui_server_is_gone(err) {
@@ -49,23 +50,22 @@ function eva_ui_server_is_gone(err) {
   var auto_reconnect = setTimeout(function() {
     $eva.start();
   }, (ct + 1) * 1000);
-  jsaltt.logger.error('Connection to server is gone');
-  /*
-  eva_sfa_popup(
-    'eva_ui_popup',
-    'error',
-    'Server error',
-    'Connection to server failed',
-    {
-      ct: ct,
-      btn1: 'Retry',
-      btn1a: function() {
-        clearTimeout(auto_reconnect);
-        $eva.start();
+  $eva.toolbox
+    .popup(
+      'eva_ui_popup',
+      'error',
+      'Server error',
+      'Connection to server failed',
+      {
+        ct: ct,
+        btn1: 'Retry'
       }
-    }
-  );
-  */
+    )
+    .then(function() {
+      clearTimeout(auto_reconnect);
+      $eva.start();
+    })
+    .catch(err => {});
 }
 
 function eva_ui_create_control_block(block_id) {
@@ -307,7 +307,7 @@ function eva_ui_append_action(el, config, is_btn, item) {
         .then(function() {
           if (is_btn) el.removeClass('busy');
         })
-        .catch(function(g, data) {
+        .catch(function(err) {
           if (is_btn) el.removeClass('busy');
           eva_ui_server_error(err);
         });
@@ -634,39 +634,44 @@ function eva_ui_init() {
   };
   $eva.on('server.reload', function() {
     var ct = 5;
-    //eva_sfa_popup(
-      //'eva_ui_popup',
-      //'warning',
-      //'UI reload',
-      //'Server asked clients to reload UI',
-      //{
-        //ct: ct,
-        //btn1: 'Reload',
-        //btn1a: reload_ui
-      //}
-    //);
-    jsaltt.logger.warning('Server asked clients to reload UI');
-    setTimeout(reload_ui, ct * 1000);
+    var ui_reloader = setTimeout(reload_ui, ct * 1000);
+    $eva.toolbox
+      .popup(
+        'eva_ui_popup',
+        'warning',
+        'UI reload',
+        'Server asked clients to reload UI',
+        {
+          ct: ct,
+          btn1: 'Reload'
+        }
+      )
+      .then(function() {
+        clearTimeout(ui_reloader);
+        reload_ui();
+      })
+      .catch(err=>{});
   });
-  eva_sfa_server_restart_handler = function() {
-    var ct = 15;
-    //eva_sfa_popup(
-      //'eva_ui_popup',
-      //'warning',
-      //'Server restart',
-      //'Server is being restarted, UI will \
-            //be reconnected in ' +
-        //ct +
-        //' seconds. All functions are stopped',
-      //{
-        //ct: ct
-      //}
-    //);
-    jsaltt.logger.warning('Server is being restarting');
+  $eva.on('server.restart', function() {
+    var ct = 3;
+    $eva.toolbox
+      .popup(
+        'eva_ui_popup',
+        'warning',
+        'Server restart',
+        'Server is being restarted, UI will be reconnected in' +
+          ` ${ct} seconds. All functions are stopped`,
+        {
+          ct: ct
+        }
+      )
+      .catch(err=>{})
     eva_ui_stop_cams();
-    $eva.stop();
-    setTimeout(function() { $eva.start() }, ct * 1000);
-  };
+    $eva.stop().catch(err=>{});
+    setTimeout(function() {
+      $eva.start();
+    }, ct * 1000);
+  });
 }
 
 function eva_ui_focus_login_form() {
@@ -1086,8 +1091,9 @@ function eva_ui_start() {
 }
 
 function eva_ui_start_animation() {
+  $('#eva_ui_login_window').hide();
   $('.eva_ui_bg').hide();
-  //eva_sfa_load_animation('eva_ui_anim');
+  $eva.toolbox.animate('eva_ui_anim');
   $('#eva_ui_anim')
     .show()
     .css('display', 'flex');
@@ -1115,7 +1121,7 @@ function eva_ui_open_cc_setup(e) {
     x: e.target.offsetLeft - $(window).scrollLeft() + 30,
     y: e.target.offsetTop - $(window).scrollTop() + 5
   };
-  eva_sfa_hi_qr('evaccqr', {url: eva_ui_config_url, password: null});
+  $eva.toolbox.hiQR('evaccqr', {url: eva_ui_config_url, password: null});
   $('.eva_ui_setup_form').css({
     top: eva_ui_btn_coord.y,
     left: eva_ui_btn_coord.x
@@ -1170,7 +1176,7 @@ function eva_ui_erase_login_cookies() {
 }
 
 function eva_ui_logout() {
-  $eva.stop();
+  $eva.stop().catch(err=>{});
   eva_ui_erase_login_cookies();
   document.location = document.location;
 }
