@@ -447,7 +447,6 @@ function eva_ui_run() {
 }
 
 function eva_ui_init() {
-  $eva.debug = true;
   if (evaHI && evaHI['index']) {
     eva_ui_main_page = evaHI['index'];
   } else {
@@ -653,7 +652,7 @@ function eva_ui_init() {
       .catch(err => {});
   });
   $eva.on('server.restart', function() {
-    var ct = 3;
+    var ct = 15;
     $eva.toolbox
       .popup(
         'eva_ui_popup',
