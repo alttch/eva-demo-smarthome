@@ -533,7 +533,7 @@ function eva_ui_init() {
     eva_ui_login_window.html(
       '<div class="eva_ui_dialog_window"> \
         <form id="eva_ui_login_form" \
-            onsubmit="javascript:eva_ui_submit_login();return false;"> \
+            onsubmit="javascript:eva_ui_submit_login()"> \
           <div class="form-group eva_ui_input_form"> \
             <div class="eva_ui_error_message" id="eva_ui_login_error"></div> \
             <input type="text" class="form-control" name="login" \
@@ -1117,14 +1117,17 @@ function eva_ui_draw_compact_layout() {
 }
 
 function eva_ui_submit_login() {
-  $eva.login = $('#eva_ui_login').val();
-  $eva.password = $('#eva_ui_password').val();
-  if ($('#eva_ui_remember_auth').prop('checked')) {
-    $cookies.create('eva_ui_login', $eva.login, 365);
-    $cookies.create('eva_ui_password', $eva.password, 365);
-  }
-  eva_ui_start_animation();
-  $eva.start();
+  try {
+    $eva.login = $('#eva_ui_login').val();
+    $eva.password = $('#eva_ui_password').val();
+    if ($('#eva_ui_remember_auth').prop('checked')) {
+      $cookies.create('eva_ui_login', $eva.login, 365);
+      $cookies.create('eva_ui_password', $eva.password, 365);
+    }
+    eva_ui_start_animation();
+    $eva.start();
+  } catch (err) {}
+  return false;
 }
 
 function eva_ui_start() {
