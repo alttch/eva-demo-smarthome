@@ -533,7 +533,7 @@ function eva_ui_init() {
     eva_ui_login_window.html(
       '<div class="eva_ui_dialog_window"> \
         <form id="eva_ui_login_form" \
-            onsubmit="javascript:eva_ui_submit_login()"> \
+            onsubmit="javascript:return eva_ui_submit_login(event)"> \
           <div class="form-group eva_ui_input_form"> \
             <div class="eva_ui_error_message" id="eva_ui_login_error"></div> \
             <input type="text" class="form-control" name="login" \
@@ -1116,7 +1116,8 @@ function eva_ui_draw_compact_layout() {
   });
 }
 
-function eva_ui_submit_login() {
+function eva_ui_submit_login(e) {
+  e.preventDefault();
   try {
     $eva.login = $('#eva_ui_login').val();
     $eva.password = $('#eva_ui_password').val();
