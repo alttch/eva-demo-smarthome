@@ -9,7 +9,7 @@ dir_img = sys.argv[1]
 
 from eva.client.apiclient import APIClientLocal
 
-a = APIClientLocal()
+a = APIClientLocal('uc')
 
 app = Flask(__name__)
 
