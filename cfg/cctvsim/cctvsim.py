@@ -7,11 +7,9 @@ sys.path.append('/opt/eva/lib')
 
 dir_img = sys.argv[1]
 
-from eva.client.apiclient import APIClient
+from eva.client.apiclient import APIClientLocal
 
-a = APIClient()
-a.set_uri('http://10.27.14.199:8812')
-a.set_key('demo123')
+a = APIClientLocal()
 
 app = Flask(__name__)
 
