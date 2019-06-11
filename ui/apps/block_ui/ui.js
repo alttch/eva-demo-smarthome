@@ -46,6 +46,7 @@ function eva_ui_server_error(err) {
 }
 
 function eva_ui_server_is_gone(err) {
+  eva_ui_stop_cams();
   var ct = 10;
   var auto_reconnect = setTimeout(function() {
     $eva.start();
