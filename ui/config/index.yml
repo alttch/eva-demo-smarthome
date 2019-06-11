@@ -182,11 +182,11 @@ data-blocks:
 
 cameras:
   room1:
-    image: http://10.90.1.136:8828/rpvt?f=127.0.0.1:8118/cam/1?nocache=$NOCACHE
+    image: /rpvt?f=127.0.0.1:8118/cam/1?nocache=$NOCACHE
   room2:
-    image: http://10.90.1.136:8828/rpvt?f=127.0.0.1:8118/cam/2?nocache=$NOCACHE
+    image: /rpvt?f=127.0.0.1:8118/cam/2?nocache=$NOCACHE
   room3:
-    image: http://10.90.1.136:8828/rpvt?f=127.0.0.1:8118/cam/3?nocache=$NOCACHE
+    image: /rpvt?f=127.0.0.1:8118/cam/3?nocache=$NOCACHE
 
  
 control-blocks:
