@@ -576,7 +576,7 @@ function eva_ui_init() {
     });
     $eva.on('heartbeat.error', function() {
       $eva
-        .stop()
+        .stop(true)
         .then(eva_ui_server_is_gone)
         .catch(eva_ui_server_is_gone);
     });
@@ -666,7 +666,7 @@ function eva_ui_init() {
       )
       .catch(err => {});
     eva_ui_stop_cams();
-    $eva.stop().catch(err => {});
+    $eva.stop(true).catch(err => {});
     setTimeout(function() {
       $eva.start();
     }, ct * 1000);
@@ -1236,6 +1236,5 @@ function eva_ui_erase_login_cookies() {
 
 function eva_ui_logout() {
   $eva.stop().catch(err => {});
-  eva_ui_erase_login_cookies();
   document.location = document.location;
 }
