@@ -231,14 +231,13 @@ layout:
     data-block: 3
     sys-block: true
 
-#layout-compact:
-  #elements:
-    #- { type: control-block, id: 2 }
-    #- { type: control-block, id: 3 }
-    #- { type: spacer }
-    #- { type: control-block, id: 5 }
-    #- { type: data-block, id: 1 }
-    #- { type: spacer }
-    #- { type: control-block, id: 1 }
-    #- { type: data-block, id: 2 }
-    #- { type: sys-block }
+layout-compact:
+  elements:
+    - { type: control-block, id: 2 }
+    - { type: control-block, id: 3 }
+    - { type: spacer }
+    - { type: control-block, id: 5 }
+    - { type: data-block, id: 1 }
+    - { type: spacer }
+    - { type: control-block, id: 1 }
+    - { type: data-block, id: 2 }

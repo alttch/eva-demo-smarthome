@@ -1091,6 +1091,7 @@ function eva_ui_draw_compact_layout() {
         }
       }
       eva_ui_content_holder.append(row);
+      eva_ui_content_holder.addClass('compact');
     });
   } else if (eva_ui_config_class == 'sensors') {
     return eva_ui_draw_layout();

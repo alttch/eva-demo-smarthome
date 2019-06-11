@@ -718,6 +718,9 @@ html, body {
     width: 100%;
   }
   .eva_ui_content_holder.with_topbar {
+    margin-top: 15px;
+  }
+  .eva_ui_content_holder.with_topbar.compact {
     margin-top: 40px;
   }
   .eva_bar_holder {
