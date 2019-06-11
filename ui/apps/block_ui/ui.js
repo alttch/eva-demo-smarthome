@@ -994,7 +994,7 @@ function eva_ui_draw_layout() {
   var cams = Array();
   if (eva_ui_config_class == 'dashboard') {
     var eva_bar_holder = $('<div />', {class: 'eva_bar_holder'});
-    for (i = 1; i < 4; i++) {
+    for (i = 1; i < 20; i++) {
       if ('bar' + i in eva_ui_config_layout) {
         var bar = $('<div />').addClass('eva_ui_bar');
         var bar_cfg = eva_ui_config_layout['bar' + i];

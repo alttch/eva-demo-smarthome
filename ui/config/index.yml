@@ -252,9 +252,9 @@ layout:
   #elements:
     #- { type: control-block, id: 2 }
     #- { type: control-block, id: 3 }
-    #- { type: spacer }
+    #- { type: camera, id: room1 }
     #- { type: control-block, id: 5 }
     #- { type: data-block, id: 1 }
-    #- { type: spacer }
+    #- { type: camera, id: room2 }
     #- { type: control-block, id: 1 }
     #- { type: data-block, id: 2 }
