@@ -733,7 +733,7 @@ function eva_ui_init_top_bar() {
   }
   if (evaHI && evaHI['menu']) {
     $.each(evaHI['menu'], function(i, v) {
-      menu.append(create_menu_item(v['name'], v['icon'], v['url']));
+      menu.append(create_menu_item(v['name'], '/' + v['icon'], v['url']));
     });
   }
   menu.append(create_menu_item('EvaCC setup', 'evahi', eva_ui_open_cc_setup));
@@ -759,7 +759,24 @@ function create_menu_item(title, icon, action) {
   menu_item.addClass('eva_ui_menu_item');
   var menu_icon = $('<div />');
   menu_icon.addClass('eva_ui_menu_icon');
-  menu_icon.addClass('i_' + icon);
+  if (!icon.startsWith('/')) {
+    menu_icon.addClass('i_' + icon);
+  } else {
+    let className = 'i_' + icon.substring(1, icon.lastIndexOf('.'));
+    menu_icon.addClass(className);
+    let style = '<style>\n' +
+      '.eva_ui_menu_icon.' + className + ' {\n\t' +
+      'background-image: url("/.evahi/icons' + icon + '");\n' +
+      '}\n' + 
+      '.active_menu .eva_ui_menu_icon.' + className + ',\n' +
+      '.eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.' +
+      className + ' {\n\t' +
+      'background-image: url("/.evahi/icons/active_' + icon.substring(1) + '");\n' +
+      '}\n' +
+      '</style>';
+    menu_icon.append(style);
+    // menu_icon.css('background-image', 'url(/.evahi/icons' + icon + ')');
+  }
   menu_item.append(menu_icon);
   menu_item.append(
     $('<div />')

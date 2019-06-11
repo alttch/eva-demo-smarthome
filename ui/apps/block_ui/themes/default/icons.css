@@ -6,18 +6,10 @@
 .eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.i_home {
   background-image: url('menu_icons/home_active.svg');
 }
-.eva_ui_menu_icon.i_sensors {
-  background-image: url('menu_icons/sensor.svg');
-}
-.active_menu .eva_ui_menu_icon.i_sensors,
-.eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.i_sensors {
-  background-image: url('menu_icons/sensor_active.svg');
-}
 .eva_ui_menu_icon.i_evahi {
   background-image: url('menu_icons/phone.svg');
 }
-.active_menu .eva_ui_menu_icon.i_evahi,
-.eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.i_evahi, {
+.eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.i_evahi {
   background-image: url('menu_icons/phone_active.svg');
 }
 .eva_ui_menu_icon.i_logout {

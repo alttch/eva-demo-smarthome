@@ -47,6 +47,10 @@ html, body {
   font-size: 18px;
   cursor: pointer;
 }
+.eva_ui_menu_item:not(:disabled):hover,
+.eva_ui_menu_item.active_menu {
+  color: #1a1a1a;
+}
 .eva_ui_menu_title {
   margin-left: 35px;
 }
@@ -711,10 +715,6 @@ html, body {
     outline: none;
     background-color: #ececec;
     border-color: #ccc;
-  }
-  .eva_ui_menu_item:not(:disabled):hover,
-  .eva_ui_menu_item.active_menu {
-    color: #1a1a1a;
   }
   .eva_ui_content_holder {
     margin-top: -45px;
