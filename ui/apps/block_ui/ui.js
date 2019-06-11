@@ -654,6 +654,8 @@ function eva_ui_init() {
   });
   $eva.on('server.restart', function() {
     var ct = 15;
+    eva_ui_stop_cams();
+    $eva.stop(true).catch(err => {});
     $eva.toolbox
       .popup(
         'eva_ui_popup',
@@ -666,8 +668,6 @@ function eva_ui_init() {
         }
       )
       .catch(err => {});
-    eva_ui_stop_cams();
-    $eva.stop(true).catch(err => {});
     setTimeout(function() {
       $eva.start();
     }, ct * 1000);
