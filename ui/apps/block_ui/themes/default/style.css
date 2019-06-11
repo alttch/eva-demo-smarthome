@@ -380,7 +380,6 @@ html, body {
 .eva_ui_camera_block {
   width: 100%;
   text-align: center;
-  height: 200px;
   margin-top: 10px;
 }
 .eva_ui_control_block {
@@ -734,6 +733,10 @@ html, body {
   .mob_layout {
     width: 100%;
     padding: 0 10px;
+  }
+  .eva_ui_cam_preview {
+    width: 380px;
+    height: 235px;
   }
 }
 @media (min-width: 768px) {
