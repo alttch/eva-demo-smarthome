@@ -844,7 +844,10 @@ function eva_ui_close_menu() {
   }
 }
 
+function eva_ui_prepare_layout() {}
+
 function eva_ui_redraw_layout() {
+  eva_ui_prepare_layout();
   eva_ui_content_holder.empty();
   eva_ui_top_bar();
   eva_ui_stop_cams();
