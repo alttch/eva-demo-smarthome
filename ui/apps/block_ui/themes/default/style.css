@@ -363,6 +363,10 @@ html, body {
   border-radius: 5px;
   border: 2px solid #ccc;
 }
+.eva_ui_cam_preview {
+  width: 315px;
+  height: 200px;
+}
 .eva_ui_bar {
   margin-top: 50px;
   width: 320px;
@@ -377,6 +381,7 @@ html, body {
   width: 100%;
   text-align: center;
   height: 200px;
+  margin-top: 10px;
 }
 .eva_ui_control_block {
   display: flex;

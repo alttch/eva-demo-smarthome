@@ -180,6 +180,14 @@ data-blocks:
       - hum_ext
       - pressure
 
+cameras:
+  room1:
+    image: http://10.90.1.136:8828/rpvt?f=127.0.0.1:8118/cam/1?nocache=$NOCACHE
+  room2:
+    image: http://10.90.1.136:8828/rpvt?f=127.0.0.1:8118/cam/2?nocache=$NOCACHE
+  room3:
+    image: http://10.90.1.136:8828/rpvt?f=127.0.0.1:8118/cam/3?nocache=$NOCACHE
+
  
 control-blocks:
   1:
@@ -215,29 +223,38 @@ control-blocks:
       - exit
 layout:
   bar1:
+    camera:
+      id: room1
+      reload: 1
     control-blocks:
       - 1
       - 4
     data-block: 1
   bar2:
+    camera:
+      id: room2
+      reload: 1
     control-blocks:
       - 2
       - 5
     data-block: 2
   bar3:
+    camera:
+      id: room3
+      reload: 1
     control-blocks:
       - 3
       - 6
     data-block: 3
     sys-block: true
 
-layout-compact:
-  elements:
-    - { type: control-block, id: 2 }
-    - { type: control-block, id: 3 }
-    - { type: spacer }
-    - { type: control-block, id: 5 }
-    - { type: data-block, id: 1 }
-    - { type: spacer }
-    - { type: control-block, id: 1 }
-    - { type: data-block, id: 2 }
+#layout-compact:
+  #elements:
+    #- { type: control-block, id: 2 }
+    #- { type: control-block, id: 3 }
+    #- { type: spacer }
+    #- { type: control-block, id: 5 }
+    #- { type: data-block, id: 1 }
+    #- { type: spacer }
+    #- { type: control-block, id: 1 }
+    #- { type: data-block, id: 2 }

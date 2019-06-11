@@ -5,8 +5,7 @@ import os
 
 sys.path.append('/opt/eva/lib')
 
-dir_img = os.path.realpath(
-    os.path.dirname(os.path.realpath(__file__)) + '/images')
+dir_img = sys.argv[1]
 
 from eva.client.apiclient import APIClient
 

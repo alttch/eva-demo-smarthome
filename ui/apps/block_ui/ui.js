@@ -650,7 +650,7 @@ function eva_ui_init() {
         clearTimeout(ui_reloader);
         reload_ui();
       })
-      .catch(err=>{});
+      .catch(err => {});
   });
   $eva.on('server.restart', function() {
     var ct = 3;
@@ -665,9 +665,9 @@ function eva_ui_init() {
           ct: ct
         }
       )
-      .catch(err=>{})
+      .catch(err => {});
     eva_ui_stop_cams();
-    $eva.stop().catch(err=>{});
+    $eva.stop().catch(err => {});
     setTimeout(function() {
       $eva.start();
     }, ct * 1000);
@@ -764,14 +764,24 @@ function create_menu_item(title, icon, action) {
   } else {
     var className = 'i_' + icon.substring(1, icon.lastIndexOf('.'));
     menu_icon.addClass(className);
-    var style = '<style>\n' +
-      '.eva_ui_menu_icon.' + className + ' {\n\t' +
-      'background-image: url("/.evahi/icons' + icon + '");\n' +
-      '}\n' + 
-      '.active_menu .eva_ui_menu_icon.' + className + ',\n' +
+    var style =
+      '<style>\n' +
+      '.eva_ui_menu_icon.' +
+      className +
+      ' {\n\t' +
+      'background-image: url("/.evahi/icons' +
+      icon +
+      '");\n' +
+      '}\n' +
+      '.active_menu .eva_ui_menu_icon.' +
+      className +
+      ',\n' +
       '.eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.' +
-      className + ' {\n\t' +
-      'background-image: url("/.evahi/icons/active_' + icon.substring(1) + '");\n' +
+      className +
+      ' {\n\t' +
+      'background-image: url("/.evahi/icons/active_' +
+      icon.substring(1) +
+      '");\n' +
       '}\n' +
       '</style>';
     menu_icon.append(style);
@@ -789,7 +799,7 @@ function create_menu_item(title, icon, action) {
     menu_item.on('click', function() {
       document.location = action;
     });
-    if(document.location.href.endsWith(action)) {
+    if (document.location.href.endsWith(action)) {
       menu_item.addClass('active_menu');
     }
   }
@@ -812,12 +822,12 @@ function eva_ui_toggle_menu() {
   if (eva_ui_menu_active) {
     eva_ui_close_menu();
   } else {
-    eva_ui_open_menu()
+    eva_ui_open_menu();
   }
 }
 
 function eva_ui_open_menu() {
-  $('body').css("overflow","hidden");
+  $('body').css('overflow', 'hidden');
   eva_ui_menu_active = true;
   $('#eva_ui_hamb').addClass('open');
   $('#eva_ui_menu').animate({width: 'toggle'}, 250);
@@ -826,7 +836,7 @@ function eva_ui_open_menu() {
 
 function eva_ui_close_menu() {
   if (eva_ui_menu_active) {
-    $('body').css("overflow","auto");
+    $('body').css('overflow', 'auto');
     eva_ui_menu_active = false;
     $('#eva_ui_hamb').removeClass('open');
     $('#eva_ui_menu').animate({width: 'toggle'}, 250);
@@ -879,7 +889,9 @@ function eva_ui_create_cam(cam_cfg) {
   var reload_int = cam_cfg['reload'];
   if (!reload_int) reload_int = 1;
   var cam = $('<div />').addClass('eva_ui_camera_block');
-  var cam_img = $('<img />').attr('id', 'eva_ui_camera_' + cam_id);
+  var cam_img = $('<img />')
+    .attr('id', 'eva_ui_camera_' + cam_id)
+    .addClass('eva_ui_cam_preview');
   cam_img.appendTo(cam);
   var reloader = setInterval(
     'eva_ui_reload_camera("' + cam_id + '")',
@@ -978,7 +990,7 @@ function eva_ui_create_chart(chart_id, reload) {
 function eva_ui_draw_layout() {
   var cams = Array();
   if (eva_ui_config_class == 'dashboard') {
-    var eva_bar_holder = $('<div />', {class: 'eva_bar_holder'})
+    var eva_bar_holder = $('<div />', {class: 'eva_bar_holder'});
     for (i = 1; i < 4; i++) {
       if ('bar' + i in eva_ui_config_layout) {
         var bar = $('<div />').addClass('eva_ui_bar');
@@ -1217,7 +1229,7 @@ function eva_ui_erase_login_cookies() {
 }
 
 function eva_ui_logout() {
-  $eva.stop().catch(err=>{});
+  $eva.stop().catch(err => {});
   eva_ui_erase_login_cookies();
   document.location = document.location;
 }
