@@ -978,6 +978,7 @@ function eva_ui_create_chart(chart_id, reload) {
 function eva_ui_draw_layout() {
   var cams = Array();
   if (eva_ui_config_class == 'dashboard') {
+    var eva_bar_holder = $('<div />', {class: 'eva_bar_holder'})
     for (i = 1; i < 4; i++) {
       if ('bar' + i in eva_ui_config_layout) {
         var bar = $('<div />').addClass('eva_ui_bar');
@@ -1011,7 +1012,8 @@ function eva_ui_draw_layout() {
             .appendTo(dblk);
         }
         if (dblk) bar.append(dblk);
-        eva_ui_content_holder.append(bar);
+        eva_bar_holder.append(bar);
+        eva_ui_content_holder.append(eva_bar_holder);
       }
     }
   } else if (eva_ui_config_class == 'sensors') {

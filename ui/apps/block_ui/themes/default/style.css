@@ -350,6 +350,11 @@ html, body {
   width: 320px;
   margin: auto;
 }
+.eva_bar_holder {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
 .eva_ui_content_holder_sensors {
   display: flex;
   flex-wrap: wrap;
@@ -715,6 +720,9 @@ html, body {
   .eva_ui_content_holder.with_topbar {
     margin-top: 40px;
   }
+  .eva_bar_holder {
+    padding: 0 10px;
+  }
   .mob_layout {
     width: 100%;
     padding: 0 10px;
@@ -737,7 +745,7 @@ html, body {
   .eva_ui_bar:first-child {
     margin-top: 50px;
   }
-  .eva_ui_bar:nth-child(2n + 4) {
+  .eva_ui_bar:nth-child(2n + 1) {
     width: 333px;
     margin-right: 11px;
     padding-right: 11px;
@@ -763,14 +771,14 @@ html, body {
   .eva_ui_content_holder {
     width: 990px;
   }
-  .eva_ui_bar:nth-child(2n + 4) {
+  .eva_ui_bar:nth-child(2n + 1) {
     width: 320px;
     margin-right: 0;
     padding-right: 0;
     border-right: none;
   }
-  .eva_ui_bar:nth-child(3n + 4),
-  .eva_ui_bar:nth-child(3n + 5)  {
+  .eva_ui_bar:nth-child(3n + 1),
+  .eva_ui_bar:nth-child(3n + 2)  {
     width: 328px;
     margin-right: 6px;
     padding-right: 6px;
@@ -784,8 +792,8 @@ html, body {
   .eva_ui_content_holder {
     width: 1008px;
   }
-  .eva_ui_bar:nth-child(3n + 4),
-  .eva_ui_bar:nth-child(3n + 5) {
+  .eva_ui_bar:nth-child(3n + 1),
+  .eva_ui_bar:nth-child(3n + 2) {
     width: 333px;
     margin-right: 11px;
     padding-right: 11px;
