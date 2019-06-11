@@ -1,4 +1,4 @@
-from flask import Flask, app, abort, Response
+from flask import Flask, request, app, abort, Response
 
 import sys
 import os
@@ -42,23 +42,25 @@ def cctv(cam_id):
     fname = '{}/{}_{}_{}_{}.jpg'.format(dir_img, cam_id, l_c, win_c, amb_c)
     try:
         image = Image.open(fname)
-        draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype(dir_img + '/VeraBd.ttf', 20)
-        for y in range(30):
-            draw.line(((0, y), (image.size[0], y)), fill="black")
-        txt = '{} {}'.format(room_id.upper(),
-                             datetime.datetime.now().strftime('%Y-%m-%d %T'))
-        draw.text(
-            (image.size[0] - 10 - len(txt) * 13, 3),
-            txt,
-            font=font,
-            fill='white')
-        resp = Response(image.tobytes('jpeg', 'RGB', 85))
-        resp.headers['Content-Type'] = 'image/jpeg'
-        return resp
     except:
-        raise
         abort(404)
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype(dir_img + '/VeraBd.ttf', 20)
+    for y in range(30):
+        draw.line(((0, y), (image.size[0], y)), fill="black")
+    txt = '{} {}'.format(room_id.upper(),
+                         datetime.datetime.now().strftime('%Y-%m-%d %T'))
+    draw.text(
+        (image.size[0] - 10 - len(txt) * 13, 3),
+        txt,
+        font=font,
+        fill='white')
+    size = request.args.get('s')
+    if size:
+        image.thumbnail([int(x) for x in size.split('x')])
+    resp = Response(image.tobytes('jpeg', 'RGB', 85))
+    resp.headers['Content-Type'] = 'image/jpeg'
+    return resp
 
 
 app.run(host='127.0.0.1', port=8118)
