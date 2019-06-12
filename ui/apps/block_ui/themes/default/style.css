@@ -699,7 +699,7 @@ html, body {
   }
   .container {
     width: 100%;
-    max-width: 440px;
+    max-width: 460px;
   }
   .eva_ui_bar {
     width: 100%;
@@ -736,11 +736,11 @@ html, body {
     margin-top: 45px;
   }
   .eva_bar_holder {
-    padding: 0 20px;
+    padding: 0 30px;
   }
   .mob_layout {
     width: 100%;
-    padding: 0 20px;
+    padding: 0 30px;
   }
   .eva_ui_cam_preview {
     width: 100%;
