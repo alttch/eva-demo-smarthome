@@ -691,6 +691,7 @@ function eva_ui_update_sysblock() {
     $('.eva_version').html($eva.server_info.version);
     $('.eva_build').html($eva.server_info.product_build);
     $('.eva_key_id').html($eva.server_info.acl.key_id);
+    $('.eva_user').html($eva.authorized_user);
   }
 }
 
@@ -1057,7 +1058,7 @@ function eva_ui_create_sysblock(mini) {
   var html =
     'EVA ICS v<span class="eva_version"></span>, \
     build <span class="eva_build"></span>, \
-    key id: <span class="eva_key_id"></span>';
+    user: <span class="eva_user"></span>';
   if (!mini) {
     html = html + '<br />';
     if (!navigator.userAgent.startsWith('evaHI ')) {
