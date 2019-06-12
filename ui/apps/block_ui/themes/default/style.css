@@ -473,6 +473,11 @@ html, body {
   width: 320px;
   height: 100px;
 }
+.eva_ui_chart_title {
+  padding-left: 30px;
+  font-size: 14px;
+  color: #808080;
+}
 .eva_ui_chart_value {
   height: 50px;
   padding-left: 70px;
@@ -727,6 +732,9 @@ html, body {
   .eva_ui_content_holder.with_topbar.compact {
     margin-top: 40px;
   }
+  .eva_ui_content_holder_sensors.with_topbar {
+    margin-top: 45px;
+  }
   .eva_bar_holder {
     padding: 0 10px;
   }
@@ -752,6 +760,9 @@ html, body {
   }
   .eva_ui_content_holder.with_topbar {
     margin-top: -15px;
+  }
+  .eva_ui_content_holder_sensors.with_topbar {
+    margin-top: 45px;
   }
   .eva_ui_bar:first-child {
     margin-top: 50px;
