@@ -736,15 +736,15 @@ html, body {
     margin-top: 45px;
   }
   .eva_bar_holder {
-    padding: 0 10px;
+    padding: 0 20px;
   }
   .mob_layout {
     width: 100%;
-    padding: 0 10px;
+    padding: 0 20px;
   }
   .eva_ui_cam_preview {
-    width: 380px;
-    height: 235px;
+    width: 100%;
+    height: auto;
   }
 }
 @media (min-width: 768px) {
