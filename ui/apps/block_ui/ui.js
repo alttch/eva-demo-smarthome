@@ -623,11 +623,13 @@ function eva_ui_init() {
     );
     eva_ui_content_holder.hide();
     eva_ui_content_holder.appendTo(bg);
-    bg.append(
-      $('<div />')
-        .addClass('eva_ui_sysblock')
-        .html(eva_ui_create_sysblock())
-    );
+    if (eva_ui_config_layout['sys-block']) {
+      bg.append(
+        $('<div />')
+          .addClass('eva_ui_sysblock')
+          .html(eva_ui_create_sysblock())
+      );
+    }
     bg.appendTo('body');
   }
   var reload_ui = function() {
@@ -711,10 +713,7 @@ function eva_ui_init_top_bar() {
   }
   hamb.on('click', eva_ui_toggle_menu);
   topbar.append(hamb);
-  var html =
-    'EVA ICS v<span class="eva_version"></span>, \
-    build <span class="eva_build"></span>, \
-    key id: <span class="eva_key_id"></span>';
+  var html = eva_ui_create_sysblock(true);
   $('<div />')
     .addClass('eva_ui_top_bar_sysblock')
     .html(html)
@@ -941,7 +940,7 @@ function eva_ui_create_chart(chart_id, reload) {
   if (!reload_int) reload_int = 60;
   var chart = $('<div />').addClass('eva_ui_chart_item');
   var chart_title = chart_config['title'];
-  if (!chart_title) chart_title = '&nbsp;'
+  if (!chart_title) chart_title = '&nbsp;';
   $('<div />')
     .addClass('eva_ui_chart_title')
     .html(chart_title)

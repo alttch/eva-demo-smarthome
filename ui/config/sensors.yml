@@ -99,3 +99,4 @@ layout:
     - { id: room2_hum, reload: 180 }
     - { id: outdoor_temp, reload: 180 }
     - { id: outdoor_hum, reload: 180 }
+  #sys-block: true
