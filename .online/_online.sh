@@ -24,7 +24,7 @@ sed "s/- MASTERKEY=.*/- MASTERKEY=${MASTERKEY}/g" docker-compose.yml | \
   grep -v $'ports:\n.*\- "8828:8828"' > docker-compose-online-demo.yml
 
 sh ./.online/_online-deploy.sh || exit 1
-#python3 ./.online/_online-demo-initial-generator.py || exit 1
+python3 ./.online/_online-demo-initial-generator.py || exit 1
 rm -f ./.online/_sse.sh
 cat > ./.online/_sse.sh <<EOF
 #!/bin/sh
