@@ -91,6 +91,21 @@ charts:
       fill: 30T:1
       prop: value
 
+  air_pressure:
+    icon: pressure
+    title: Air pressure
+    item: sensor:env/air_pressure
+    cfg: default
+    u: " hPa"
+    color: red
+    fill: "false"
+    #background-color: orange
+    decimals: 0
+    params:
+      timeframe: 1D
+      fill: 30T:1
+      prop: value
+
 layout:
   charts:
     - { id: room1_temp, reload: 180 }
