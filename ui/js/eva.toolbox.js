@@ -23,98 +23,107 @@
  */
 function eva_toolbox_chart(ctx, cfg, oid, params, _do_update) {
   if (document === 'undfined') throw Error('DOM is required');
-  var params = jsaltt.extend({}, params);
-  var _oid;
-  if (typeof oid === 'object') {
-    _oid = oid;
-  } else {
-    _oid = oid.split(',');
-  }
-  var timeframe = params['timeframe'];
-  if (!timeframe) {
-    timeframe = '1D';
-  }
-  var fill = params['fill'];
-  if (!fill) {
-    fill = '30T:2';
-  }
-  var update = params['update'];
-  var prop = params['prop'];
-  var cc = document.getElementById(ctx);
-  var data_units = params['u'];
-  var chart = null;
-  if (_do_update) {
-    chart = _do_update;
-  }
-  if (
-    _do_update !== undefined &&
-    (cc.offsetWidth <= 0 || cc.offsetHeight <= 0)
-  ) {
-    if (chart) chart.destroy();
-    return;
-  }
-  var d = new Date();
-  if (timeframe[timeframe.length - 1] == 'T') {
-    d.setMinutes(d.getMinutes() - timeframe.substring(0, timeframe.length - 1));
-  } else if (timeframe[timeframe.length - 1] == 'H') {
-    d.setHours(d.getHours() - timeframe.substring(0, timeframe.length - 1));
-  } else if (timeframe[timeframe.length - 1] == 'D') {
-    d.setHours(
-      d.getHours() - timeframe.substring(0, timeframe.length - 1) * 24
-    );
-  }
-  if (!_do_update) eva_toolbox_animate(ctx);
-  var x = 'value';
-  if (prop !== undefined && prop !== null) {
-    x = prop;
-  }
-  $eva
-    .call('history', _oid, {t: 'iso', s: d.toISOString(), x: x, w: fill})
-    .then(function(data) {
-      if (chart) {
-        chart.data.labels = data.t;
-        for (var i = 0; i < _oid.length; i++) {
-          chart.data.datasets[i].data = data[_oid[i] + '/' + x];
-        }
-        chart.update();
-      } else {
-        var canvas = document.createElement('canvas');
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.className = 'eva_toolbox_chart';
-        var work_cfg = jsaltt.extend({}, cfg);
-        work_cfg.data.labels = data.t;
-        for (var i = 0; i < _oid.length; i++) {
-          work_cfg.data.datasets[i].data = data[_oid[i] + '/' + x];
-        }
-        cc.innerHTML = '';
-        cc.appendChild(canvas);
-        chart = new Chart(canvas, work_cfg);
-        if (data_units) {
-          work_cfg.options.tooltips.callbacks.label = function(tti) {
-            return tti.yLabel + data_units;
-          };
-        }
-      }
-    })
-    .catch(function(err) {
-      var d_error = document.createElement('div');
-      d_error.className = 'eva_toolbox_chart';
-      d_error.style.cssText =
-        'width: 100%; height: 100%; ' +
-        'color: red; font-weight: bold; font-size: 14px';
-      d_error.innerHTML = 'Error loading chart data: ' + err.message;
-      cc.innerHTML = '';
-      cc.appendChild(d_error);
+  var chartfunc = function() {
+    var params = jsaltt.extend({}, params);
+    var _oid;
+    if (typeof oid === 'object') {
+      _oid = oid;
+    } else {
+      _oid = oid.split(',');
+    }
+    var timeframe = params['timeframe'];
+    if (!timeframe) {
+      timeframe = '1D';
+    }
+    var fill = params['fill'];
+    if (!fill) {
+      fill = '30T:2';
+    }
+    var update = params['update'];
+    var prop = params['prop'];
+    var cc = document.getElementById(ctx);
+    var data_units = params['u'];
+    var chart = null;
+    if (_do_update) {
+      chart = _do_update;
+    }
+    if (
+      _do_update !== undefined &&
+      (cc.offsetWidth <= 0 || cc.offsetHeight <= 0)
+    ) {
       if (chart) chart.destroy();
-      chart = null;
-    });
-  if (update) {
-    var me = arguments.callee;
-    setTimeout(function() {
-      me(ctx, cfg, _oid, params, chart);
-    }, update * 1000);
-  }
+      return;
+    }
+    var d = new Date();
+    if (timeframe[timeframe.length - 1] == 'T') {
+      d.setMinutes(
+        d.getMinutes() - timeframe.substring(0, timeframe.length - 1)
+      );
+    } else if (timeframe[timeframe.length - 1] == 'H') {
+      d.setHours(d.getHours() - timeframe.substring(0, timeframe.length - 1));
+    } else if (timeframe[timeframe.length - 1] == 'D') {
+      d.setHours(
+        d.getHours() - timeframe.substring(0, timeframe.length - 1) * 24
+      );
+    }
+    if (!_do_update) eva_toolbox_animate(ctx);
+    var x = 'value';
+    if (prop !== undefined && prop !== null) {
+      x = prop;
+    }
+    $eva
+      .call('state_history', _oid, {
+        t: 'iso',
+        s: d.toISOString(),
+        x: x,
+        w: fill
+      })
+      .then(function(data) {
+        if (chart) {
+          chart.data.labels = data.t;
+          for (var i = 0; i < _oid.length; i++) {
+            chart.data.datasets[i].data = data[_oid[i] + '/' + x];
+          }
+          chart.update();
+        } else {
+          var canvas = document.createElement('canvas');
+          canvas.style.width = '100%';
+          canvas.style.height = '100%';
+          canvas.className = 'eva_toolbox_chart';
+          var work_cfg = jsaltt.extend({}, cfg);
+          work_cfg.data.labels = data.t;
+          for (var i = 0; i < _oid.length; i++) {
+            work_cfg.data.datasets[i].data = data[_oid[i] + '/' + x];
+          }
+          cc.innerHTML = '';
+          cc.appendChild(canvas);
+          chart = new Chart(canvas, work_cfg);
+          if (data_units) {
+            work_cfg.options.tooltips.callbacks.label = function(tti) {
+              return tti.yLabel + data_units;
+            };
+          }
+        }
+      })
+      .catch(function(err) {
+        var d_error = document.createElement('div');
+        d_error.className = 'eva_toolbox_chart';
+        d_error.style.cssText =
+          'width: 100%; height: 100%; ' +
+          'color: red; font-weight: bold; font-size: 14px';
+        d_error.innerHTML = 'Error loading chart data: ' + err.message;
+        cc.innerHTML = '';
+        cc.appendChild(d_error);
+        if (chart) chart.destroy();
+        chart = null;
+      });
+    if (update) {
+      setTimeout(function() {
+        chartfunc(ctx, cfg, _oid, params, chart);
+      }, update * 1000);
+    }
+  };
+  chartfunc();
 }
 
 /**

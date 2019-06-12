@@ -610,6 +610,7 @@ function eva_ui_init() {
     }
     $eva.on('login.success', function() {
       eva_ui_update_sysblock();
+      eva_ui_run();
     });
     $eva.on('login.failed', function(err) {
       document.location = eva_ui_main_page;
@@ -939,6 +940,12 @@ function eva_ui_create_chart(chart_id, reload) {
   var chart_config = eva_ui_config_charts[chart_id];
   if (!reload_int) reload_int = 60;
   var chart = $('<div />').addClass('eva_ui_chart_item');
+  var chart_title = chart_config['title'];
+  if (!chart_title) chart_title = '&nbsp;'
+  $('<div />')
+    .addClass('eva_ui_chart_title')
+    .html(chart_title)
+    .appendTo(chart);
   var chart_info = $('<div />')
     .addClass('eva_ui_chart_value')
     .addClass('eva_ui_data_item')
@@ -979,7 +986,7 @@ function eva_ui_create_chart(chart_id, reload) {
   params['u'] = chart_config['u'];
   var ccfg = eva_ui_create_chart_config(chart_config);
   var creator = function() {
-    eva_sfa_chart(
+    $eva.toolbox.chart(
       'eva_ui_chart_content_' + chart_id,
       ccfg,
       chart_config['item'],
@@ -1239,6 +1246,9 @@ function eva_ui_logout() {
   var l = function() {
     eva_ui_erase_login_cookies();
     document.location = document.location;
-  }
-  $eva.stop().then(l).catch(err => l);
+  };
+  $eva
+    .stop()
+    .then(l)
+    .catch(err => l);
 }

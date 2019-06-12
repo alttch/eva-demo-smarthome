@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Dashboard - EVA ICS Home Control demo</title>
+    <title>Sensor charts - EVA ICS Home Control demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,
         user-scalable=no" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -11,18 +11,20 @@
     <script type="text/javascript" src=".evahi/config.yml?as=js&var=evaHI"></script>
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/qrious.min.js"></script>
+    <script type="text/javascript" src="lib/moment.min.js"></script>
+    <script type="text/javascript" src="lib/chart.min.js"></script>
     <script type="text/javascript" src="lib/swipe.js"></script>
     <script type="text/javascript" src="js/eva.min.js"></script>
     <script type="text/javascript" src="js/eva.toolbox.js"></script>
     <script type="text/javascript" src="apps/block_ui/lib/popper-1.14.3.min.js"></script>
     <script type="text/javascript" src="apps/block_ui/lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="apps/block_ui/ui.js"></script>
-    <script type="text/javascript" src="config/index.yml?as=js&var=eva_ui_config"></script>
+    <script type="text/javascript" src="config/sensors.yml?as=js&var=eva_ui_config"></script>
     <script type="text/javascript" src="config/chart_options.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
         // enable framework debug
-        $eva.debug = true;
+//        $eva.debug = true;
         eva_ui_prepare_layout = function() {
           // modify configuration, e.g. for the specified user
           //console.log($eva.authorized_user);

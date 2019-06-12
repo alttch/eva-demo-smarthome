@@ -60,28 +60,28 @@ buttons:
   thermo_room1_15:
     icon: thermostat.s_1
     action: unit:thermo/room1
-    title: "Set 15&#8451;"
+    title: "Set 15°C"
     action_params:
       s: 1
       v: 15
   thermo_room1_20:
     icon: thermostat.s_1
     action: unit:thermo/room1
-    title: "Set 20&#8451;"
+    title: "Set 20°C"
     action_params:
       s: 1
       v: 20
   thermo_room1_25:
     icon: thermostat.s_1
     action: unit:thermo/room1
-    title: "Set 25&#8451;"
+    title: "Set 25°C"
     action_params:
       s: 1
       v: 25
   thermo_room1:
     icon: thermostat
     item: unit:thermo/room1
-    value: "&#8451;"
+    value: "°C"
     title: profiles
     menu:
       - thermo_room1_off
@@ -91,7 +91,7 @@ buttons:
   thermo_room2:
     icon: thermostat
     item: unit:thermo/room2
-    value: "&#8451;"
+    value: "°C"
     title: slider
     slider:
       min: 15
@@ -132,7 +132,7 @@ data:
   temp1_int:
     icon: indoor_temp
     item: sensor:env/temp1_int
-    u: "&#8451;"
+    u: "°C"
     decimals: 0
   hum1_int:
     icon: indoor_hum
@@ -142,7 +142,7 @@ data:
   temp2_int:
     icon: indoor_temp
     item: sensor:env/temp2_int
-    u: "&#8451;"
+    u: "°C"
     decimals: 0
   hum2_int:
     icon: indoor_hum
@@ -152,7 +152,7 @@ data:
   temp_ext:
     icon: outdoor_temp
     item: sensor:env/temp_ext
-    u: "&#8451;"
+    u: "°C"
     decimals: 0
   hum_ext:
     icon: outdoor_hum
@@ -170,15 +170,18 @@ data-blocks:
     elements:
       - temp1_int
       - hum1_int
+    action: url:sensors.j2
   room2:
     elements:
       - temp2_int
       - hum2_int
+    action: url:sensors.j2
   ext:
     elements:
       - temp_ext
       - hum_ext
       - pressure
+    action: url:sensors.j2
 
 cameras:
   room1:
