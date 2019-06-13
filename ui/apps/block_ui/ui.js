@@ -1188,7 +1188,7 @@ function eva_ui_open_cc_setup(e) {
     x: e.target.offsetLeft - $(window).scrollLeft() + 30,
     y: e.target.offsetTop - $(window).scrollTop() + 5
   };
-  $eva.toolbox.hiQR('evaccqr', {url: eva_ui_config_url, password: null});
+  $eva.hiQR('evaccqr', {url: eva_ui_config_url, password: null});
   $('.eva_ui_setup_form').css({
     top: eva_ui_btn_coord.y,
     left: eva_ui_btn_coord.x
