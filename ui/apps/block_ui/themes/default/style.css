@@ -699,6 +699,41 @@ html, body {
   margin-top: 20px;
   position: relative;
 }
+
+.log_full_screen {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+  background: #eee;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.log_dialog_window {
+  position: fixed;
+  display: none;
+  top: 40px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #eee;
+  z-index: 1251;
+}
+.log_holder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 40px 35px;
+}
+.log_content {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
 @media (max-width: 767px) {
   .eva_ui_camera_block {
       margin-top: 15px;
