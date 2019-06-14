@@ -229,6 +229,7 @@ layout:
     camera:
       id: room1
       reload: 1
+      action: url:room1.j2
     control-blocks:
       - room1-controls
       - macros
@@ -237,6 +238,7 @@ layout:
     camera:
       id: room2
       reload: 1
+      action: url:room2.j2
     control-blocks:
       - room2-controls
       - profiles
@@ -258,9 +260,9 @@ layout-compact:
     - { type: camera, id: hall, reload: 2 }
     - { type: control-block, id: hall-and-svc }
     - { type: data-block, id: ext }
-    - { type: camera, id: room1, reload: 2 }
+    - { type: camera, id: room1, reload: 2, action: "url:room1.j2" }
     - { type: control-block, id: room1-controls }
     - { type: data-block, id: room1 }
-    - { type: camera, id: room2, reload: 2 }
+    - { type: camera, id: room2, reload: 2, action: "url:room2.j2" }
     - { type: control-block, id: room2-controls }
     - { type: data-block, id: room2 }

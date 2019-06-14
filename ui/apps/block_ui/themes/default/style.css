@@ -354,7 +354,7 @@ html, body {
   display: flex;
   flex-wrap: wrap;
   width: 320px;
-  margin: auto;
+  /*margin: auto;*/
 }
 .eva_ui_bar_holder {
   display: flex;
@@ -362,9 +362,9 @@ html, body {
   width: 100%;
 }
 .eva_ui_bar_holder.single_bar_holder {
-	width: 805px;
+	width: 760px;
 	justify-content: start;
-	padding-right: 14px;
+	padding-right: 15px;
 }
 .eva_ui_content_holder_sensors {
   display: flex;
@@ -379,8 +379,8 @@ html, body {
   height: 200px;
 }
 .eva_ui_cam_preview_big {
-  width: 800px;
-  height: 500px;
+  width: 750px;
+  height: 468px;
 }
 .eva_ui_bar {
   margin-top: 50px;
@@ -720,6 +720,8 @@ html, body {
   .eva_ui_bar_holder.single_bar_holder {
     max-width: 440px;
     margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
   }
   .single_bar_holder .eva_ui_cbtn {
     padding: calc((100% - 24px)/8 - 2px);
@@ -728,8 +730,8 @@ html, body {
 
 @media (max-width: 767px) {
   .eva_ui_cam_preview_big {
-    width: 400px;
-    height: 250px;
+    width: 380px;
+    height: 237px;
   }
   .eva_ui_camera_block {
       margin-top: 15px;
@@ -739,8 +741,8 @@ html, body {
     max-width: 470px;
   }
   .single_bar_holder {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
     margin-top: 0px;
   }
   .eva_ui_bar {
@@ -786,6 +788,10 @@ html, body {
 }
 
 @media (min-width: 768px) {
+  .container {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
   .single_bar_holder {
     margin-top: 60px;
   }
@@ -827,7 +833,7 @@ html, body {
     margin-top: 20px;
   }
   .eva_ui_menu_page {
-    display: none;
+    /*display: none;*/
   }
 }
 
