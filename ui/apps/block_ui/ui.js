@@ -1,3 +1,5 @@
+`use strict`;
+
 var eva_ui_config;
 var eva_ui_config_class;
 var eva_ui_config_buttons;
@@ -448,7 +450,7 @@ function eva_ui_run() {
 }
 
 function eva_ui_init() {
-  if (evaHI && evaHI['index']) {
+  if (typeof evaHI === 'object' && evaHI['index']) {
     eva_ui_main_page = evaHI['index'];
   } else {
     eva_ui_main_page = '/ui/';
@@ -510,7 +512,7 @@ function eva_ui_init() {
         </div>'
     )
     .appendTo('body');
-  if (eva_ui_config_class == 'dashboard') {
+  if (eva_ui_config_class == 'dashboard' || eva_ui_config_class == 'simple') {
     if ('buttons' in eva_ui_config) {
       eva_ui_config_buttons = eva_ui_config['buttons'];
     }
@@ -725,28 +727,33 @@ function eva_ui_init_top_bar() {
   var menu_holder = $('<div />', {id: 'eva_ui_menu', 'data-toggle': 'menu'});
   var menu = $('<div />', {class: 'eva_ui_menu_holder'});
   menu_holder.append(menu);
-  if (evaHI && evaHI['home_icon']) {
+  if (typeof evaHI === 'object' && evaHI['home_icon']) {
     menu.append(
-      create_menu_item('Home', '/' + evaHI['home_icon'], eva_ui_main_page)
-        .addClass('eva_ui_menu_page')
+      create_menu_item(
+        'Home',
+        '/' + evaHI['home_icon'],
+        eva_ui_main_page
+      ).addClass('eva_ui_menu_page')
     );
     topbar.append(
       create_menu_item('Home', '/' + evaHI['home_icon'], eva_ui_main_page)
     );
   } else {
     menu.append(
-      create_menu_item('Home', 'home', eva_ui_main_page)
-        .addClass('eva_ui_menu_page')
+      create_menu_item('Home', 'home', eva_ui_main_page).addClass(
+        'eva_ui_menu_page'
+      )
     );
     topbar.append(create_menu_item('Home', 'home', eva_ui_main_page));
   }
-  if (evaHI && evaHI['menu']) {
+  if (typeof evaHI === 'object' && evaHI['menu']) {
     $.each(evaHI['menu'], function(i, v) {
       menu.append(
-        create_menu_item(v['name'], '/' + v['icon'], v['url'])
-          .addClass('eva_ui_menu_page')
+        create_menu_item(v['name'], '/' + v['icon'], v['url']).addClass(
+          'eva_ui_menu_page'
+        )
       );
-      topbar.append(create_menu_item(v['name'], '/' + v['icon'], v['url']));
+      topbar.append(create_menu_item(v['name'], '/' + v['icon'], v['url'], true));
     });
   }
   menu.append(create_menu_item('EvaCC setup', 'evahi', eva_ui_open_cc_setup));
@@ -767,39 +774,18 @@ function eva_ui_init_top_bar() {
   eva_ui_content_holder.append(menu_holder);
 }
 
-function create_menu_item(title, icon, action) {
+function create_menu_item(title, icon, action, for_topbar) {
   var menu_item = $('<div />');
   menu_item.addClass('eva_ui_menu_item');
   var menu_icon = $('<div />');
   menu_icon.addClass('eva_ui_menu_icon');
   if (!icon.startsWith('/')) {
-    menu_icon.addClass('i_' + icon);
+    menu_icon.addClass('i_' + icon + (for_topbar?'_tb':''));
   } else {
-    var className = 'i_' + icon.substring(1, icon.lastIndexOf('.'));
-    menu_icon.addClass(className);
-    var style =
-      '<style>\n' +
-      '.eva_ui_menu_icon.' +
-      className +
-      ' {\n\t' +
-      'background-image: url("/.evahi/icons' +
-      icon +
-      '");\n' +
-      '}\n' +
-      '.active_menu .eva_ui_menu_icon.' +
-      className +
-      ',\n' +
-      '.eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.' +
-      className +
-      ' {\n\t' +
-      'background-image: url("/.evahi/icons/active_' +
-      icon.substring(1) +
-      '");\n' +
-      '}\n' +
-      '</style>';
-    menu_icon.append(style);
-    // menu_icon.css('background-image', 'url(/.evahi/icons' + icon + ')');
+     menu_icon.css('background-image', 'url(/.evahi/icons' + icon + ')');
+     menu_icon.addClass('i_evahi_icon');
   }
+  menu_icon.attr('title', title);
   menu_item.append(menu_icon);
   menu_item.append(
     $('<div />')
@@ -812,9 +798,6 @@ function create_menu_item(title, icon, action) {
     menu_item.on('click', function() {
       document.location = action;
     });
-    if (document.location.href.endsWith(action)) {
-      menu_item.addClass('active_menu');
-    }
   }
   return menu_item;
 }
@@ -894,7 +877,7 @@ function eva_ui_create_data_block(block_id) {
   return dh;
 }
 
-function eva_ui_create_cam(cam_cfg) {
+function eva_ui_create_cam(cam_cfg, big) {
   if (!cam_cfg || !('id' in cam_cfg)) {
     eva_ui_error('Invalid camera block');
   }
@@ -907,7 +890,11 @@ function eva_ui_create_cam(cam_cfg) {
   var cam = $('<div />').addClass('eva_ui_camera_block');
   var cam_img = $('<img />')
     .attr('id', 'eva_ui_camera_' + cam_id)
-    .addClass('eva_ui_cam_preview');
+  if (!big) {
+    cam_img.addClass('eva_ui_cam_preview');
+  } else {
+    cam_img.addClass('eva_ui_cam_preview_big');
+  }
   cam_img.appendTo(cam);
   var reloader = setInterval(
     'eva_ui_reload_camera("' + cam_id + '")',
@@ -1009,10 +996,10 @@ function eva_ui_create_chart(chart_id, reload) {
   return chart;
 }
 
-function eva_ui_draw_layout() {
+function eva_ui_draw_layout(for_compact) {
   var cams = Array();
   if (eva_ui_config_class == 'dashboard') {
-    var eva_bar_holder = $('<div />', {class: 'eva_bar_holder'});
+    var eva_bar_holder = $('<div />', {class: 'eva_ui_bar_holder'});
     for (i = 1; i < 20; i++) {
       if ('bar' + i in eva_ui_config_layout) {
         var bar = $('<div />').addClass('eva_ui_bar');
@@ -1060,6 +1047,25 @@ function eva_ui_draw_layout() {
       var chart = eva_ui_create_chart(v['id'], v['reload']);
       eva_ui_content_holder.append(chart);
     });
+  } else if (eva_ui_config_class == 'simple') {
+    var holder = $('<div />', {class: 'eva_ui_bar_holder single_bar_holder'});
+    if ('camera' in eva_ui_config_layout) {
+      var cam = eva_ui_create_cam(eva_ui_config_layout['camera'], true);
+      holder.append(cam);
+      cams.push(eva_ui_config_layout['camera']['id']);
+    }
+    if ('buttons' in eva_ui_config_layout) {
+      $.each(eva_ui_config_layout['buttons'], function (i, v) {
+        var btn = eva_ui_create_button(v);
+        holder.append(btn);
+      });
+    }
+    eva_ui_content_holder.append(holder);
+  }
+  if (!for_compact) {
+    eva_ui_content_holder.removeClass('compact');
+  } else {
+    eva_ui_content_holder.addClass('compact');
   }
   $.each(cams, function(i, v) {
     eva_ui_reload_camera(v);
@@ -1086,7 +1092,7 @@ function eva_ui_create_sysblock(mini) {
 }
 
 function eva_ui_draw_compact_layout() {
-  if (!eva_ui_config_layout_compact) return eva_ui_draw_layout();
+  if (!eva_ui_config_layout_compact) return eva_ui_draw_layout(true);
   var cams = Array();
   if (eva_ui_config_class == 'dashboard') {
     var row = $('<div />', {class: 'mob_layout'});
@@ -1127,8 +1133,11 @@ function eva_ui_draw_compact_layout() {
       eva_ui_content_holder.append(row);
       eva_ui_content_holder.addClass('compact');
     });
-  } else if (eva_ui_config_class == 'sensors') {
-    return eva_ui_draw_layout();
+  } else if (
+    eva_ui_config_class == 'sensors' ||
+    eva_ui_config_class == 'simple'
+  ) {
+    return eva_ui_draw_layout(true);
   }
   $.each(cams, function(i, v) {
     eva_ui_reload_camera(v);

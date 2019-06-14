@@ -1,3 +1,4 @@
+#url: https://my.external.domain:port/
 class: sensors
 
 charts:

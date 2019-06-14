@@ -356,10 +356,15 @@ html, body {
   width: 320px;
   margin: auto;
 }
-.eva_bar_holder {
+.eva_ui_bar_holder {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+}
+.eva_ui_bar_holder.single_bar_holder {
+	width: 805px;
+	justify-content: start;
+	padding-right: 14px;
 }
 .eva_ui_content_holder_sensors {
   display: flex;
@@ -372,6 +377,10 @@ html, body {
 .eva_ui_cam_preview {
   width: 315px;
   height: 200px;
+}
+.eva_ui_cam_preview_big {
+  width: 800px;
+  height: 500px;
 }
 .eva_ui_bar {
   margin-top: 50px;
@@ -474,6 +483,13 @@ html, body {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+.single_bar_holder .eva_ui_cbtn {
+  padding: 0;
+  margin-top: 6px;
+}
+.single_bar_holder .eva_ui_cbtn:last-of-type {
+  margin-right: 6px;
 }
 .eva_ui_chart {
   width: 320px;
@@ -699,7 +715,22 @@ html, body {
   margin-top: 20px;
   position: relative;
 }
+
+@media (max-width: 567px) {
+  .eva_ui_bar_holder.single_bar_holder {
+    max-width: 440px;
+    margin: auto;
+  }
+  .single_bar_holder .eva_ui_cbtn {
+    padding: calc((100% - 24px)/8 - 2px);
+  }
+}
+
 @media (max-width: 767px) {
+  .eva_ui_cam_preview_big {
+    width: 400px;
+    height: 250px;
+  }
   .eva_ui_camera_block {
       margin-top: 15px;
   }
@@ -707,20 +738,17 @@ html, body {
     width: 100%;
     max-width: 470px;
   }
+  .single_bar_holder {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 0px;
+  }
   .eva_ui_bar {
     width: 100%;
   }
   .eva_ui_cbtn {
     padding: calc((100% - 20px)/8 - 2px);
   }
-  /*.container {
-      padding-left: 5px;
-      padding-right: 5px;
-      width: 330px;
-  }
-  body {
-    overflow-x: hidden;
-  }*/
   .eva_ui_bg.bg_sensors {
     padding: 5px 15px 20px 15px
   }
@@ -741,7 +769,7 @@ html, body {
   .eva_ui_content_holder_sensors.with_topbar {
     margin-top: 45px;
   }
-  .eva_bar_holder {
+  .eva_ui_bar_holder {
     padding: 0 35px;
   }
   .mob_layout {
@@ -756,7 +784,11 @@ html, body {
     display: none;
   }
 }
+
 @media (min-width: 768px) {
+  .single_bar_holder {
+    margin-top: 60px;
+  }
   .eva_ui_cbtn:not(:disabled):hover {
     outline: none;
     background-color: #ececec;
@@ -798,6 +830,7 @@ html, body {
     display: none;
   }
 }
+
 @media (min-width: 992px) {
   .container {
     max-width: 990px;

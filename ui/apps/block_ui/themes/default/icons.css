@@ -2,8 +2,9 @@
 .eva_ui_menu_icon.i_home {
   background-image: url('menu_icons/home.svg');
 }
-.active_menu .eva_ui_menu_icon.i_home,
-.eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.i_home {
+.eva_ui_active_menu_icon .eva_ui_menu_icon.i_home,
+.eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.i_home,
+  .eva_ui_menu_icon.i_home_tb {
   background-image: url('menu_icons/home_active.svg');
 }
 .eva_ui_menu_icon.i_evahi {
@@ -17,6 +18,14 @@
 }
 .eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.i_logout {
   background-image: url('menu_icons/exit_active.svg');
+}
+.eva_ui_menu_icon.i_evahi_icon {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.eva_ui_menu_item:not(:disabled):hover .eva_ui_menu_icon.i_evahi_icon {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
 }
 
 /* data icons */
@@ -219,6 +228,9 @@
 }
 .eva_ui_cbtn.i_star.s_blue {
   background-image: url('icons/star.blue.svg');
+}
+.eva_ui_cbtn.i_star.s_random {
+  background-image: url('icons/star.random.svg');
 }
 .eva_ui_cbtn.i_star.s_music_red {
   background-image: url('icons/music.red.svg');
