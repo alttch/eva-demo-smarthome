@@ -28,6 +28,7 @@ layout:
   camera:
     id: room2
     reload: 1
+    action: url:/ui/
   buttons:
     - light_room2
     - window_room2

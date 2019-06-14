@@ -23,6 +23,7 @@ layout:
   camera:
     id: hall
     reload: 1
+    action: url:/ui/
   buttons:
     - light_hall
     - alarm
