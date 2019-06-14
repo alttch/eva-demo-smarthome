@@ -728,13 +728,25 @@ function eva_ui_init_top_bar() {
   if (evaHI && evaHI['home_icon']) {
     menu.append(
       create_menu_item('Home', '/' + evaHI['home_icon'], eva_ui_main_page)
+        .addClass('eva_ui_menu_page')
+    );
+    topbar.append(
+      create_menu_item('Home', '/' + evaHI['home_icon'], eva_ui_main_page)
     );
   } else {
-    menu.append(create_menu_item('Home', 'home', eva_ui_main_page));
+    menu.append(
+      create_menu_item('Home', 'home', eva_ui_main_page)
+        .addClass('eva_ui_menu_page')
+    );
+    topbar.append(create_menu_item('Home', 'home', eva_ui_main_page));
   }
   if (evaHI && evaHI['menu']) {
     $.each(evaHI['menu'], function(i, v) {
-      menu.append(create_menu_item(v['name'], '/' + v['icon'], v['url']));
+      menu.append(
+        create_menu_item(v['name'], '/' + v['icon'], v['url'])
+          .addClass('eva_ui_menu_page')
+      );
+      topbar.append(create_menu_item(v['name'], '/' + v['icon'], v['url']));
     });
   }
   menu.append(create_menu_item('EvaCC setup', 'evahi', eva_ui_open_cc_setup));
