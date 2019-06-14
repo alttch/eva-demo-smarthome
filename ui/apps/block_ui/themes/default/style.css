@@ -374,6 +374,30 @@ html, body {
   border-radius: 5px;
   border: 2px solid #ccc;
 }
+.eva_ui_cam_img {
+  background-image: -webkit-repeating-linear-gradient(135deg, rgba(0,0,0,.3),
+    rgba(0,0,0,.3) 1px, transparent 2px, transparent 2px, rgba(0,0,0,.3) 3px);
+  background-image: -moz-repeating-linear-gradient(135deg, rgba(0,0,0,.3),
+    rgba(0,0,0,.3) 1px, transparent 2px, transparent 2px, rgba(0,0,0,.3) 3px);
+  background-image: -o-repeating-linear-gradient(135deg, rgba(0,0,0,.3),
+    rgba(0,0,0,.3) 1px, transparent 2px, transparent 2px, rgba(0,0,0,.3) 3px);
+  background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.3),
+    rgba(0,0,0,.3) 1px, transparent 2px, transparent 2px, rgba(0,0,0,.3) 3px);
+  -webkit-background-size: 4px 4px;
+  -moz-background-size: 4px 4px;
+  background-size: 4px 4px;
+  padding: 0px;
+  margin: 0px;
+}
+.eva_ui_cam_holder_bg {
+   position: absolute;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+   z-index: -1;
+   overflow: hidden;
+}
 .eva_ui_cam_preview {
   width: 315px;
   height: 200px;

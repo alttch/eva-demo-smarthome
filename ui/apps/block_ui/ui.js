@@ -895,6 +895,7 @@ function eva_ui_create_cam(cam_cfg, big) {
   } else {
     cam_img.addClass('eva_ui_cam_preview_big');
   }
+  cam_img.addClass('eva_ui_cam_img');
   cam_img.appendTo(cam);
   var reloader = setInterval(
     'eva_ui_reload_camera("' + cam_id + '")',
