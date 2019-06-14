@@ -247,6 +247,7 @@ layout:
     camera:
       id: hall
       reload: 1
+      action: url:hall.j2
     control-blocks:
       - hall-and-svc
       - enter-exit
@@ -257,7 +258,7 @@ layout-compact:
     - { type: control-block, id: profiles }
     - { type: control-block, id: macros }
     - { type: control-block, id: enter-exit }
-    - { type: camera, id: hall, reload: 2 }
+    - { type: camera, id: hall, reload: 2, action: "url:hall.j2" }
     - { type: control-block, id: hall-and-svc }
     - { type: data-block, id: ext }
     - { type: camera, id: room1, reload: 2, action: "url:room1.j2" }
