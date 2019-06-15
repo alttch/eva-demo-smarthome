@@ -753,6 +753,10 @@ html, body {
 }
 
 @media (max-width: 767px) {
+  .popover-body > span > .eva_ui_cbtn {
+    margin-top: 3px;
+    margin-top: 3px;
+  }
   .eva_ui_cam_preview_big {
     width: 380px;
     height: 237px;
