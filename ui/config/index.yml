@@ -97,6 +97,7 @@ buttons:
       min: 15
       max: 25
       step: 1
+      can_off: true
 
   open_windows:
     icon: windows.s_1

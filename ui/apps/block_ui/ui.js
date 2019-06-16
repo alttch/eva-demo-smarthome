@@ -141,6 +141,7 @@ function eva_ui_append_action(el, config, is_btn, item) {
     var min = config.slider.min;
     var max = config.slider.max;
     var step = config.slider.step;
+    var off_allowed = config.slider.can_off;
     if (min === undefined || min === null) min = 0;
     if (max === undefined || max === null) max = 100;
     if (step == undefined || step === null) step = 1;
@@ -149,7 +150,7 @@ function eva_ui_append_action(el, config, is_btn, item) {
     var slider = $('<input />', {
       id: 'eva_ui_slider_' + item,
       type: 'range',
-      min: min - step,
+      min: min - (off_allowed?step:0),
       max: max
     }).addClass('eva_ui_slider');
     var slider_label = $('<div />', {
@@ -223,7 +224,7 @@ function eva_ui_append_action(el, config, is_btn, item) {
       }
     });
     eva_ui_slider_update_funcs[item] = function(state) {
-      if (state.status) {
+      if (state.status || !off_allowed) {
         slider.val(state.value);
         slider_label.html(
           state.value + (config.value && state.value >= min ? config.value : '')
