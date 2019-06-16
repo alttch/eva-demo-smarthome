@@ -747,9 +747,6 @@ html, body {
     padding-left: 15px;
     padding-right: 15px;
   }
-  .single_bar_holder .eva_ui_cbtn {
-    padding: calc((100% - 24px)/8 - 2px);
-  }
 }
 
 @media (max-width: 767px) {
@@ -775,9 +772,6 @@ html, body {
   }
   .eva_ui_bar {
     width: 100%;
-  }
-  .eva_ui_cbtn {
-    padding: calc((100% - 20px)/8 - 2px);
   }
   .eva_ui_bg.bg_sensors {
     padding: 5px 15px 20px 15px

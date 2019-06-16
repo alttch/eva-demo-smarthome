@@ -33,6 +33,8 @@ var eva_ui_logo_text = 'www.eva-ics.com';
 
 var eva_ui_menu_active;
 
+var eva_ui_popover_cbtns = Array();
+
 function eva_ui_format_camera_src(cam_id) {}
 
 function eva_ui_after_draw() {}
@@ -120,6 +122,7 @@ function eva_ui_append_action(el, config, is_btn, item) {
       var mc = $('<span />');
       $.each(config.menu, function(i, v) {
         var b = eva_ui_create_button(v);
+        eva_ui_popover_cbtns.push(b);
         b.appendTo(mc);
       });
     }
@@ -845,15 +848,31 @@ function eva_ui_close_menu() {
 
 function eva_ui_prepare_layout() {}
 
+function eva_ui_correct_cbtn_padding() {
+  var padding = ($(window).width() - 24) / 8 - 10;
+  var max_padding = 45;
+  if (padding > max_padding) padding = max_padding;
+  $('.eva_ui_cbtn').css('padding', padding);
+  $.each(eva_ui_popover_cbtns, function(i, v) {
+    v.css('padding', padding);
+  });
+}
+
+function eva_ui_clear_layout() {
+  eva_ui_content_holder.empty();
+  eva_ui_popover_cbtns = Array();
+}
+
 function eva_ui_redraw_layout() {
   eva_ui_prepare_layout();
-  eva_ui_content_holder.empty();
+  eva_ui_clear_layout();
   eva_ui_top_bar();
   eva_ui_stop_cams();
   eva_ui_chart_creators = Array();
   if ($(window).width() < 768) {
     eva_ui_draw_compact_layout();
     eva_ui_is_compact = true;
+    eva_ui_correct_cbtn_padding();
   } else {
     eva_ui_draw_layout();
     eva_ui_is_compact = false;
@@ -1176,6 +1195,9 @@ function eva_ui_start() {
     if ((w > 767 && eva_ui_is_compact) || (w < 768 && !eva_ui_is_compact)) {
       eva_ui_redraw_layout();
       eva_ui_recreate_objects();
+    }
+    if (w < 768) {
+      eva_ui_correct_cbtn_padding();
     }
   });
   var l = $cookies.read('eva_ui_login');
