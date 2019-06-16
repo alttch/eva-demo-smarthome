@@ -1171,6 +1171,7 @@ function eva_ui_submit_login(e) {
 function eva_ui_start() {
   var oldSize = $(window).width();
   window.addEventListener('resize', function() {
+    $('[data-toggle="popover"]').popover('hide');
     var w = $(window).width();
     if ((w > 767 && eva_ui_is_compact) || (w < 768 && !eva_ui_is_compact)) {
       eva_ui_redraw_layout();
