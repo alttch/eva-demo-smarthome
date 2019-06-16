@@ -33,3 +33,4 @@ layout:
     - light_room2
     - window_room2
     - thermo_room2
+  #sysblock: true

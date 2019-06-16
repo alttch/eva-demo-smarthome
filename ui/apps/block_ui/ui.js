@@ -150,7 +150,7 @@ function eva_ui_append_action(el, config, is_btn, item) {
     var slider = $('<input />', {
       id: 'eva_ui_slider_' + item,
       type: 'range',
-      min: min - (off_allowed?step:0),
+      min: min - (off_allowed ? step : 0),
       max: max
     }).addClass('eva_ui_slider');
     var slider_label = $('<div />', {
@@ -754,7 +754,9 @@ function eva_ui_init_top_bar() {
           'eva_ui_menu_page'
         )
       );
-      topbar.append(create_menu_item(v['name'], '/' + v['icon'], v['url'], true));
+      topbar.append(
+        create_menu_item(v['name'], '/' + v['icon'], v['url'], true)
+      );
     });
   }
   menu.append(create_menu_item('EvaCC setup', 'evahi', eva_ui_open_cc_setup));
@@ -781,10 +783,10 @@ function create_menu_item(title, icon, action, for_topbar) {
   var menu_icon = $('<div />');
   menu_icon.addClass('eva_ui_menu_icon');
   if (!icon.startsWith('/')) {
-    menu_icon.addClass('i_' + icon + (for_topbar?'_tb':''));
+    menu_icon.addClass('i_' + icon + (for_topbar ? '_tb' : ''));
   } else {
-     menu_icon.css('background-image', 'url(/.evahi/icons' + icon + ')');
-     menu_icon.addClass('i_evahi_icon');
+    menu_icon.css('background-image', 'url(/.evahi/icons' + icon + ')');
+    menu_icon.addClass('i_evahi_icon');
   }
   menu_icon.attr('title', title);
   menu_item.append(menu_icon);
@@ -889,8 +891,7 @@ function eva_ui_create_cam(cam_cfg, big) {
   var reload_int = cam_cfg['reload'];
   if (!reload_int) reload_int = 1;
   var cam = $('<div />').addClass('eva_ui_camera_block');
-  var cam_img = $('<img />')
-    .attr('id', 'eva_ui_camera_' + cam_id)
+  var cam_img = $('<img />').attr('id', 'eva_ui_camera_' + cam_id);
   if (!big) {
     cam_img.addClass('eva_ui_cam_preview');
   } else {
@@ -1057,10 +1058,16 @@ function eva_ui_draw_layout(for_compact) {
       cams.push(eva_ui_config_layout['camera']['id']);
     }
     if ('buttons' in eva_ui_config_layout) {
-      $.each(eva_ui_config_layout['buttons'], function (i, v) {
+      $.each(eva_ui_config_layout['buttons'], function(i, v) {
         var btn = eva_ui_create_button(v);
         holder.append(btn);
       });
+    }
+    if (eva_ui_config_layout.sysblock) {
+      $('<div />')
+        .addClass('eva_ui_sysblock')
+        .html(eva_ui_create_sysblock())
+        .appendTo(holder);
     }
     eva_ui_content_holder.append(holder);
   }
