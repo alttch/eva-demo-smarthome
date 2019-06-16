@@ -849,7 +849,7 @@ function eva_ui_close_menu() {
 function eva_ui_prepare_layout() {}
 
 function eva_ui_correct_cbtn_padding() {
-  var padding = ($(window).width() - 24) / 8 - 8;
+  var padding = ($(window).width() - 24) / 8 - 10;
   var max_padding = 40;
   if (padding > max_padding) padding = max_padding;
   if (padding < 0) padding = 0;
