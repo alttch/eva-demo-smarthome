@@ -1,5 +1,5 @@
 controller:
-  uc/smarthomesrv:
+  uc/{{ srv }}:
     phi:
       # lights and equipment relay
       vr1:
@@ -26,14 +26,14 @@ controller:
       - { api: update, i: env/air_pressure, s: 1, v: 1010 }
       - { api: action, i: thermo/room1, s: 1, v: 20 }
       - { api: action, i: thermo/room2, s: 1, v: 24 }
-  lm/smarthomesrv:
+  lm/{{ srv }}:
     after-deploy:
       - { api: clear, i: security/alarm }
-      - { api: reload_controller, i: uc/smarthomesrv }
+      - { api: reload_controller, i: uc/{{ srv }} }
 
 unit:
   light/room1:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
     action_enabled: true
     action_always_exec: true
     update_interval: 0
@@ -42,7 +42,7 @@ unit:
       config:
         port: 1
   light/room2:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
     action_enabled: true
     action_always_exec: true
     update_interval: 0
@@ -51,7 +51,7 @@ unit:
       config:
         port: 2
   light/hall:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
     action_enabled: true
     action_always_exec: true
     update_interval: 0
@@ -60,7 +60,7 @@ unit:
       config:
         port: 6
   windows/room1:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
     action_enabled: true
     action_always_exec: true
     action_timeout: 20
@@ -77,7 +77,7 @@ unit:
         tuning: 0.5
         warmup: 0.5
   windows/room2:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
     action_enabled: true
     action_always_exec: true
     action_timeout: 20
@@ -94,7 +94,7 @@ unit:
         tuning: 0.5
         warmup: 0.5
   thermo/room1:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
     action_enabled: true
     action_always_exec: true
     update_interval: 0
@@ -103,7 +103,7 @@ unit:
       config:
         port: 1
   thermo/room2:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
     action_enabled: true
     action_always_exec: true
     update_interval: 0
@@ -112,7 +112,7 @@ unit:
       config:
         port: 2
   equipment/cctv:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
     action_enabled: true
     action_always_exec: true
     update_interval: 0
@@ -121,7 +121,7 @@ unit:
       config:
         port: 11
   equipment/vent:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
     action_enabled: true
     action_always_exec: true
     update_interval: 0
@@ -132,53 +132,53 @@ unit:
 
 sensor:
   env/temp1_int:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
   env/hum1_int:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
   env/temp2_int:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
   env/hum2_int:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
   env/temp_ext:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
   env/hum_ext:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
   env/air_pressure:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
   security/motion1:
-    controller: uc/smarthomesrv
+    controller: uc/{{ srv }}
 
 lvar:
   security/alarm:
-    controller: lm/smarthomesrv
+    controller: lm/{{ srv }}
 
 lmacro:
   control/lights_off:
-    controller: lm/smarthomesrv
+    controller: lm/{{ srv }}
     action_exec: ^lights_off.py
   control/lights_on:
-    controller: lm/smarthomesrv
+    controller: lm/{{ srv }}
     action_exec: ^lights_on.py
   control/open_windows:
-    controller: lm/smarthomesrv
+    controller: lm/{{ srv }}
     action_exec: ^open_windows.py
   control/close_windows:
-    controller: lm/smarthomesrv
+    controller: lm/{{ srv }}
     action_exec: ^close_windows.py
 
   control/enter:
-    controller: lm/smarthomesrv
+    controller: lm/{{ srv }}
     action_exec: ^enter.py
   control/exit:
-    controller: lm/smarthomesrv
+    controller: lm/{{ srv }}
     action_exec: ^exit.py
 
   profiles/day_mode:
-    controller: lm/smarthomesrv
+    controller: lm/{{ srv }}
     action_exec: ^day_mode.py
   profiles/winterday_mode:
-    controller: lm/smarthomesrv
+    controller: lm/{{ srv }}
     action_exec: ^winterday_mode.py
   profiles/night_mode:
-    controller: lm/smarthomesrv
+    controller: lm/{{ srv }}
     action_exec: ^night_mode.py

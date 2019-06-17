@@ -48,5 +48,5 @@ if [ $? -ne 0 ]; then
   exit 3
 fi
 echo "Setup completed, starting configuration deployment"
-docker exec -t eva_smarthome_server bash -c 'cd /deploy-cfg && eva sfa cloud deploy -y smarthome-demo.yml'
+docker exec -t eva_smarthome_server bash -c 'cd /deploy-cfg && eva sfa cloud deploy -y smarthome-demo.yml -c srv=smarthomesrv'
 exit 0
