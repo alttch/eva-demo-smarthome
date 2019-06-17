@@ -19,6 +19,7 @@ buttons:
       min: 15
       max: 25
       step: 1
+      can_off: true
 
 cameras:
   room2:
