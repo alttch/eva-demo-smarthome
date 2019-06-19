@@ -1006,7 +1006,7 @@ function eva_ui_create_chart(chart_id, reload) {
     .appendTo(chart);
   var params = $.extend({}, chart_config.params);
   params['update'] = reload_int;
-  params['u'] = chart_config['u'];
+  params['units'] = chart_config['units'];
   var ccfg = eva_ui_create_chart_config(chart_config);
   var creator = function() {
     $eva.toolbox.chart(
