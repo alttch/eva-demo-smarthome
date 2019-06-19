@@ -862,6 +862,7 @@ function eva_ui_correct_cbtn_padding() {
 function eva_ui_clear_layout() {
   eva_ui_content_holder.empty();
   eva_ui_popover_cbtns = Array();
+  $eva.unwatch();
 }
 
 function eva_ui_redraw_layout() {
