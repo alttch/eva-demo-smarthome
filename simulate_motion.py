@@ -10,7 +10,7 @@ def jrpc(url, method, **kwargs):
         'method': method,
         'params': kwargs
     }
-    result = requests.post(url, json=payload, timeout=1)
+    result = requests.post(url, json=payload, timeout=5)
     if not result.ok:
         raise Exception('HTTP ERROR {}'.format(result.status_code))
     data = result.json()
