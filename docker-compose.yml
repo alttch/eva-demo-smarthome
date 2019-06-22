@@ -1,12 +1,5 @@
 version: '3'
 services:
-  mqtt:
-    container_name: eva_smarthome_mqtt
-    image: eclipse-mosquitto
-    networks:
-      eva_smarthome_ic:
-        ipv4_address: 10.27.14.200
-
   eva-smarthome-server:
     container_name: eva_smarthome_server
     hostname: smarthomesrv
@@ -14,13 +7,14 @@ services:
       - "8828:8828"
     environment:
       - auto_install=1
-      - mqtt=10.27.14.200
+      - mqtt=
       - link=1
       - product=all
       - layout=enterprise
       - MASTERKEY=demo123
       - DEFAULTKEY=demo-default
       - OPKEY=
+      - OPPASSWD=123
       - cloud_manager=1
       - deploy=
       - download=

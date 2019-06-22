@@ -1,8 +1,5 @@
 #!/bin/sh
 
-USER=operator
-PASSWORD=123
-
 if [ "x$1" = "x" ]; then
   FNAME=docker-compose.yml
 else
@@ -25,14 +22,6 @@ while [ 1 ]; do
     exit 2
   fi
 done
-echo -n "Creating user '${USER}' with password '${PASSWORD}': "
-docker exec eva_smarthome_server eva sfa user create ${USER} ${PASSWORD} operator |grep 'key : operator' > /dev/null
-if [ $? -ne 0 ]; then
-  echo "FAILED"
-  exit 3
-else
-  echo "OK"
-fi
 echo -n "Configuring access to CCTV simulator for API key 'operator': "
 docker exec eva_smarthome_server eva sfa key set operator rpvt 127.0.0.1:8118/cam/# -y |grep 'OK' > /dev/null
 if [ $? -ne 0 ]; then
@@ -49,4 +38,3 @@ if [ $? -ne 0 ]; then
 fi
 echo "Setup completed, starting configuration deployment"
 docker exec -t eva_smarthome_server bash -c 'cd /deploy-cfg && eva sfa cloud deploy -y smarthome-demo.yml -c srv=smarthomesrv'
-exit 0
