@@ -24,6 +24,7 @@ controller:
       - { api: update, i: env/temp_ext, s: 1, v: 5 }
       - { api: update, i: env/hum_ext, s: 1, v: 60 }
       - { api: update, i: env/air_pressure, s: 1, v: 1010 }
+      - { api: update, i: security/motion1, s: 1 }
       - { api: action, i: thermo/room1, s: 1, v: 20 }
       - { api: action, i: thermo/room2, s: 1, v: 24 }
   lm/{{ srv }}:
@@ -55,6 +56,7 @@ unit:
     action_enabled: true
     action_always_exec: true
     update_interval: 0
+    auto_off: 20
     driver:
       id: vr1.default
       config:
@@ -182,3 +184,17 @@ lmacro:
   profiles/night_mode:
     controller: lm/{{ srv }}
     action_exec: ^night_mode.py
+
+  security/handle_motion:
+    controller: lm/{{ srv }}
+    action_exec: ^handle_motion.py
+
+dmatrix_rule:
+  324895ee-953a-11e9-89ca-57b2e9187a57:
+    controller: lm/{{ srv }}
+    description: motion
+    enabled: true
+    oid: sensor:security/motion1/value
+    condition: x = 1
+    break_after_exec: true
+    macro: handle_motion
