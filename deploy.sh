@@ -23,7 +23,7 @@ while [ 1 ]; do
   fi
 done
 echo -n "Configuring access to CCTV simulator for API key 'operator': "
-docker exec eva_smarthome_server eva sfa key set operator rpvt 127.0.0.1:8118/cam/# -y |grep 'OK' > /dev/null
+docker exec eva_smarthome_server eva sfa key set operator rpvt 127.0.0.1:8118/cam/\# -y |grep 'OK' > /dev/null
 if [ $? -ne 0 ]; then
   echo "FAILED"
   exit 3
