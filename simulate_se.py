@@ -103,7 +103,7 @@ def main():
         jrpc, 'http://10.27.14.199:8812/jrpc', 'update', k=api_key, s=1)
     for k, v in data.items():
         result = rpc(i='sensor:env/{}'.format(k), v=v)
-        if not result.data.result.get('ok'):
+        if not result.get('ok'):
             raise Exception('Update failed')
 
 
