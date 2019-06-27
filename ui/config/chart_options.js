@@ -1,4 +1,4 @@
-var eva_hmi_chart_options = {
+var eva_hmi_config_chart_options = {
   legend: {
     display: false,
   },
