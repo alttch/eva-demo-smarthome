@@ -4,34 +4,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1,
         user-scalable=no" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="apps/block_ui/lib/bootstrap.min.css">
-    <link rel="stylesheet" href="apps/block_ui/themes/default/style.css">
-    <link rel="stylesheet" href="apps/block_ui/themes/default/icons.css">
-    <script type="text/javascript" src="apps/block_ui/lib/jquery.min.js"></script>
-    <script type="text/javascript" src="apps/block_ui/lib/swipe.js"></script>
-    <script type="text/javascript" src="apps/block_ui/lib/popper-1.14.3.min.js"></script>
-    <script type="text/javascript" src="apps/block_ui/lib/bootstrap.min.js"></script>
-    <script type="text/javascript" src="lib/eva.min.js"></script>
-    <script type="text/javascript" src="apps/block_ui/ui.js"></script>
     <script type="text/javascript" src=".evahi/config.yml?as=js&var=evaHI"></script>
-    <script type="text/javascript" src="config/sensors.yml?as=js&var=eva_ui_config"></script>
+    <script type="text/javascript" src="config/sensors.yml?as=js&var=eva_hmi_config"></script>
     <script type="text/javascript" src="config/chart_options.js"></script>
+    <script type="text/javascript" src="lib/eva.min.js"></script>
+    <script type="text/javascript" src="apps/eva-hmi-block_ui/hmi.min.js"></script>
+    <link rel="stylesheet" href="apps/eva-hmi-block_ui/themes/default/style.css">
+    <link rel="stylesheet" href="apps/eva-hmi-block_ui/themes/default/icons.css">
     <script type="text/javascript">
-      $(document).ready(function() {
+      document.addEventListener('DOMContentLoaded', function() {
+        eva_init_hmi();
         // enable framework debug
         $eva.debug = true;
-        eva_ui_prepare_layout = function() {
+        $eva.hmi.prepare_layout = function() {
           // modify configuration, e.g. for the specified user
           //console.log($eva.authorized_user);
           //console.log($eva.server_info.acl.key_id);
           if ($eva.authorized_user == 'kiosk') {
-            eva_ui_top_bar = function(){};
+            $eva.hmi.top_bar = function(){};
           }
         }
         // uncomment to disable top bar
-        //eva_ui_top_bar = function() {}
-        eva_ui_init();
-        eva_ui_start();
+        // $eva.hmi.top_bar = function() {}
+        $eva.hmi.start();
       });
     </script>
   </head>
