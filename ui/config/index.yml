@@ -161,7 +161,7 @@ data:
     units: "%"
     decimals: 0
   pressure:
-    icon: pressure
+    icon: outdoor_pressure
     item: sensor:env/air_pressure
     units: " hPa"
     decimals: 0

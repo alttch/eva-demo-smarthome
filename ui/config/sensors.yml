@@ -93,7 +93,7 @@ charts:
       prop: value
 
   air_pressure:
-    icon: pressure
+    icon: outdoor_pressure
     title: Air pressure
     item: sensor:env/air_pressure
     cfg: default
