@@ -133,37 +133,37 @@ data:
   temp1_int:
     icon: indoor_temp
     item: sensor:env/temp1_int
-    u: "°C"
+    units: "°C"
     decimals: 0
   hum1_int:
     icon: indoor_hum
     item: sensor:env/hum1_int
-    u: "%"
+    units: "%"
     decimals: 0
   temp2_int:
     icon: indoor_temp
     item: sensor:env/temp2_int
-    u: "°C"
+    units: "°C"
     decimals: 0
   hum2_int:
     icon: indoor_hum
     item: sensor:env/hum2_int
-    u: "%"
+    units: "%"
     decimals: 0
   temp_ext:
     icon: outdoor_temp
     item: sensor:env/temp_ext
-    u: "°C"
+    units: "°C"
     decimals: 0
   hum_ext:
     icon: outdoor_hum
     item: sensor:env/hum_ext
-    u: "%"
+    units: "%"
     decimals: 0
   pressure:
     icon: pressure
     item: sensor:env/air_pressure
-    u: " hPa"
+    units: " hPa"
     decimals: 0
 
 data-blocks:
