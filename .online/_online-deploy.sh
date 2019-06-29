@@ -1,6 +1,6 @@
 #!/bin/sh
 
-./deploy.sh docker-compose-online-demo.yml || exit 1
+grep -v 'docker pull altertech/eva-ics' deploy.sh | sh /dev/stdin docker-compose-online-demo.yml || exit 1
 docker exec -t eva_smarthome_server eva sfa server stop || exit 1
 if [ ! -f ./data/sfa_history.db ]; then
   docker exec eva_smarthome_server sh -c 'mv /opt/eva/runtime/db/sfa_history.db /data/' || exit 1
