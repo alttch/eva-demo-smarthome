@@ -39,7 +39,7 @@ Requirements: `Docker <https://www.docker.com/>`_, `docker-compose
 This demo depends on EVA HMI `Block UI
 <https://github.com/alttch/eva-hmi-block_ui>`_ app, so clone it recursively.
 
-* Clone: git clone --recursive https://github.com/alttch/eva-demo-smarthome.git
+* Clone: *git clone --recursive https://github.com/alttch/eva-demo-smarthome.git*
 
 * Execute *./deploy.sh* to deploy containers and demo configuration
 
