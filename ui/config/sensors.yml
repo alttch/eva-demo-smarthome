@@ -1,3 +1,4 @@
+#url: https://my.external.domain:port/
 class: sensors
 
 charts:
@@ -6,7 +7,7 @@ charts:
     item: sensor:env/temp1_int
     title: Room 1 temperature
     cfg: default
-    u: "°C"
+    units: "°C"
     color: orange
     fill: "false"
     #background-color: orange
@@ -21,7 +22,7 @@ charts:
     item: sensor:env/hum1_int
     title: Room 1 humidity
     cfg: default
-    u: "%"
+    units: "%"
     color: '#336699'
     fill: "false"
     decimals: 0
@@ -36,7 +37,7 @@ charts:
     item: sensor:env/temp2_int
     title: Room 2 temperature
     cfg: default
-    u: "°C"
+    units: "°C"
     color: orange
     fill: "false"
     #background-color: orange
@@ -51,7 +52,7 @@ charts:
     item: sensor:env/hum1_int
     title: Room 2 humidity
     cfg: default
-    u: "%"
+    units: "%"
     color: '#336699'
     fill: "false"
     decimals: 0
@@ -66,7 +67,7 @@ charts:
     item: sensor:env/temp_ext
     title: Outdoor temperature
     cfg: default
-    u: "°C"
+    units: "°C"
     color: orange
     fill: "false"
     #background-color: orange
@@ -81,7 +82,7 @@ charts:
     item: sensor:env/hum_ext
     title: Outdoor humidity
     cfg: default
-    u: "%"
+    units: "%"
     color: '#336699'
     fill: "false"
     decimals: 0
@@ -92,11 +93,11 @@ charts:
       prop: value
 
   air_pressure:
-    icon: pressure
+    icon: outdoor_pressure
     title: Air pressure
     item: sensor:env/air_pressure
     cfg: default
-    u: " hPa"
+    units: " hPa"
     color: red
     fill: "false"
     #background-color: orange

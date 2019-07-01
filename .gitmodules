@@ -1,0 +1,3 @@
+[submodule "ui/apps/eva-hmi-block_ui"]
+	path = ui/apps/eva-hmi-block_ui
+	url = https://github.com/alttch/eva-hmi-block_ui
