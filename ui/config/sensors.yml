@@ -69,8 +69,7 @@ charts:
     cfg: default
     units: "°C"
     color: orange
-    fill: "false"
-    #background-color: orange
+    background-color: orange
     decimals: 0
     params:
       timeframe: 1D
@@ -84,9 +83,8 @@ charts:
     cfg: default
     units: "%"
     color: '#336699'
-    fill: "false"
     decimals: 0
-    #background-color: orange
+    background-color: '#336699'
     params:
       timeframe: 1D
       fill: 30T:1
@@ -99,8 +97,7 @@ charts:
     cfg: default
     units: " hPa"
     color: red
-    fill: "false"
-    #background-color: orange
+    background-color: red
     decimals: 0
     params:
       timeframe: 1D
