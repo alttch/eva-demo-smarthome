@@ -9,8 +9,8 @@ charts:
     cfg: default
     units: "°C"
     color: orange
-    fill: "false"
-    #background-color: orange
+    fill: "start"
+    background-color: rgba(255,140,0, 0.5)
     decimals: 0
     params:
       timeframe: 1D
@@ -24,9 +24,9 @@ charts:
     cfg: default
     units: "%"
     color: '#336699'
-    fill: "false"
+    fill: "start"
     decimals: 0
-    #background-color: orange
+    background-color: rgba(34, 85, 136, 0.5)
     params:
       timeframe: 1D
       fill: 30T:1
@@ -39,8 +39,8 @@ charts:
     cfg: default
     units: "°C"
     color: orange
-    fill: "false"
-    #background-color: orange
+    fill: "start"
+    background-color: rgba(255,140,0, 0.5)
     decimals: 0
     params:
       timeframe: 1D
@@ -49,14 +49,14 @@ charts:
 
   room2_hum:
     icon: indoor_hum
-    item: sensor:env/hum1_int
+    item: sensor:env/hum2_int
     title: Room 2 humidity
     cfg: default
     units: "%"
     color: '#336699'
-    fill: "false"
+    fill: "start"
     decimals: 0
-    #background-color: orange
+    background-color: rgba(34, 85, 136, 0.5)
     params:
       timeframe: 1D
       fill: 30T:1
@@ -69,7 +69,7 @@ charts:
     cfg: default
     units: "°C"
     color: orange
-    background-color: orange
+    background-color: rgba(255,127,80, 0.2)
     decimals: 0
     params:
       timeframe: 1D
@@ -82,9 +82,10 @@ charts:
     title: Outdoor humidity
     cfg: default
     units: "%"
-    color: '#336699'
+    color: '#8899aa'
+    fill: "start"
     decimals: 0
-    background-color: '#336699'
+    background-color: rgba(51, 102, 153, 0.1)
     params:
       timeframe: 1D
       fill: 30T:1
@@ -97,7 +98,7 @@ charts:
     cfg: default
     units: " hPa"
     color: red
-    background-color: red
+    background-color: rgba(210, 77, 87, 0.5)
     decimals: 0
     params:
       timeframe: 1D

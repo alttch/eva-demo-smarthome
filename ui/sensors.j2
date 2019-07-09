@@ -11,6 +11,28 @@
     <script type="text/javascript" src="apps/eva-hmi-block_ui/index.min.js"></script>
     <link rel="stylesheet" href="apps/eva-hmi-block_ui/themes/default/style.css">
     <link rel="stylesheet" href="apps/eva-hmi-block_ui/themes/default/icons.css">
+    <style type="text/css">
+    .eva_hmi_content_holder_sensors {
+      background-image: linear-gradient(#fff, #eee);
+    }
+    .eva_hmi_chart_title {
+      color: #555;
+    }
+    .eva_hmi_data_item.chart_info {
+      color: #888;
+    }
+    .eva_hmi_chart {
+          width: 500px;
+          max-width: 500px;
+          height: 200;
+        }
+    @media (max-width: 767px) {
+      .eva_hmi_chart {
+        width: 380;
+        height: 170;
+      }
+    }
+    </style>
     <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', function() {
         // enable framework debug

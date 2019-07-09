@@ -42,9 +42,9 @@ function eva_hmi_config_chart_options() {
           },
           gridLines: {
             display: true,
-            lineWidth: 2,
-            color: '#999',
-            drawOnChartArea: false,
+            lineWidth: 1,
+            color: '#ccc',
+            drawOnChartArea: true,
             tickMarkLength: 10,
             borderDash: [5, 10]
           }

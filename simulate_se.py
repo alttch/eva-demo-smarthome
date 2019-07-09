@@ -35,7 +35,7 @@ def simulate_data(stp):
     h_max = 65
 
     p_min = 995
-    p_max = 1020
+    p_max = 1010
 
     t_inside_min = 20
     t_inside_max = 24
@@ -45,22 +45,56 @@ def simulate_data(stp):
 
     ldr = '1' if _stp > 25000 else '0'
 
+    import datetime
+    if datetime.datetime.now().day % 2 == 0:
+        a, b, c, d = 4, 5, 2, 7
+    else:
+        a, b, c, d = 3, 7, 9, 8
+
+    if int(stp / 3600) % a == 0:
+        m1 = 0.95
+        m2 = 0.97
+    elif int(stp / 3600) % b == 0:
+        m1 = 1.1
+        m2 = 1.05
+    else:
+        m1 = 1
+        m2 = 1
+        m3 = 0.995
+    if int(stp / 3600) % c == 0:
+        m3 = 1.001
+        m4 = 0.95
+        m5 = 0.98
+        m6 = 1.09
+        m7 = 1.06
+    elif int(stp / 3600) % d == 0:
+        m4 = 1.1
+        m5 = 1.02
+        m6 = 0.90
+        m7 = 0.98
+    else:
+        m4 = 1
+        m5 = 1
+        m6 = 1
+        m7 = 1
+        m3 = 1
+
     result = {
         'temp_ext':
-        '{:.1f}'.format(t_min + (t_max - t_min) * _stp / 43200),
+        '{:.1f}'.format((t_min + (t_max - t_min) * _stp / 43200) * m1),
         'hum_ext':
-        '{:.1f}'.format(h_max - (h_max - h_min) * _stp / 43200),
+        '{:.1f}'.format((h_max - (h_max - h_min) * _stp / 43200) * m2),
         'air_pressure':
-        '{:.1f}'.format((p_max - (p_max - p_min) * _stp / 43200)),
+        '{:.1f}'.format((p_max - (p_max - p_min) * _stp / 43200) * m3),
         'temp1_int':
         '{:.1f}'.format(
-            (t_inside_max - (t_inside_max - t_inside_min) * _stp / 43200)),
+            (t_inside_max - (t_inside_max - t_inside_min) * _stp / 43200) * m4),
         'hum1_int':
         '{:.1f}'.format(
-            (h_inside_max - (h_inside_max - h_inside_min) * _stp / 43200))
+            (h_inside_max - (h_inside_max - h_inside_min) * _stp / 43200) * m5)
     }
-    result['temp2_int'] = result['temp1_int']
-    result['hum2_int'] = result['hum1_int']
+    result['temp2_int'] = '{:.1f}'.format(float(result['temp1_int']) * m6)
+    result['hum2_int'] = '{:.1f}'.format(float(result['hum1_int']) * m7)
     return result
 
 
