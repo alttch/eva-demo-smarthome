@@ -34,8 +34,8 @@ def simulate_data(stp):
     h_min = 45
     h_max = 65
 
-    p_min = 995
-    p_max = 1010
+    p_min = 1010
+    p_max = 1015
 
     t_inside_min = 20
     t_inside_max = 24
