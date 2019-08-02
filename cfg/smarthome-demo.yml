@@ -30,6 +30,7 @@ controller:
   lm/{{ srv }}:
     after-deploy:
       - { api: clear, i: security/alarm }
+      - { api: clear, i: timers/hall_timer }
       - { api: reload_controller, i: uc/{{ srv }} }
 
 unit:
@@ -204,9 +205,20 @@ dmatrix_rule:
 
   b08a2b86-bd1b-4996-8605-77213d701d20:
     controller: lm/{{ srv }}
-    description: timer example
+    description: timer example start
     enabled: true
     oid: unit:light/hall.status
     condition: x = 1
     macro: "@reset"
-    macro_args: "lvar:timers/hall_timer"
+    macro_args:
+      - timers/hall_timer
+
+  e1cd48d2-c48a-4520-a360-7d7a88b26784:
+    controller: lm/{{ srv }}
+    description: timer example stop
+    enabled: true
+    oid: unit:light/hall.status
+    condition: x = 0
+    macro: "@clear"
+    macro_args:
+      - timers/hall_timer
