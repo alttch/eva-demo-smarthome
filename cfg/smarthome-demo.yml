@@ -153,6 +153,9 @@ sensor:
 lvar:
   security/alarm:
     controller: lm/{{ srv }}
+  timers/hall_timer:
+    controller: lm/{{ srv }}
+    expires: 20
 
 lmacro:
   control/lights_off:
@@ -194,7 +197,16 @@ dmatrix_rule:
     controller: lm/{{ srv }}
     description: motion
     enabled: true
-    oid: sensor:security/motion1/value
+    oid: sensor:security/motion1.value
     condition: x = 1
     break_after_exec: true
     macro: handle_motion
+
+  b08a2b86-bd1b-4996-8605-77213d701d20:
+    controller: lm/{{ srv }}
+    description: timer example
+    enabled: true
+    oid: unit:light/hall.status
+    condition: x = 1
+    macro: "@reset"
+    macro_args: "lvar:timers/hall_timer"

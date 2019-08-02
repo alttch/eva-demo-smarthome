@@ -25,6 +25,11 @@ close all windows, turn on all lights and start CCTV recording.
 In real life, motion event handler should also send a message or place a call
 to owner or security service, but in demo configuration this is not realized.
 
+Timer *lvar:timers/hall_timer* is reset every time when hall light is turned
+on. It doesn't do any functions on set / on expire, as hall light is configured
+to turn off in 20 seconds with *auto_off* unit feature, used only for demo
+purposes.
+
 Network and containers
 ======================
 

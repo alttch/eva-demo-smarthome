@@ -35,6 +35,7 @@ buttons:
     icon: lamp
     item: unit:light/hall
     title: Hall
+    timer: lvar:timers/hall_timer
   window_room1:
     icon: window_left
     item: unit:windows/room1

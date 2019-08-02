@@ -6,6 +6,7 @@ buttons:
     icon: lamp
     item: unit:light/hall
     title: Hall
+    timer: lvar:timers/hall_timer
   alarm:
     icon: attn
     item: lvar:security/alarm
