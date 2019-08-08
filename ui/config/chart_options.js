@@ -39,7 +39,7 @@ function eva_hmi_config_chart_options() {
             maxTicksLimit: 12,
             maxRotation: 0,
             autoSkip: true,
-            fontColor: '#999',
+            fontColor: '#ccc',
             callback: function(value, index, values) {
               if (index == values.length - 1) {
                 return '';
@@ -51,7 +51,7 @@ function eva_hmi_config_chart_options() {
           gridLines: {
             display: true,
             lineWidth: 1,
-            color: '#ccc',
+            color: '#555',
             drawOnChartArea: true,
             tickMarkLength: 10,
             borderDash: [5, 10]
