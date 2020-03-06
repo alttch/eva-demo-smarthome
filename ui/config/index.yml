@@ -230,7 +230,7 @@ layout:
   bar1:
     camera:
       id: room1
-      reload: 1
+      reload: 2
       action: url:room1.j2
     control-blocks:
       - room1-controls
@@ -239,7 +239,7 @@ layout:
   bar2:
     camera:
       id: room2
-      reload: 1
+      reload: 2
       action: url:room2.j2
     control-blocks:
       - room2-controls
@@ -248,7 +248,7 @@ layout:
   bar3:
     camera:
       id: hall
-      reload: 1
+      reload: 2
       action: url:hall.j2
     control-blocks:
       - hall-and-svc

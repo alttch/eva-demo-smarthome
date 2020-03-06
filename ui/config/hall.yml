@@ -23,7 +23,7 @@ cameras:
 layout:
   camera:
     id: hall
-    reload: 1
+    reload: 2
     action: url:/ui/
   buttons:
     - light_hall

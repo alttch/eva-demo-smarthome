@@ -55,7 +55,7 @@ cameras:
 layout:
   camera:
     id: room1
-    reload: 1
+    reload: 2
     action: url:/ui/
   buttons:
     - light_room1
