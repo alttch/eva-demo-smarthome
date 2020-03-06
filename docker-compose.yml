@@ -1,6 +1,7 @@
 version: '3'
 services:
   eva-smarthome-server:
+    image: altertech/eva-ics:3.3.0-2020030601-10
     container_name: eva_smarthome_server
     hostname: smarthomesrv
     ports:
@@ -15,7 +16,6 @@ services:
       - OPPASSWD=123
       - cloud_manager=1
       - after_install=/deploy/deploy.sh
-    image: altertech/eva-ics
     volumes:
         - ./ui:/ui
         - ./deploy:/deploy

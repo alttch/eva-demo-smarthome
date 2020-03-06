@@ -1,7 +1,6 @@
 import sqlalchemy
 import os
 import sys
-import json
 import datetime
 import time
 
@@ -19,7 +18,8 @@ time_ds = time.time() - stp
 
 s = stp - 86400
 
-db = sqlalchemy.create_engine('sqlite:///data/sfa_history.db').connect()
+db = sqlalchemy.create_engine(
+    'sqlite:////opt/eva/runtime/db/sfa_history.db').connect()
 
 db.execute(sql('delete from state_history'))
 
@@ -33,8 +33,8 @@ while s <= stp:
     for k, v in data.items():
         oid = 'sensor:env/{}'.format(k)
         db.execute(
-            sql('insert into state_history (space, t, oid, status, value) '
-                + 'values (:space, :t, :oid, :status, :value)'),
+            sql('insert into state_history (space, t, oid, status, value) ' +
+                'values (:space, :t, :oid, :status, :value)'),
             space='',
             t=time_ds + s,
             oid=oid,

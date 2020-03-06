@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+default_api_url = 'http://10.27.14.199:8812'
+
 
 def jrpc(url, method, **kwargs):
     import requests
@@ -81,17 +83,18 @@ def simulate_data(stp):
 
     result = {
         'temp_ext':
-        '{:.1f}'.format((t_min + (t_max - t_min) * _stp / 43200) * m1),
+            '{:.1f}'.format((t_min + (t_max - t_min) * _stp / 43200) * m1),
         'hum_ext':
-        '{:.1f}'.format((h_max - (h_max - h_min) * _stp / 43200) * m2),
+            '{:.1f}'.format((h_max - (h_max - h_min) * _stp / 43200) * m2),
         'air_pressure':
-        '{:.1f}'.format((p_max - (p_max - p_min) * _stp / 43200) * m3),
+            '{:.1f}'.format((p_max - (p_max - p_min) * _stp / 43200) * m3),
         'temp1_int':
-        '{:.1f}'.format(
-            (t_inside_max - (t_inside_max - t_inside_min) * _stp / 43200) * m4),
+            '{:.1f}'.format(
+                (t_inside_max -
+                 (t_inside_max - t_inside_min) * _stp / 43200) * m4),
         'hum1_int':
-        '{:.1f}'.format(
-            (h_inside_max - (h_inside_max - h_inside_min) * _stp / 43200) * m5)
+            '{:.1f}'.format((h_inside_max -
+                             (h_inside_max - h_inside_min) * _stp / 43200) * m5)
     }
     result['temp2_int'] = '{:.1f}'.format(float(result['temp1_int']) * m6)
     result['hum2_int'] = '{:.1f}'.format(float(result['hum1_int']) * m7)
@@ -102,16 +105,25 @@ def main():
     import argparse
 
     ap = argparse.ArgumentParser(description='Simulate sensor events')
-    ap.add_argument(
-        '-t',
-        '--time',
-        metavar='SEC',
-        help='Seconds since day start (0..86400)',
-        type=int)
-    ap.add_argument(
-        '-J', '--json', action='store_true', help='print JSON and exit')
-    ap.add_argument(
-        '-K', '--api-key', metavar='KEY', help='API key (default: demo123)')
+    ap.add_argument('-t',
+                    '--time',
+                    metavar='SEC',
+                    help='Seconds since day start (0..86400)',
+                    type=int)
+    ap.add_argument('-J',
+                    '--json',
+                    action='store_true',
+                    help='print JSON and exit')
+    ap.add_argument('-K',
+                    '--api-key',
+                    default='demo123',
+                    metavar='KEY',
+                    help='API key (default: demo123)')
+    ap.add_argument('-U',
+                    '--api-url',
+                    default=default_api_url,
+                    metavar='URL',
+                    help='API URI (default: {})'.format(default_api_url))
     args = ap.parse_args()
 
     if args.time is not None:
@@ -129,12 +141,13 @@ def main():
         print(json.dumps(data, indent=4, sort_keys=True))
         exit()
 
-    api_key = args.api_key if args.api_key is not None else 'demo123'
-
     from functools import partial
 
-    rpc = partial(
-        jrpc, 'http://10.27.14.199:8812/jrpc', 'update', k=api_key, s=1)
+    rpc = partial(jrpc,
+                  '{}/jrpc'.format(args.api_url),
+                  'update',
+                  k=args.api_key,
+                  s=1)
     for k, v in data.items():
         result = rpc(i='sensor:env/{}'.format(k), v=v)
         if not result.get('ok'):
