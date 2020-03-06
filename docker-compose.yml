@@ -7,23 +7,18 @@ services:
       - "8828:8828"
     environment:
       - auto_install=1
-      - mqtt=
       - link=1
       - product=all
       - layout=enterprise
       - MASTERKEY=demo123
       - DEFAULTKEY=demo-default
-      - OPKEY=
       - OPPASSWD=123
       - cloud_manager=1
-      - deploy=
-      - download=
-      - debug=
+      - after_install=/deploy/deploy.sh
     image: altertech/eva-ics
     volumes:
         - ./ui:/ui
-        - ./data:/data
-        - ./cfg:/deploy-cfg
+        - ./deploy:/deploy
     networks:
       eva_smarthome_ic:
         ipv4_address: 10.27.14.199

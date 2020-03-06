@@ -24,13 +24,11 @@ controller:
       - { api: update, i: env/temp_ext, s: 1, v: 5 }
       - { api: update, i: env/hum_ext, s: 1, v: 60 }
       - { api: update, i: env/air_pressure, s: 1, v: 1010 }
-      - { api: update, i: security/motion1, s: 1 }
       - { api: action, i: thermo/room1, s: 1, v: 20 }
       - { api: action, i: thermo/room2, s: 1, v: 24 }
   lm/{{ srv }}:
     after-deploy:
       - { api: clear, i: security/alarm }
-      - { api: clear, i: timers/hall_timer }
       - { api: reload_controller, i: uc/{{ srv }} }
 
 unit:
@@ -57,7 +55,6 @@ unit:
     action_enabled: true
     action_always_exec: true
     update_interval: 0
-    auto_off: 20
     driver:
       id: vr1.default
       config:
@@ -154,9 +151,6 @@ sensor:
 lvar:
   security/alarm:
     controller: lm/{{ srv }}
-  timers/hall_timer:
-    controller: lm/{{ srv }}
-    expires: 20
 
 lmacro:
   control/lights_off:
@@ -188,37 +182,3 @@ lmacro:
   profiles/night_mode:
     controller: lm/{{ srv }}
     action_exec: ^night_mode.py
-
-  security/handle_motion:
-    controller: lm/{{ srv }}
-    action_exec: ^handle_motion.py
-
-dmatrix_rule:
-  324895ee-953a-11e9-89ca-57b2e9187a57:
-    controller: lm/{{ srv }}
-    description: motion
-    enabled: true
-    oid: sensor:security/motion1.value
-    condition: x = 1
-    break_after_exec: true
-    macro: handle_motion
-
-  b08a2b86-bd1b-4996-8605-77213d701d20:
-    controller: lm/{{ srv }}
-    description: timer example start
-    enabled: true
-    oid: unit:light/hall.status
-    condition: x = 1
-    macro: "@reset"
-    macro_args:
-      - timers/hall_timer
-
-  e1cd48d2-c48a-4520-a360-7d7a88b26784:
-    controller: lm/{{ srv }}
-    description: timer example stop
-    enabled: true
-    oid: unit:light/hall.status
-    condition: x = 0
-    macro: "@clear"
-    macro_args:
-      - timers/hall_timer
