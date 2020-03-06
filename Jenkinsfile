@@ -9,6 +9,7 @@ pipeline {
     stage('build') {
       steps {
         script {
+          sh "make submodules"
           sh "docker build -t ${imageName}:${BUILD_NUMBER} ."
         }}
     }
@@ -21,13 +22,13 @@ pipeline {
         }
       }
     }
-    //stage('deploy') {
-      //steps {
-        //script {
-          //sh "kube-deploy ${kubeCluster} ${app}"
-        //}
-      //}
-    //}
+    stage('deploy') {
+      steps {
+        script {
+          sh "kube-deploy ${kubeCluster} ${app}"
+        }
+      }
+    }
   }
   post {
     always {
