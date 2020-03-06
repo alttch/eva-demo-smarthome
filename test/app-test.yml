@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eva-demo-smarthome
+  labels:
+    app: eva-demo-smarthome
+spec:
+  selector:
+    matchLabels:
+      app: eva-demo-smarthome
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: eva-demo-smarthome
+    spec:
+      containers:
+      - name: eva-demo-smarthome
+        image: altertech/eva-demo-smarthome:test
+        imagePullPolicy: Never
+        readinessProbe:
+          httpGet:
+            path: /ui/
+            port: 8828
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        env:
+        - name: debug
+          value: "1"
+        - name: auto_install
+          value: "1"
+        - name: link
+          value: "1"
+        - name: product
+          value: all
+        - name: layout
+          value: enterprise
+        - name: MASTERKEY
+          valueFrom:
+            secretKeyRef:
+              name: eva-demo-keys
+              key: masterkey
+        - name: DEFAULTKEY
+          valueFrom:
+            secretKeyRef:
+              name: eva-demo-keys
+              key: defaultkey
+        - name: OPPASSWD
+          value: "123"
+        - name: cloud_manager
+          value: "1"
+        - name: after_install
+          value: /deploy/deploy.sh
+        - name: generate_stats
+          value: "1"
+        volumeMounts:
+          - name: keys
+            mountPath: /keys
+      volumes:
+        - name: keys
+          secret:
+            defaultMode: 0o400
+            secretName: eva-demo-keys

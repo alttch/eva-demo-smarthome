@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: eva-demo-keys
+data:
+  masterkey: ZGVtbzEyMw==
+  defaultkey: ZGVtby1kZWZhdWx0
