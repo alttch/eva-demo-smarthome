@@ -1,4 +1,1 @@
-data/sfa_history.db
-docker-compose-online-demo.yml
 __pycache__
-.online/_sse.sh
