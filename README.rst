@@ -4,7 +4,7 @@ EVA ICS demo: smart home
 Live demo
 =========
 
-@ https://smarthome.demo.eva-ics.com/
+@ https://demo-smarthome.eva-ics.com/
 
 Layout
 ======
