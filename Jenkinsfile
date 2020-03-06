@@ -33,7 +33,6 @@ pipeline {
   post {
     always {
         sh "docker rmi ${imageName}:${BUILD_NUMBER}"
-        sh "docker rmi ${imageName}:latest"
         }
     success { sh 'job-notify ok' }
     failure { sh 'job-notify failed' }
