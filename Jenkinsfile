@@ -21,13 +21,13 @@ pipeline {
         }
       }
     }
-    stage('deploy') {
-      steps {
-        script {
-          sh "kube-deploy ${kubeCluster} ${app}"
-        }
-      }
-    }
+    //stage('deploy') {
+      //steps {
+        //script {
+          //sh "kube-deploy ${kubeCluster} ${app}"
+        //}
+      //}
+    //}
   }
   post {
     always {
