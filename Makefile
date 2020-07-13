@@ -4,5 +4,5 @@ submodules:
 
 update-image-version:
 	./update-image-version.sh
-	git commit -a -m "$(shell grep from Dockerfile|awk '{ print $2 }')"
+	git commit -a -m "$(shell awk '/^from/ { print $$2 }' Dockerfile)"
 	git push
