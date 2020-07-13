@@ -16,6 +16,3 @@ echo "ok"
 echo -n "docker-compose.yml "
 sed -i "s|image: ${IMAGE}:.*|image: ${IMAGE}:${TAG}|g" docker-compose.yml || exit 2
 echo "ok"
-
-git commit -a -m "${IMAGE}:${TAG}"
-git push
