@@ -1,11 +1,11 @@
 #!/bin/sh
 
-if ! TAG=$(curl -s https://registry.hub.docker.com/v2/repositories/altertech/eva-ics/tags/ | jq -r .results\[\].name|sort -r | head -2 | tail -1); then
+IMAGE=$(head -1 Dockerfile|awk '{ print $2 }'|cut -d: -f1)
+
+if ! TAG=$(curl -s https://registry.hub.docker.com/v2/repositories/${IMAGE}/tags/ | jq -r .results\[\].name|sort -r | head -2 | tail -1); then
   echo "Unable to update tag"
   exit 1
 fi
-
-IMAGE=$(head -1 Dockerfile|awk '{ print $2 }'|cut -d: -f1)
 
 echo $IMAGE:$TAG
 
