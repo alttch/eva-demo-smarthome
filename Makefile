@@ -1,8 +1,7 @@
-submodules:
-	git submodule init
-	git submodule update --recursive --remote
-
-update-image-version: do-update-image-version commit-ver
+#submodules:
+	#git submodule init
+	#git submodule update --recursive --remote
+update-image-version: do-update-image-version pkg commit-ver
 
 do-update-image-version:
 	./update-image-version.sh
@@ -10,3 +9,6 @@ do-update-image-version:
 commit-ver:
 	git commit -a -m "$(shell awk '/^from/ { print $$2 }' Dockerfile)"
 	git push
+
+pkg:
+	tar czf ./deploy/smarthome-demo.evapkg setup.py ui

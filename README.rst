@@ -41,13 +41,6 @@ Deployment
 Requirements: `Docker <https://www.docker.com/>`_, `docker-compose
 <https://docs.docker.com/compose/>`_.
 
-This demo depends on EVA HMI `Block UI
-<https://github.com/alttch/eva-hmi-block_ui>`_ app, so clone it recursively.
-
-* Clone UI: *git submodule update --init --recursive*
-
-* Execute *docker-compose up* to deploy containers and demo configuration
-
 Management
 ==========
 
