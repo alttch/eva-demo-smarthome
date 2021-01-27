@@ -11,7 +11,7 @@ controller:
     after-deploy:
       - install-pkg: https://github.com/alttch/eva-js-framework/releases/download/v0.3.12/eva-js-framework-0.3.12.evapkg
       - install-pkg: https://github.com/alttch/eva-hmi-block_ui/releases/download/v0.2.6/eva-hmi-block_ui-0.2.6.evapkg
-      - install-pkg: smarthome-demo.evapkg
+      - install-pkg: https://github.com/alttch/eva-demo-smarthome/blob/master/deploy/smarthome-demo.evapkg?raw=true
   uc/{{ srv }}:
     phi:
       # lights and equipment relay
