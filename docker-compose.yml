@@ -15,10 +15,9 @@ services:
       - DEFAULTKEY=demo-default
       - OPPASSWD=123
       - cloud_manager=1
-      - after_install=/deploy/deploy.sh
+      - deploy=https://raw.githubusercontent.com/alttch/eva-demo-smarthome/master/deploy/smarthome-demo.yml
     volumes:
         - ./ui:/ui
-        - ./deploy:/deploy
     networks:
       eva_smarthome_ic:
         ipv4_address: 10.27.14.199

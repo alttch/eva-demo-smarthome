@@ -38,6 +38,16 @@ Network and containers
 Deployment
 ==========
 
+Local
+-----
+
+.. code:: bash
+
+    eva sfa cloud deploy -ys https://raw.githubusercontent.com/alttch/eva-demo-smarthome/master/deploy/smarthome-demo.yml
+
+Docker
+------
+
 Requirements: `Docker <https://www.docker.com/>`_, `docker-compose
 <https://docs.docker.com/compose/>`_.
 
