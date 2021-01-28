@@ -7,7 +7,13 @@ CCTV_PKG = [
 if event.type == CS_EVENT_PKG_INSTALL:
     logger.warning(f'Installing EVA Smarthome demo')
     try:
-        g.cctvsim.kill()
+        import psutil
+        parent_pid = g.cctvsim.pid
+        parent = psutil.Process(parent_pid)
+        for child in parent.children(recursive=True):
+            child.kill()
+            parent.kill()
+        g.cctvsim = None
     except AttributeError:
         pass
     extract_package()
@@ -32,7 +38,13 @@ if event.type == CS_EVENT_SYSTEM:
         logger.info('CCTV SIM started')
     elif event.topic == 'shutdown':
         try:
-            g.cctvsim.kill()
+            import psutil
+            parent_pid = g.cctvsim.pid
+            parent = psutil.Process(parent_pid)
+            for child in parent.children(recursive=True):
+                child.kill()
+                parent.kill()
+            g.cctvsim = None
             logger.info('CCTV SIM stopped')
         except AttributeError:
             pass
