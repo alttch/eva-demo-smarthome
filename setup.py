@@ -6,6 +6,10 @@ CCTV_PKG = [
 
 if event.type == CS_EVENT_PKG_INSTALL:
     logger.warning(f'Installing EVA Smarthome demo')
+    try:
+        g.cctvsim.kill()
+    except AttributeError:
+        pass
     extract_package()
     import venv
     import os
@@ -34,10 +38,6 @@ if event.type == CS_EVENT_SYSTEM:
             pass
 """)
     reload_corescripts(k=masterkey)
-    try:
-        g.cctvsim.kill()
-    except AttributeError:
-        pass
     g.cctvsim = subprocess.Popen([
         f'cd {dir_eva}/cctvsim && ./venv/bin/gunicorn cctvsim '
         f'-b 127.0.0.1:8118 -w 1 --log-level CRITICAL',
