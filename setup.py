@@ -1,7 +1,6 @@
 CCTV_PKG = [
-    'click==6.7', 'Flask==1.0.3', 'itsdangerous==1.1.0', 'Jinja2==2.11.2',
-    'MarkupSafe==1.1.1', 'Werkzeug==1.0.1', 'pillow==8.1.0', 'requests==2.21.0',
-    'gunicorn==20.0.4'
+    'click==6.7', 'Flask==1.0.3', 'itsdangerous==1.1.0', 'MarkupSafe==1.1.1',
+    'Werkzeug==1.0.1', 'gunicorn==20.0.4'
 ]
 
 if event.type == CS_EVENT_PKG_INSTALL:
@@ -17,11 +16,8 @@ if event.type == CS_EVENT_PKG_INSTALL:
     except AttributeError:
         pass
     extract_package()
-    import venv
     import os
-    venv.create(f'{dir_eva}/cctvsim/venv', with_pip=True)
-    code = os.system(f'{dir_eva}/cctvsim/venv/bin/pip install ' +
-                     ' '.join(CCTV_PKG))
+    code = os.system(f'{dir_eva}/python3/bin/pip install ' + ' '.join(CCTV_PKG))
     if code:
         raise RuntimeError(f'pip failed with code {code}')
     import subprocess
@@ -30,8 +26,13 @@ if event.type == CS_EVENT_PKG_INSTALL:
 if event.type == CS_EVENT_SYSTEM:
     if event.topic == 'startup':
         import subprocess
+        import os
+        if os.path.exists(f'{dir_eva}/python3/bin/gunicorn'):
+            gunicorn = f'{dir_eva}/python3/bin/gunicorn'
+        else:
+            gunicorn = 'gunicorn'
         g.cctvsim = subprocess.Popen([
-            f'cd {dir_eva}/cctvsim && ./venv/bin/gunicorn cctvsim '
+            f'cd {dir_eva}/cctvsim && {gunicorn} cctvsim '
             f'-b 127.0.0.1:8118 -w 1 --log-level CRITICAL',
         ],
                                      shell=True)
@@ -50,8 +51,13 @@ if event.type == CS_EVENT_SYSTEM:
             pass
 """)
     reload_corescripts(k=masterkey)
+    import os
+    if os.path.exists(f'{dir_eva}/python3/bin/gunicorn'):
+        gunicorn = f'{dir_eva}/python3/bin/gunicorn'
+    else:
+        gunicorn = 'gunicorn'
     g.cctvsim = subprocess.Popen([
-        f'cd {dir_eva}/cctvsim && ./venv/bin/gunicorn cctvsim '
+        f'cd {dir_eva}/cctvsim && {gunicorn} cctvsim '
         f'-b 127.0.0.1:8118 -w 1 --log-level CRITICAL',
     ],
                                  shell=True)
