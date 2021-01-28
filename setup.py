@@ -12,7 +12,7 @@ if event.type == CS_EVENT_PKG_INSTALL:
         parent = psutil.Process(parent_pid)
         for child in parent.children(recursive=True):
             child.kill()
-            parent.kill()
+        parent.kill()
         g.cctvsim = None
     except AttributeError:
         pass
@@ -43,7 +43,7 @@ if event.type == CS_EVENT_SYSTEM:
             parent = psutil.Process(parent_pid)
             for child in parent.children(recursive=True):
                 child.kill()
-                parent.kill()
+            parent.kill()
             g.cctvsim = None
             logger.info('CCTV SIM stopped')
         except AttributeError:
