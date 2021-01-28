@@ -1,4 +1,4 @@
-from altertech/eva-ics:3.3.1-2020082501-19
+from altertech/eva-ics:3.3.2-2021012801
 ADD deploy /deploy
 ADD ui /ui
 RUN mkdir /opt/sse
