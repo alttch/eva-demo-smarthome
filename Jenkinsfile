@@ -9,7 +9,6 @@ pipeline {
     stage('build') {
       steps {
         script {
-          sh "make submodules"
           sh "docker build -t ${imageName}:${BUILD_NUMBER} ."
         }}
     }
