@@ -1,6 +1,7 @@
 CCTV_PKG = [
     'click==6.7', 'Flask==1.0.3', 'itsdangerous==1.1.0', 'Jinja2==2.11.2',
-    'MarkupSafe==1.1.1', 'Werkzeug==1.0.1', 'pillow==8.1.0', 'requests==2.21.0'
+    'MarkupSafe==1.1.1', 'Werkzeug==1.0.1', 'pillow==8.1.0', 'requests==2.21.0',
+    'gunicorn==20.0.4'
 ]
 
 if event.type == CS_EVENT_PKG_INSTALL:
@@ -19,9 +20,11 @@ if event.type == CS_EVENT_PKG_INSTALL:
 if event.type == CS_EVENT_SYSTEM:
     if event.topic == 'startup':
         import subprocess
-        g.cctvsim = subprocess.Popen(
-            [f'{dir_eva}/cctvsim/venv/bin/python',
-            f'{dir_eva}/cctvsim/cctvsim.py'])
+        g.cctvsim = subprocess.Popen([
+            f'cd {dir_eva}/cctvsim && ./venv/bin/gunicorn cctvsim '
+            f'-b 127.0.0.1:8118 -w 1 --log-level CRITICAL',
+        ],
+                                     shell=True)
         logger.info('CCTV SIM started')
     elif event.topic == 'shutdown':
         try:
@@ -32,9 +35,11 @@ if event.type == CS_EVENT_SYSTEM:
 """)
     reload_corescripts(k=masterkey)
     try:
-        g.cctvsim
+        g.cctvsim.kill()
     except AttributeError:
-        g.cctvsim = subprocess.Popen([
-            f'{dir_eva}/cctvsim/venv/bin/python',
-            f'{dir_eva}/cctvsim/cctvsim.py'
-        ])
+        pass
+    g.cctvsim = subprocess.Popen([
+        f'cd {dir_eva}/cctvsim && ./venv/bin/gunicorn cctvsim '
+        f'-b 127.0.0.1:8118 -w 1 --log-level CRITICAL',
+    ],
+                                 shell=True)

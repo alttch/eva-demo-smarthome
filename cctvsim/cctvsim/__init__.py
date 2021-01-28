@@ -15,14 +15,14 @@ from eva.client.apiclient import APIClientLocal
 
 a = APIClientLocal('uc')
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 Flask.debug = False
 
 cameras = {1: 'room1', 2: 'room2', 3: 'hall'}
 
 
-@app.route('/cam/<cam_id>', methods=['GET'])
+@application.route('/cam/<cam_id>', methods=['GET'])
 def cctv(cam_id):
     try:
         room_id = cameras.get(int(cam_id))
@@ -61,6 +61,3 @@ def cctv(cam_id):
     resp = Response(image.tobytes('jpeg', 'RGB', 85))
     resp.headers['Content-Type'] = 'image/jpeg'
     return resp
-
-
-app.run(host='127.0.0.1', port=8118)
