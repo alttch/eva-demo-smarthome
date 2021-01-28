@@ -43,3 +43,4 @@ if event.type == CS_EVENT_SYSTEM:
         f'-b 127.0.0.1:8118 -w 1 --log-level CRITICAL',
     ],
                                  shell=True)
+    logger.info('Smarthome demo setup completed')
