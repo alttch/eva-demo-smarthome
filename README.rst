@@ -52,6 +52,8 @@ Docker
 Requirements: `Docker <https://www.docker.com/>`_, `docker-compose
 <https://docs.docker.com/compose/>`_.
 
+* Execute *docker-compose up* to deploy containers and demo configuration
+
 Management
 ==========
 
