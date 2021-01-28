@@ -11,4 +11,4 @@ commit-ver:
 	git push
 
 pkg:
-	tar czf ./deploy/smarthome-demo.evapkg setup.py ui
+	tar czf ./deploy/smarthome-demo.evapkg setup.py ui cctvsim

@@ -43,7 +43,8 @@ Local
 
 .. code:: bash
 
-    eva sfa cloud deploy -ys https://raw.githubusercontent.com/alttch/eva-demo-smarthome/master/deploy/smarthome-demo.yml
+    eva sfa cloud deploy -ys -c srv=$(hostname) \
+        https://raw.githubusercontent.com/alttch/eva-demo-smarthome/master/deploy/smarthome-demo.yml
 
 Docker
 ------

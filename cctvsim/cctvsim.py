@@ -4,11 +4,12 @@ import sys
 import os
 import datetime
 
+from pathlib import Path
+
 from PIL import Image, ImageDraw, ImageFont
 
 sys.path.append('/opt/eva/lib')
-
-dir_img = sys.argv[1]
+dir_img = Path(__file__).absolute().parent / 'images'
 
 from eva.client.apiclient import APIClientLocal
 
@@ -45,16 +46,15 @@ def cctv(cam_id):
     except:
         abort(404)
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype(dir_img + '/VeraBd.ttf', 20)
+    font = ImageFont.truetype((dir_img / 'VeraBd.ttf').as_posix(), 20)
     for y in range(30):
         draw.line(((0, y), (image.size[0], y)), fill="black")
     txt = '{} {}'.format(room_id.upper(),
                          datetime.datetime.now().strftime('%Y-%m-%d %T'))
-    draw.text(
-        (image.size[0] - 10 - len(txt) * 13, 3),
-        txt,
-        font=font,
-        fill='white')
+    draw.text((image.size[0] - 10 - len(txt) * 13, 3),
+              txt,
+              font=font,
+              fill='white')
     size = request.args.get('s')
     if size:
         image.thumbnail([int(x) for x in size.split('x')])
