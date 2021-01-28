@@ -33,6 +33,7 @@ def stop_cctvsim():
 
 
 if event.type == CS_EVENT_PKG_INSTALL:
+    import os
     logger.warning(f'Installing EVA Smarthome demo')
     stop_cctvsim()
     extract_package()
