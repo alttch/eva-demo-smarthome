@@ -1,7 +1,7 @@
 version: '3'
 services:
   eva-smarthome-server:
-    image: altertech/eva-ics:3.3.2-2021030102-21
+    image: altertech/eva-ics:3.3.2-2021030501-22
     container_name: eva_smarthome_server
     hostname: smarthomesrv
     ports:
