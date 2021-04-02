@@ -10,7 +10,7 @@ controller:
         password: "123"
         key: operator
     after-deploy:
-      - install-pkg: https://github.com/alttch/eva-js-framework/releases/download/v0.3.17/eva-js-framework-0.3.17.evapkg
+      - install-pkg: https://github.com/alttch/eva-js-framework/releases/download/v0.3.18/eva-js-framework-0.3.18.evapkg
       - install-pkg: https://github.com/alttch/eva-hmi-block_ui/releases/download/v0.2.6/eva-hmi-block_ui-0.2.6.evapkg
       - install-pkg: smarthome-demo.evapkg
       - api: reload_clients
