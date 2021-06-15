@@ -34,7 +34,10 @@ def cctv(cam_id):
     if code:
         abort(404)
     l_c = 'on' if light.get('status') else 'off'
-    code, window = a.call('state', {'i': 'unit:windows/' + room_id})
+    if room_id != 'hall':
+        code, window = a.call('state', {'i': 'unit:windows/' + room_id})
+    else:
+        code = -1
     if code:
         win_c = 'c'
     else:
