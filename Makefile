@@ -14,4 +14,4 @@ pkg:
 	tar czf ./deploy/smarthome-demo.evapkg setup.py ui runtime/cctvsim
 
 docker-image:
-	jks build eva-demo-farm
+	jks build eva-demo-smarthome
