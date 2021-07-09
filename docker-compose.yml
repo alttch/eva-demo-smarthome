@@ -1,24 +1,20 @@
 version: '3'
 services:
   eva-smarthome-server:
-    image: altertech/eva-ics:3.3.2-2021041601-29
+    image: altertech/eva-ics:3.4.0-2021070901-31
     container_name: eva_smarthome_server
     hostname: smarthomesrv
     ports:
       - "8828:8828"
     environment:
-      - auto_install=1
-      - link=1
-      - product=all
-      - layout=enterprise
       - MASTERKEY=demo123
-      - DEFAULTKEY=demo-default
-      - OPPASSWD=123
-      - cloud_manager=1
-      - deploy=https://raw.githubusercontent.com/alttch/eva-demo-smarthome/master/deploy/smarthome-demo.yml
+      - DEFAULTKEY=default123
+      - DEPLOY=https://raw.githubusercontent.com/alttch/eva-demo-smarthome/master/deploy/smarthome-demo.yml
     networks:
       eva_smarthome_ic:
         ipv4_address: 10.27.14.199
+    volumes:
+      - ./ui:/mnt/ui
 
 networks:
   eva_smarthome_ic:
@@ -30,4 +26,3 @@ networks:
 
 volumes:
   ui:
-  cfg:
