@@ -7,15 +7,10 @@ CCTV_PKG = [
 def start_cctvsim():
     import subprocess
     import os
-    if os.path.exists(f'{dir_eva}/python3/bin/gunicorn'):
-        gunicorn = f'{dir_eva}/python3/bin/gunicorn'
-    else:
-        gunicorn = 'gunicorn'
-    g.cctvsim = subprocess.Popen([
-        f'cd {dir_eva}/cctvsim && {gunicorn} cctvsim '
-        f'-b 127.0.0.1:8118 -w 1 --log-level CRITICAL',
-    ],
-                                 shell=True)
+    g.cctvsim = subprocess.Popen(
+        (f'cd {dir_eva}/runtime/cctvsim && gunicorn cctvsim '
+         f'-b 127.0.0.1:8118 -w 1 --log-level CRITICAL'),
+        shell=True)
 
 
 def stop_cctvsim():
