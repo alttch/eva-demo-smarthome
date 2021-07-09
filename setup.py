@@ -35,7 +35,7 @@ if event.type == CS_EVENT_PKG_INSTALL:
     pip_install(' '.join(CCTV_PKG))
     if os.path.exists('/opt/sse/_online-demo-initial-generator.py'):
         logger.info('Generating stats')
-        code = os.system(f'cd /opt/sse && {dir_eva}/python3/bin/python '
+        code = os.system(f'cd /opt/sse && python '
                          '/opt/sse/_online-demo-initial-generator.py')
         if code:
             raise RuntimeError(f'generator failed with code {code}')
