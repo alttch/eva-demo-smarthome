@@ -1,4 +1,4 @@
-from altertech/eva-ics:3.4.0-2021070902-32
+from altertech/eva-ics:3.4.0-2021070902-34
 ADD ui /mnt/ui
 RUN mkdir /opt/sse
 COPY .online/crond-supervisor.conf /etc/supervisor/conf.d/crond.conf
