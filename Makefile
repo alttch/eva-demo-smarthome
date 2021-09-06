@@ -1,7 +1,7 @@
 #submodules:
 	#git submodule init
 	#git submodule update --recursive --remote
-update-image-version: do-update-image-version pkg commit-ver docker-image
+update-version: do-update-image-version pkg commit-ver docker-image
 
 do-update-image-version:
 	./update-image-version.sh
