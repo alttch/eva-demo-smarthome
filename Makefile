@@ -11,6 +11,7 @@ commit-ver:
 	git push
 
 pkg:
+	rm -f ./deploy/smarthome-demo.evapkg
 	tar --exclude=eva*.js --exclude=apps -czvf ./deploy/smarthome-demo.evapkg setup.py ui runtime/cctvsim
 
 docker-image:
