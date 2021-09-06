@@ -11,7 +11,7 @@ controller:
         key: operator
     after-deploy:
       - install-pkg: https://github.com/alttch/eva-js-framework/releases/download/v0.3.25/eva-js-framework-0.3.25.evapkg
-      - install-pkg: https://github.com/alttch/eva-hmi-block_ui/releases/download/v0.2.6/eva-hmi-block_ui-0.2.6.evapkg
+      - install-pkg: https://github.com/alttch/eva-hmi-block_ui/releases/download/v0.2.8/eva-hmi-block_ui-0.2.8.evapkg
       - install-pkg: smarthome-demo.evapkg
       - api: reload_clients
   uc/{{ srv }}:
