@@ -44,8 +44,8 @@ Local
 EVA ICS v4
 ~~~~~~~~~~
 
-* Make sure the node has got HMI, ACL and local authentication services
-  deployed.
+* Make sure the node has got Python virtual environment (required for CCTV
+  demo), HMI, ACL and local authentication services deployed.
 
 * Install required Python modules:
 
