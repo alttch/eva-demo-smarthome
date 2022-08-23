@@ -53,7 +53,7 @@ EVA ICS v4
 
     eva venv add flask==2.2.2 pillow==9.2.0 gunicorn==20.1.0 eva4-controller-py
 
-* Enable UI deploy:
+* Enable UI deployment:
 
 .. code:: shell
 
