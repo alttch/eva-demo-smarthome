@@ -11,30 +11,6 @@ Layout
 
 This demo deploys single `EVA ICS <https://www.eva-ics.com/>`_ node.
 
-Logic
-=====
-
-Unit *light/hall* is configured to automatically turn off in 20 seconds.
-
-If sensor *security/motion1* gets value 1 (motion detected), light in hall is
-automatically turned on.
-
-If alarm is on (lvar *security/alarm*), motion event handler macro additionally
-close all windows, turn on all lights and start CCTV recording.
-
-In real life, motion event handler should also send a message or place a call
-to owner or security service, but in demo configuration this is not realized.
-
-Timer *lvar:timers/hall_timer* is reset every time when hall light is turned
-on. It doesn't do any functions on set / on expire, as hall light is configured
-to turn off in 20 seconds with *auto_off* unit feature, used only for demo
-purposes.
-
-Network and containers
-======================
-
-* **eva_smarthome_server** 10.27.14.199
-
 Deployment
 ==========
 
@@ -85,6 +61,11 @@ Requirements: `Docker <https://www.docker.com/>`_, `docker-compose
 
 Management (v3 Docker)
 ======================
+
+Network and containers
+----------------------
+
+* **eva_smarthome_server** 10.27.14.199
 
 API
 ---
