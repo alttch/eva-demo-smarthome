@@ -83,8 +83,8 @@ Requirements: `Docker <https://www.docker.com/>`_, `docker-compose
 
 * Execute *docker-compose up* to deploy containers and demo configuration
 
-Management
-==========
+Management (v3 Docker)
+======================
 
 API
 ---
