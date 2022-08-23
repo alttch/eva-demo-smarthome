@@ -44,14 +44,14 @@ Local
 EVA ICS v4
 ~~~~~~~~~~
 
-* Make sure the node has got Python virtual environment (required for CCTV
-  demo), HMI, ACL and local authentication services deployed.
+* Make sure the node has got Python virtual environment, HMI, ACL and local
+  authentication services deployed.
 
 * Install required Python modules:
 
 .. code:: shell
 
-    eva venv add flash==2.2.2 pillow==9.2.0 gunicorn==20.1.0
+    eva venv add flash==2.2.2 pillow==9.2.0 gunicorn==20.1.0 eva4-controller-py
 
 * Enable UI deploy:
 
