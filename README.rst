@@ -58,6 +58,8 @@ Enable UI deploy:
 
 Deploy:
 
+.. code:: shell
+
     eva cloud deploy https://raw.githubusercontent.com/alttch/eva-demo-smarthome/master/deploy/smarthome-demo-v4.yml
 
 Sensor charts page: requires **eva.db.default** service (TSDB).
