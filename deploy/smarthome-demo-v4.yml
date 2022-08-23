@@ -1,0 +1,164 @@
+version: 4
+content:
+  - node: .local
+    extra:
+      deploy:
+        after:
+          - method: eva.hmi.default::tpl.reload
+      undeploy:
+        after:
+          - method: eva.hmi.default::tpl.reload
+    upload:
+      - src: autoexec_v4.py
+        target: xc/smarthome_py/autoexec.py
+      - src: shutdown_v4.py
+        target: xc/smarthome_py/shutdown.py
+      - src: close_windows.py
+        target: xc/smarthome_py/
+      - src: day_mode.py
+        target: xc/smarthome_py/
+      - src: enter.py
+        target: xc/smarthome_py/
+      - src: exit.py
+        target: xc/smarthome_py/
+      - src: lights_off.py
+        target: xc/smarthome_py/
+      - src: lights_on.py
+        target: xc/smarthome_py/
+      - src: night_mode.py
+        target: xc/smarthome_py/
+      - src: open_windows.py
+        target: xc/smarthome_py/
+      - src: winterday_mode.py
+        target: xc/smarthome_py/
+      - src: https://github.com/alttch/eva-js-framework/releases/download/v0.3.36/eva.min.js
+        target: ui/eva.min.js
+      - src: https://github.com/alttch/eva-hmi-block_ui/releases/download/v0.2.11/eva-hmi-block_ui-0.2.11.tgz
+        target: /
+        extract: true
+      - src: smarthome-demo.tgz
+        target: /
+        extract: true
+    users:
+      - login: operator
+        password: a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3 # 123
+        acls: ['smarthome_op']
+    acls:
+      - id: smarthome_op
+        read:
+          items: ['#']
+          pvt: ['#']
+          rpvt: ['#']
+        write:
+          items: ['#']
+    svcs:
+      - id: eva.controller.smarthome-virtual
+        params:
+          bus:
+            path: var/bus.ipc
+          command: svc/eva-controller-virtual
+          config:
+            auto_create: true
+      - id: eva.controller.smarthome-py
+        params:
+          command: venv/bin/eva4-svc-controller-py
+          bus:
+            path: var/bus.ipc
+          config:
+            macro_dir: xc/smarthome_py
+      - id: eva.controller.smarthome-lmplc
+        params:
+          command: svc/eva-controller-lm
+          bus:
+            path: var/bus.ipc
+          config:
+            openers:
+              - oid: unit:windows/room1
+                port: ['unit:relayblock1/port1']
+                dport: ['unit:relayblock1/port2']
+                port_timeout: 2
+                set_state: true
+                steps:
+                  - 1.2
+                  - 2.1
+                ts: 1
+                tuning: 0.5
+                warmup_open: 0.5
+              - oid: unit:windows/room2
+                port: ['unit:relayblock1/port3']
+                dport: ['unit:relayblock1/port4']
+                port_timeout: 2
+                set_state: true
+                steps:
+                  - 1.2
+                  - 2.15
+                ts: 1
+                tuning: 0.5
+                warmup_open: 0.5
+    items:
+      - oid: unit:light/room1
+        action: &csv
+          svc: eva.controller.smarthome-virtual
+      - oid: unit:light/room2
+        action: *csv
+      - oid: unit:light/hall
+        action: *csv
+      - oid: unit:thermo/room1
+        action: *csv
+      - oid: unit:thermo/room2
+        action: *csv
+      - oid: unit:equipment/cctv
+        action: *csv
+      - oid: unit:equipment/vent
+        action: *csv
+      - oid: unit:relayblock1/port1
+        action: *csv
+      - oid: unit:relayblock1/port2
+        action: *csv
+      - oid: unit:relayblock1/port3
+        action: *csv
+      - oid: unit:relayblock1/port4
+        action: *csv
+      - oid: unit:windows/room1
+        action: &cslm
+          svc: eva.controller.smarthome-lmplc
+          timeout: 20
+      - oid: unit:windows/room2
+        action: *cslm
+      - oid: sensor:env/temp1_int
+        value: 25
+      - oid: sensor:env/hum1_int
+        value: 45
+      - oid: sensor:env/temp2_int
+        value: 22
+      - oid: sensor:env/hum2_int
+        value: 44
+      - oid: sensor:env/temp_ext
+        value: 29
+      - oid: sensor:env/hum_ext
+        value: 55
+      - oid: sensor:env/air_pressure
+        value: 1017
+      - oid: sensor:security/motion1
+        value: 0
+      - oid: lvar:security/alarm
+        value: 0
+      - oid: lmacro:control/lights_off
+        action: &cspy
+          svc: eva.controller.smarthome-py
+      - oid: lmacro:control/lights_on
+        action: *cspy
+      - oid: lmacro:control/open_windows
+        action: *cspy
+      - oid: lmacro:control/close_windows
+        action: *cspy
+      - oid: lmacro:control/enter
+        action: *cspy
+      - oid: lmacro:control/exit
+        action: *cspy
+      - oid: lmacro:profiles/day_mode
+        action: *cspy
+      - oid: lmacro:profiles/winterday_mode
+        action: *cspy
+      - oid: lmacro:profiles/night_mode
+        action: *cspy

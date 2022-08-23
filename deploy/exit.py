@@ -1,6 +1,6 @@
-run('control/lights_off')
+run('lmacro:control/lights_off')
 stop('unit:light/hall')
-run('control/close_windows')
+run('lmacro:control/close_windows')
 start('unit:equipment/cctv')
 reset('lvar:security/alarm')
 start('unit:thermo/room1', 15)

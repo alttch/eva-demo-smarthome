@@ -41,7 +41,31 @@ Deployment
 Local
 -----
 
-.. code:: bash
+EVA ICS v4
+~~~~~~~~~~
+
+Install required Python modules:
+
+.. code:: shell
+
+    eva venv add flash==2.2.2 pillow==9.2.0 gunicorn==20.1.0
+
+Enable UI deploy:
+
+.. code:: shell
+
+    ln -sf /opt/eva4/ui /opt/eva4/runtime/ui
+
+Deploy:
+
+    eva cloud deploy https://raw.githubusercontent.com/alttch/eva-demo-smarthome/master/deploy/smarthome-demo-v4.yml
+
+Sensor charts page: requires **eva.db.default** service (TSDB).
+
+EVA ICS v3
+~~~~~~~~~~
+
+.. code:: shell
 
     eva sfa cloud deploy -ys -c srv=$(hostname) \
         https://raw.githubusercontent.com/alttch/eva-demo-smarthome/master/deploy/smarthome-demo.yml
