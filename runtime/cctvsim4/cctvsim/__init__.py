@@ -2,7 +2,7 @@ from flask import Flask, request, app, abort, Response
 
 import os
 import datetime
-import elbus
+import busrt
 import msgpack
 
 from pathlib import Path
@@ -20,14 +20,14 @@ Flask.debug = False
 cameras = {1: 'room1', 2: 'room2', 3: 'hall'}
 
 name = f'cctvsim.{os.getpid()}'
-bus = elbus.client.Client(str(my_path.parents[2] / 'var/bus.ipc'), name)
+bus = busrt.client.Client(str(my_path.parents[2] / 'var/bus.ipc'), name)
 bus.connect()
-rpc = elbus.rpc.Rpc(bus)
+rpc = busrt.rpc.Rpc(bus)
 
 
 def get_state(i):
     result = rpc.call('eva.core',
-                      elbus.rpc.Request('item.state',
+                      busrt.rpc.Request('item.state',
                                         msgpack.dumps({'i': i
                                                       }))).wait_completed()
     return msgpack.loads(result.get_payload(), raw=False)[0]
