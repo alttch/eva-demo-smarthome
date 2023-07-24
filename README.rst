@@ -1,10 +1,8 @@
 EVA ICS demo: smart home
 ************************
 
-Live demo
-=========
-
-@ https://demo-smarthome.eva-ics.com/
+This is a legacy demo for EVA ICS v3. Visit <https://www.eva-ics.com/> about
+more information.
 
 Layout
 ======
