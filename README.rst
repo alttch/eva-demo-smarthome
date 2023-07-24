@@ -1,7 +1,7 @@
 EVA ICS demo: smart home
 ************************
 
-This is a legacy demo for EVA ICS v3. Visit <https://www.eva-ics.com/> about
+This is a legacy demo for EVA ICS v3. Visit https://www.eva-ics.com/ about
 more information.
 
 Layout
